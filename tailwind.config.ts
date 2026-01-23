@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['Libre Baskerville', 'Georgia', 'serif'],
+        heading: ['Awesome Serif', 'Georgia', 'serif'],
         body: ['Red Hat Display', 'system-ui', 'sans-serif'],
       },
       colors: {

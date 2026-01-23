@@ -1,4 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700&display=swap');
+
+/* Awesome Serif Custom Fonts */
+@font-face {
+  font-family: 'Awesome Serif';
+  src: url('/fonts/Awesome_Serif_VAR-VF.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Awesome Serif';
+  src: url('/fonts/AwesomeSerif-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Awesome Serif';
+  src: url('/fonts/AwesomeSerif-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -44,7 +69,7 @@
     --cream-dark: 30 20% 92%;
 
     /* Typography */
-    --font-heading: 'Libre Baskerville', Georgia, serif;
+    --font-heading: 'Awesome Serif', Georgia, serif;
     --font-body: 'Red Hat Display', system-ui, sans-serif;
 
     --sidebar-background: 0 0% 98%;
@@ -111,11 +136,13 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl tracking-tight;
+    font-weight: 600; /* Semibold */
   }
 
   h2 {
-    @apply text-3xl md:text-4xl font-normal tracking-tight;
+    @apply text-3xl md:text-4xl tracking-tight;
+    font-weight: 400; /* Regular */
   }
 
   h3 {
