@@ -1,31 +1,44 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 
 export function CTASection() {
+  const scrollTo = (id: string) => {
+    const el = document.querySelector(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="section-padding bg-primary">
-      <div className="container-narrow text-center">
+    <section className="relative section-padding bg-primary overflow-hidden">
+      {/* Big background text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <span className="text-primary-foreground/5 font-heading text-[8rem] md:text-[16rem] lg:text-[20rem] font-bold tracking-tight whitespace-nowrap">
+          PERMARKE
+        </span>
+      </div>
+
+      <div className="container-narrow text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-primary-foreground mb-6">
-            Registro de Marca:
+          <h2 className="text-primary-foreground mb-6 text-4xl md:text-5xl">
+            Dona da marca é
             <br />
-            Seu maior ativo.
+            <span className="italic">quem registra.</span>
           </h2>
-          <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto mb-10">
-            Proteja sua marca e garanta a exclusividade do seu negócio. 
-            Nossa análise de viabilidade é gratuita.
+          <p className="text-primary-foreground/80 font-body text-lg max-w-xl mx-auto mb-4">
+            Sem registro você não tem uma marca. Comece agora.
           </p>
-          <Link to="/registrar-marca">
-            <Button variant="hero" size="xl">
-              REGISTRAR MINHA MARCA
-            </Button>
-          </Link>
+          <p className="text-primary-foreground/60 font-body text-sm mb-10 italic">
+            De empresária para empresárias.
+          </p>
+          <button
+            onClick={() => scrollTo('#viabilidade')}
+            className="bg-foreground text-primary-foreground font-body font-semibold px-10 py-4 rounded-sm transition-all duration-300 hover:scale-105 active:scale-100 text-base"
+          >
+            Comece por aqui.
+          </button>
         </motion.div>
       </div>
     </section>

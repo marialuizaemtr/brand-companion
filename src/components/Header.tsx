@@ -1,87 +1,111 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoBranca from '@/assets/logo-branca.png';
 
 const navLinks = [
-  { name: 'HOME', path: '/' },
-  { name: 'SERVIÇOS', path: '/servicos' },
-  { name: 'PARCERIAS', path: '/parcerias' },
-  { name: 'CURSOS', path: '/cursos' },
-  { name: 'BLOG', path: '/blog' },
+  { name: 'HOME', href: '#hero' },
+  { name: 'SERVIÇOS', href: '#servicos' },
+  { name: 'PARCERIAS', href: '#parcerias' },
+  { name: 'DEPOIMENTOS', href: '#depoimentos' },
+  { name: 'FAQ', href: '#faq' },
+  { name: 'CONTATO', href: '#contato' },
 ];
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('hero');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-80px 0px -50% 0px', threshold: 0 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollTo = (href: string) => {
+    setIsMenuOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <header className="bg-primary sticky top-0 z-50">
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary shadow-lg' : 'bg-primary'}`}>
       <div className="container-narrow">
         <nav className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <img 
-              src={logoBranca} 
-              alt="Permarke" 
-              className="h-8 md:h-10 w-auto"
-            />
-          </Link>
+          <a href="#hero" onClick={(e) => { e.preventDefault(); scrollTo('#hero'); }} className="flex-shrink-0">
+            <img src={logoBranca} alt="Permarke" className="h-8 md:h-10 w-auto" />
+          </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-80 ${
-                  location.pathname === link.path ? 'opacity-100' : 'opacity-90'
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                className={`text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-100 ${
+                  activeSection === link.href.slice(1) ? 'opacity-100' : 'opacity-70'
                 }`}
               >
                 {link.name}
-              </Link>
+              </a>
             ))}
           </div>
 
-          {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link to="/registrar-marca">
+            <a href="#viabilidade" onClick={(e) => { e.preventDefault(); scrollTo('#viabilidade'); }}>
               <Button variant="nav" size="lg">
                 REGISTRAR MINHA MARCA
               </Button>
-            </Link>
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="lg:hidden text-primary-foreground p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </nav>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden pb-6">
+          <div className="lg:hidden pb-6 animate-in slide-in-from-top">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
                   className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2"
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
-              <Link to="/registrar-marca" onClick={() => setIsMenuOpen(false)}>
+              <a href="#viabilidade" onClick={(e) => { e.preventDefault(); scrollTo('#viabilidade'); }}>
                 <Button variant="nav" size="lg" className="w-full mt-4">
                   REGISTRAR MINHA MARCA
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         )}
