@@ -229,8 +229,8 @@ export function ViabilitySection() {
 
               {step === 3 && (
                 <motion.div key="result" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                  <div className="flex items-center gap-3 mb-6">
-                    <h3 className="text-primary-foreground font-heading text-2xl">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+                    <h3 className="text-primary-foreground font-heading text-xl sm:text-2xl">
                       Análise para: <span className="text-primary">{form.marca}</span>
                     </h3>
                     <span className="bg-primary/20 text-primary font-body text-xs px-3 py-1 rounded-full">

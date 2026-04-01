@@ -52,7 +52,7 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
   }, [target]);
 
   return (
-    <span ref={ref} className="text-primary font-heading text-4xl md:text-5xl font-bold">
+    <span ref={ref} className="text-primary font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
       {count}{suffix}
     </span>
   );
