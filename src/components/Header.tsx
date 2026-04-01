@@ -102,16 +102,27 @@ export function Header() {
         {isMenuOpen && (
           <div className="lg:hidden pb-6 animate-in slide-in-from-top">
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
-                  className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2"
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.isAnchor ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                    className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2"
+                  >
+                    {link.name}
+                  </Link>
+                )
+              )}
               <a href="#viabilidade" onClick={(e) => { e.preventDefault(); scrollTo('#viabilidade'); }}>
                 <Button variant="nav" size="lg" className="w-full mt-4">
                   REGISTRAR MINHA MARCA
