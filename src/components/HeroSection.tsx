@@ -68,7 +68,7 @@ export function HeroSection() {
 
       <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-6 md:py-16 lg:py-24">
         {/* Left content */}
-        <div className="flex-1 max-w-2xl w-full items-center flex-col flex lg:items-end justify-end text-xs font-sans text-justify">
+        <div className="flex-1 max-w-2xl w-full items-center flex-col flex lg:items-end justify-end text-xs font-sans text-justify relative z-20">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -157,12 +157,12 @@ export function HeroSection() {
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:block absolute right-0 top-[80px] w-[55%] xl:w-[52%] pointer-events-none"
+          className="hidden lg:block absolute right-0 top-[80px] w-[45%] xl:w-[42%] pointer-events-none z-10"
         >
           <img
             src={heroCollage}
             alt="Collage Permarke — moda, marca e atitude"
-            className="w-full h-auto object-contain scale-125 translate-x-[8%] origin-top-right"
+            className="w-full h-auto object-contain scale-110 translate-x-[5%] origin-top-right"
           />
         </motion.div>
       </div>
