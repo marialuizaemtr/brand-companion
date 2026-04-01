@@ -50,11 +50,10 @@ function buildProperties(form: string, data: Record<string, string>) {
 
     case 'parceiros':
       props['Name'] = title(data.nome || '')
-      if (data.whatsapp) props['WhatsApp'] = text(data.whatsapp)
+      if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
       if (data.email) props['Email'] = email(data.email)
       if (data.perfil) props['Perfil'] = text(data.perfil)
-      if (data.tipo) props['Tipo'] = text(data.tipo)
-      // Indicação fields
+      if (data.tipo) props['Tipo'] = sel(data.tipo)
       if (data.codigo) props['Código'] = text(data.codigo)
       if (data.nome_indicado) props['Nome Indicado'] = text(data.nome_indicado)
       if (data.servico) props['Serviço'] = text(data.servico)
