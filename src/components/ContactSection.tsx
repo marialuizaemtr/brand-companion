@@ -79,7 +79,7 @@ export function ContactSection() {
             viewport={{ once: true }}
           >
             {!enviado ? (
-              <div className="bg-foreground rounded-xl p-8 space-y-4">
+              <div className="bg-foreground rounded-xl p-5 sm:p-8 space-y-4">
                 <h3 className="text-primary-foreground font-heading text-xl mb-2">Envie uma mensagem</h3>
                 {[
                   { key: 'nome', label: 'Nome *', placeholder: 'Seu nome', type: 'text' },

@@ -14,7 +14,7 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/5] bg-creme rounded-lg overflow-hidden relative">
+            <div className="aspect-[4/5] max-h-[60vh] lg:max-h-none bg-creme rounded-lg overflow-hidden relative">
               <img 
                 src={mariaLuizaImg} 
                 alt="Maria Luiza Monteiro, fundadora da Permarke" 

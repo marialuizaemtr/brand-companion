@@ -44,7 +44,7 @@ export function ProcessSection() {
                 className="text-center relative"
               >
                 <div className="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 rounded-full bg-creme mx-auto flex items-center justify-center relative z-10 border-4 border-background">
-                  <span className="text-3xl">{step.emoji}</span>
+                  <span className="text-2xl md:text-3xl">{step.emoji}</span>
                 </div>
                 <h4 className="text-foreground font-heading text-sm mt-4 mb-1">{step.title}</h4>
                 <p className="text-muted-foreground font-body text-xs">{step.desc}</p>

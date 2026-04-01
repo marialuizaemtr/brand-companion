@@ -100,7 +100,7 @@ export function Header() {
         </nav>
 
         {isMenuOpen && (
-          <div className="lg:hidden pb-6 animate-in slide-in-from-top">
+          <div className="lg:hidden pb-6 animate-in slide-in-from-top bg-primary">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) =>
                 link.isAnchor ? (

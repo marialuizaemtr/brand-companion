@@ -130,7 +130,7 @@ export function PartnershipsSection() {
               </button>
             </div>
 
-            <div className="bg-foreground rounded-b-xl rounded-tr-xl p-8">
+            <div className="bg-foreground rounded-b-xl rounded-tr-xl p-5 sm:p-8">
               {tab === 'cadastro' && !codigoGerado && (
                 <div className="space-y-4">
                   <h3 className="text-primary-foreground font-heading text-xl mb-2">Cadastre-se como parceira</h3>
