@@ -143,12 +143,12 @@ export function HeroSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex-1 hidden lg:flex justify-end items-center max-w-xl"
+          className="hidden lg:block absolute right-0 top-1/2 -translate-y-[55%] w-[48%] max-w-[680px]"
         >
           <img
             src={heroCollage}
             alt="Collage Permarke — moda, marca e atitude"
-            className="w-full h-auto max-h-[600px] object-contain drop-shadow-2xl"
+            className="w-full h-auto object-contain drop-shadow-2xl translate-x-[8%]"
           />
         </motion.div>
       </div>
