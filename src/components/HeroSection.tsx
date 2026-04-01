@@ -60,11 +60,11 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen bg-foreground overflow-hidden pt-20">
+    <section id="hero" className="relative min-h-[100svh] bg-foreground overflow-hidden pt-20">
       {/* Animated orbs */}
-      <div className="absolute top-20 left-10 w-40 md:w-72 h-40 md:h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
-      <div className="absolute bottom-20 right-10 md:right-20 w-60 md:w-96 h-60 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
-      <div className="absolute top-1/2 left-1/2 w-32 md:w-48 h-32 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
+      <div className="absolute top-20 left-10 w-32 md:w-72 h-32 md:h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
+      <div className="absolute bottom-20 right-10 md:right-20 w-48 md:w-96 h-48 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
+      <div className="absolute top-1/2 left-1/2 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
 
       <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-10 md:py-16 lg:py-24">
         {/* Left content */}
