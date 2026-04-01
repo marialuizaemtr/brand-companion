@@ -42,7 +42,7 @@ function buildProperties(form: string, data: Record<string, string>) {
 
     case 'contato':
       props['Name'] = title(data.nome || '')
-      if (data.whatsapp) props['WhatsApp'] = text(data.whatsapp)
+      if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
       if (data.email) props['Email'] = email(data.email)
       if (data.interesse) props['Interesse'] = text(data.interesse)
       if (data.mensagem) props['Mensagem'] = text(data.mensagem)
