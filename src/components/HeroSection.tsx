@@ -143,7 +143,7 @@ export function HeroSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[50%] max-w-[700px]"
+          className="hidden lg:block absolute right-0 top-16 bottom-0 w-[48%] max-w-[680px]"
         >
           <img
             src={heroCollage}
