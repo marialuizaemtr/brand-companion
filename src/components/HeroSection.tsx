@@ -109,17 +109,17 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 md:mb-12"
           >
             <button
               onClick={() => scrollTo('#viabilidade')}
-              className="bg-primary text-primary-foreground font-body font-semibold px-8 py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-105 active:scale-100 text-base"
+              className="bg-primary text-primary-foreground font-body font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-105 active:scale-100 text-sm sm:text-base"
             >
               Quero registrar a minha marca.
             </button>
             <button
               onClick={() => scrollTo('#servicos')}
-              className="border border-primary-foreground/30 text-primary-foreground font-body font-medium px-8 py-4 rounded-sm transition-all duration-300 hover:bg-primary-foreground hover:text-foreground text-base"
+              className="border border-primary-foreground/30 text-primary-foreground font-body font-medium px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm transition-all duration-300 hover:bg-primary-foreground hover:text-foreground text-sm sm:text-base"
             >
               Conheça os nossos serviços
             </button>
