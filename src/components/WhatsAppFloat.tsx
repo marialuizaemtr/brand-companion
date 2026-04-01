@@ -15,7 +15,7 @@ export function WhatsAppFloat() {
       href="https://wa.me/5512997206639?text=Olá! Vim pelo site da Permarke."
       target="_blank"
       rel="noopener"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 group"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3 group"
       onMouseEnter={() => { setHovered(true); setVisible(true); }}
       onMouseLeave={() => setHovered(false)}
     >
