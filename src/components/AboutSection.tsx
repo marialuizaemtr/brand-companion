@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import mariaLuizaImg from '@/assets/maria-luiza.jpeg';
 
 export function AboutSection() {
   return (
@@ -14,14 +15,11 @@ export function AboutSection() {
             className="relative"
           >
             <div className="aspect-[4/5] bg-creme rounded-lg overflow-hidden relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 rounded-full bg-primary/10 mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-primary font-heading text-5xl italic">ML</span>
-                  </div>
-                  <p className="text-muted-foreground font-body text-sm">Foto Maria Luiza Monteiro</p>
-                </div>
-              </div>
+              <img 
+                src={mariaLuizaImg} 
+                alt="Maria Luiza Monteiro, fundadora da Permarke" 
+                className="absolute inset-0 w-full h-full object-cover object-top"
+              />
               {/* Badge */}
               <div className="absolute bottom-4 left-4 right-4 bg-foreground/90 backdrop-blur-sm text-primary-foreground rounded-lg px-4 py-3">
                 <p className="font-body text-xs font-semibold tracking-wider uppercase text-primary">Fundadora</p>
