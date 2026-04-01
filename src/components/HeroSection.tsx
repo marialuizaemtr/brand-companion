@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-
+import heroCollage from '@/assets/hero-collage.png';
 
 const stats = [
   { value: 500, suffix: '+', label: 'marcas protegidas' },
