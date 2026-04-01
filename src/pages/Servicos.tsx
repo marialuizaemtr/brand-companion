@@ -39,6 +39,10 @@ const services = [
 ];
 
 const Servicos = () => {
+  useEffect(() => {
+    document.title = 'Serviços — Permarke | Registro de Marca, Contratos e PI';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />

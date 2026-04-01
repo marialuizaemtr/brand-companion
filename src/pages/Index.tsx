@@ -14,6 +14,10 @@ import { CTASection } from '@/components/CTASection';
 import { WhatsAppFloat } from '@/components/WhatsAppFloat';
 
 const Index = () => {
+  useEffect(() => {
+    document.title = 'Permarke — Registro de Marca e Proteção de Propriedade Intelectual';
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Grain texture overlay */}
