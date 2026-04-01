@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { submitToNotion } from '@/lib/api/notion';
 
 const perfis = [
   { emoji: '⚖️', nome: 'Consultores', desc: 'Profissionais jurídicos e financeiros' },
@@ -27,8 +28,8 @@ export function PartnershipsSection() {
   const handleCadastro = () => {
     if (!cadastroForm.nome.trim() || !cadastroForm.whatsapp.trim() || !cadastroForm.email.trim()) return;
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
-    const data = { ...cadastroForm, codigo: cod, data: new Date().toISOString() };
-    localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify(data));
+    submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify({ ...cadastroForm, codigo: cod }));
     setCodigoGerado(cod);
   };
 
@@ -44,6 +45,7 @@ export function PartnershipsSection() {
     const nova = { ...indicacaoForm, id, data: new Date().toISOString(), status: 'Em análise' };
     const updated = [...indicacoes, nova];
     setIndicacoes(updated);
+    submitToNotion('parceiros', { ...indicacaoForm, nome: indicacaoForm.nome_indicado, tipo: 'indicacao' }).catch((err) => console.error('Notion submit error:', err));
     localStorage.setItem(`permarke_indicacoes_${indicacaoForm.codigo}`, JSON.stringify(updated));
     setIndicacaoConfirmada(id);
     setIndicacaoForm({ codigo: indicacaoForm.codigo, nome_indicado: '', whatsapp: '', email: '', servico: '', contexto: '' });

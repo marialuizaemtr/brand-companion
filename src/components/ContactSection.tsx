@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail } from 'lucide-react';
+import { submitToNotion } from '@/lib/api/notion';
 
 const canais = [
   { icon: MessageCircle, label: 'WhatsApp', value: '(12) 99720-6639', href: 'https://wa.me/5512997206639' },
@@ -14,7 +15,7 @@ export function ContactSection() {
 
   const handleSubmit = () => {
     if (!form.nome.trim() || !form.whatsapp.trim() || !form.email.trim()) return;
-    localStorage.setItem('permarke_contato', JSON.stringify({ ...form, data: new Date().toISOString() }));
+    submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
     setEnviado(true);
   };
 

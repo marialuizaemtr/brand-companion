@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { submitToNotion } from '@/lib/api/notion';
 
 const formSchema = z.object({
   nome: z.string().trim().min(1, 'Nome é obrigatório').max(100),
@@ -42,10 +43,7 @@ const RegistrarMarca = () => {
 
     try {
       const validatedData = formSchema.parse(formData);
-      console.log('Form submitted:', validatedData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await submitToNotion('registrar_marca', validatedData as Record<string, string>);
       
       toast.success('Formulário enviado com sucesso! Entraremos em contato em breve.');
       setFormData({

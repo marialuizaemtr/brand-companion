@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { submitToNotion } from '@/lib/api/notion';
 
 const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 'Criativos', 'Educação', 'E-commerce', 'Outro'];
 
@@ -87,9 +88,7 @@ export function ViabilitySection() {
   const handleSubmit = () => {
     if (!validate()) return;
     setStep(2);
-    localStorage.setItem('permarke_viabilidade', JSON.stringify({
-      ...form, data: new Date().toISOString(), classes: classesNCL[form.segmento] || classesNCL['Outro'],
-    }));
+    submitToNotion('viabilidade', form).catch((err) => console.error('Notion submit error:', err));
     setTimeout(() => setStep(3), 3500);
   };
 
