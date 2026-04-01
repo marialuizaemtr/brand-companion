@@ -16,6 +16,8 @@ function buildProperties(form: string, data: Record<string, string>) {
   const text = (value: string) => ({ rich_text: [{ text: { content: value || '' } }] })
   const title = (value: string) => ({ title: [{ text: { content: value || '' } }] })
   const email = (value: string) => ({ email: value || null })
+  const phone = (value: string) => ({ phone_number: value || null })
+  const sel = (value: string) => ({ select: { name: value } })
 
   switch (form) {
     case 'viabilidade':
