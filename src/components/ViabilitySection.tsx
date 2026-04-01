@@ -108,7 +108,7 @@ export function ViabilitySection() {
   return (
     <section id="viabilidade" className="section-padding bg-foreground">
       <div className="container-narrow">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -143,7 +143,7 @@ export function ViabilitySection() {
           </motion.div>
 
           {/* Right: funnel */}
-          <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-xl p-8">
+          <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-xl p-5 sm:p-8">
             <AnimatePresence mode="wait">
               {step === 1 && (
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -229,8 +229,8 @@ export function ViabilitySection() {
 
               {step === 3 && (
                 <motion.div key="result" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                  <div className="flex items-center gap-3 mb-6">
-                    <h3 className="text-primary-foreground font-heading text-2xl">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+                    <h3 className="text-primary-foreground font-heading text-xl sm:text-2xl">
                       Análise para: <span className="text-primary">{form.marca}</span>
                     </h3>
                     <span className="bg-primary/20 text-primary font-body text-xs px-3 py-1 rounded-full">

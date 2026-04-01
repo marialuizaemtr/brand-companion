@@ -73,7 +73,7 @@ export function ServicesSection() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
@@ -81,9 +81,9 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               viewport={{ once: true }}
-              className={`group rounded-lg p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer ${
+              className={`group rounded-lg p-6 sm:p-8 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl cursor-pointer ${
                 service.featured
-                  ? 'bg-foreground text-primary-foreground md:row-span-2 flex flex-col justify-between hover:shadow-2xl'
+                  ? 'bg-foreground text-primary-foreground sm:col-span-2 md:col-span-1 md:row-span-2 flex flex-col justify-between hover:shadow-2xl'
                   : 'bg-primary-foreground border border-border hover:border-primary'
               }`}
               onClick={() => scrollTo('#contato')}

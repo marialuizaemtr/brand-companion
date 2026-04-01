@@ -52,7 +52,7 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
   }, [target]);
 
   return (
-    <span ref={ref} className="text-primary font-heading text-4xl md:text-5xl font-bold">
+    <span ref={ref} className="text-primary font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
       {count}{suffix}
     </span>
   );
@@ -67,13 +67,13 @@ export function HeroSection() {
   return (
     <section id="hero" className="relative min-h-screen bg-foreground overflow-hidden pt-20">
       {/* Animated orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
-      <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
-      <div className="absolute top-1/2 left-1/2 w-48 h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
+      <div className="absolute top-20 left-10 w-40 md:w-72 h-40 md:h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
+      <div className="absolute bottom-20 right-10 md:right-20 w-60 md:w-96 h-60 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
+      <div className="absolute top-1/2 left-1/2 w-32 md:w-48 h-32 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
 
-      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-12 py-16 lg:py-24">
+      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-10 md:py-16 lg:py-24">
         {/* Left content */}
-        <div className="flex-1 max-w-2xl">
+        <div className="flex-1 max-w-2xl w-full">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-primary-foreground text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-8"
+            className="text-primary-foreground text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6 md:mb-8"
           >
             O jurídico é
             <br />
@@ -98,7 +98,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-primary-foreground/70 text-lg md:text-xl mb-10 font-body max-w-lg leading-relaxed"
+            className="text-primary-foreground/70 text-base md:text-lg lg:text-xl mb-8 md:mb-10 font-body max-w-lg leading-relaxed"
           >
             Um pontinho rosa num oceano jurídico e burocrático.
             <br />
@@ -109,17 +109,17 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 md:mb-12"
           >
             <button
               onClick={() => scrollTo('#viabilidade')}
-              className="bg-primary text-primary-foreground font-body font-semibold px-8 py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-105 active:scale-100 text-base"
+              className="bg-primary text-primary-foreground font-body font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-105 active:scale-100 text-sm sm:text-base"
             >
               Quero registrar a minha marca.
             </button>
             <button
               onClick={() => scrollTo('#servicos')}
-              className="border border-primary-foreground/30 text-primary-foreground font-body font-medium px-8 py-4 rounded-sm transition-all duration-300 hover:bg-primary-foreground hover:text-foreground text-base"
+              className="border border-primary-foreground/30 text-primary-foreground font-body font-medium px-6 sm:px-8 py-3.5 sm:py-4 rounded-sm transition-all duration-300 hover:bg-primary-foreground hover:text-foreground text-sm sm:text-base"
             >
               Conheça os nossos serviços
             </button>
@@ -130,12 +130,12 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="flex gap-10"
+            className="flex gap-6 sm:gap-10 justify-center sm:justify-start"
           >
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                <p className="text-primary-foreground/50 font-body text-xs mt-1 uppercase tracking-wider">
+                <p className="text-primary-foreground/50 font-body text-[10px] sm:text-xs mt-1 uppercase tracking-wider">
                   {stat.label}
                 </p>
               </div>
