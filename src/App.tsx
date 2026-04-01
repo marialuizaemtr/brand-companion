@@ -7,7 +7,7 @@ import Index from "./pages/Index";
 import Servicos from "./pages/Servicos";
 import Parcerias from "./pages/Parcerias";
 import Cursos from "./pages/Cursos";
-import Blog from "./pages/Blog";
+
 import RegistrarMarca from "./pages/RegistrarMarca";
 import NotFound from "./pages/NotFound";
 
