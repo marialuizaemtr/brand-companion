@@ -28,8 +28,8 @@ export function PartnershipsSection() {
   const handleCadastro = () => {
     if (!cadastroForm.nome.trim() || !cadastroForm.whatsapp.trim() || !cadastroForm.email.trim()) return;
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
-    const data = { ...cadastroForm, codigo: cod, data: new Date().toISOString() };
-    localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify(data));
+    submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify({ ...cadastroForm, codigo: cod }));
     setCodigoGerado(cod);
   };
 
