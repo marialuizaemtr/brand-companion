@@ -153,18 +153,20 @@ export function HeroSection() {
         </motion.div>
 
         {/* Hero collage — desktop (right column) */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:flex flex-1 items-center justify-center pointer-events-none"
-        >
-          <img
-            src={heroCollage}
-            alt="Collage Permarke — moda, marca e atitude"
-            className="w-full max-w-lg xl:max-w-xl h-auto object-contain"
-          />
-        </motion.div>
+        <div className="hidden lg:flex flex-1 items-center justify-center">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-full"
+          >
+            <img
+              src={heroCollage}
+              alt="Collage Permarke — moda, marca e atitude"
+              className="w-full h-auto object-contain"
+            />
+          </motion.div>
+        </div>
       </div>
 
       {/* Marquee */}
