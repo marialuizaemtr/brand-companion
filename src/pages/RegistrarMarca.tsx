@@ -43,10 +43,7 @@ const RegistrarMarca = () => {
 
     try {
       const validatedData = formSchema.parse(formData);
-      console.log('Form submitted:', validatedData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await submitToNotion('registrar_marca', validatedData as Record<string, string>);
       
       toast.success('Formulário enviado com sucesso! Entraremos em contato em breve.');
       setFormData({

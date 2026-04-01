@@ -15,7 +15,7 @@ export function ContactSection() {
 
   const handleSubmit = () => {
     if (!form.nome.trim() || !form.whatsapp.trim() || !form.email.trim()) return;
-    localStorage.setItem('permarke_contato', JSON.stringify({ ...form, data: new Date().toISOString() }));
+    submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
     setEnviado(true);
   };
 
