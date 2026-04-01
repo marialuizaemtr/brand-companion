@@ -138,6 +138,19 @@ export function HeroSection() {
           </motion.div>
         </div>
 
+        {/* Hero collage */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex-1 hidden lg:flex justify-end items-center max-w-xl"
+        >
+          <img
+            src={heroCollage}
+            alt="Collage Permarke — moda, marca e atitude"
+            className="w-full h-auto max-h-[600px] object-contain drop-shadow-2xl"
+          />
+        </motion.div>
       </div>
 
       {/* Marquee */}
