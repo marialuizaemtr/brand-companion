@@ -138,7 +138,21 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Hero collage */}
+        {/* Hero collage — mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="lg:hidden w-full max-w-sm mx-auto mt-2 pointer-events-none"
+        >
+          <img
+            src={heroCollage}
+            alt="Collage Permarke — moda, marca e atitude"
+            className="w-full h-auto object-contain"
+          />
+        </motion.div>
+
+        {/* Hero collage — desktop */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
