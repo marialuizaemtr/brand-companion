@@ -28,6 +28,10 @@ const courses = [
 ];
 
 const Cursos = () => {
+  useEffect(() => {
+    document.title = 'Cursos — Permarke | Aprenda sobre Registro de Marca';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
