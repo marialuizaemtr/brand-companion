@@ -93,7 +93,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-primary-foreground/70 text-base md:text-lg lg:text-xl mb-8 md:mb-10 font-body max-w-lg leading-relaxed"
+            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed"
           >
             Um pontinho rosa num oceano jurídico e burocrático.
             <br />
