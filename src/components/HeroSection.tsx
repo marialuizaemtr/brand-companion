@@ -73,7 +73,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-primary font-body text-sm font-semibold tracking-widest uppercase mb-6"
+            className="text-primary font-body text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6"
           >
             De empresária para empresárias.
           </motion.p>
