@@ -30,7 +30,7 @@ export function CTASection() {
           <p className="text-primary-foreground/80 font-body text-base sm:text-lg max-w-xl mx-auto mb-3 sm:mb-4">
             Sem registro você não tem uma marca. Comece agora.
           </p>
-          <p className="text-primary-foreground/60 font-body text-sm mb-10 italic">
+          <p className="text-primary-foreground/60 font-body text-sm mb-8 sm:mb-10 italic">
             De empresária para empresárias.
           </p>
           <button
