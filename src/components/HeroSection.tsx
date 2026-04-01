@@ -140,15 +140,15 @@ export function HeroSection() {
 
         {/* Hero collage */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:block absolute right-0 top-1/2 -translate-y-[55%] w-[48%] max-w-[680px]"
+          className="hidden lg:block absolute right-0 top-20 w-[55%] xl:w-[52%] h-[calc(100%-5rem)] pointer-events-none"
         >
           <img
             src={heroCollage}
             alt="Collage Permarke — moda, marca e atitude"
-            className="w-full h-auto object-contain drop-shadow-2xl translate-x-[8%]"
+            className="w-full h-full object-contain object-right-top scale-110 translate-x-[5%]"
           />
         </motion.div>
       </div>
