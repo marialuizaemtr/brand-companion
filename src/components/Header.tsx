@@ -9,7 +9,7 @@ const navLinks = [
   { name: 'SERVIÇOS', href: '#servicos', isAnchor: true },
   { name: 'PARCERIAS', href: '#parcerias', isAnchor: true },
   { name: 'DEPOIMENTOS', href: '#depoimentos', isAnchor: true },
-  { name: 'BLOG', href: '/blog', isAnchor: false },
+  
   { name: 'FAQ', href: '#faq', isAnchor: true },
   { name: 'CONTATO', href: '#contato', isAnchor: true },
 ];
