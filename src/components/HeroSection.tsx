@@ -66,7 +66,7 @@ export function HeroSection() {
       <div className="absolute bottom-20 right-10 md:right-20 w-48 md:w-96 h-48 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
       <div className="absolute top-1/2 left-1/2 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
 
-      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-10 md:py-16 lg:py-24">
+      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-6 md:py-16 lg:py-24">
         {/* Left content */}
         <div className="flex-1 max-w-2xl w-full">
           <motion.p
