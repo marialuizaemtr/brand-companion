@@ -68,12 +68,12 @@ export function HeroSection() {
 
       <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-6 md:py-16 lg:py-24">
         {/* Left content */}
-        <div className="flex-1 max-w-2xl w-full">
+        <div className="flex-1 max-w-2xl w-full flex flex-col items-center lg:items-start">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-primary font-body text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6"
+            className="text-primary font-body text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6 text-center"
           >
             De empresária para empresárias.
           </motion.p>
@@ -82,7 +82,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-primary-foreground text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-4 md:mb-8"
+            className="text-primary-foreground sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-4 md:mb-8 text-6xl text-center"
           >
             O jurídico é
             <br />
@@ -93,7 +93,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed"
+            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed text-center"
           >
             Um pontinho rosa num oceano jurídico e burocrático.
             <br />
@@ -125,10 +125,10 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="flex gap-4 sm:gap-10 justify-between sm:justify-start"
+            className="gap-4 sm:gap-10 sm:justify-start flex-row flex items-center justify-between"
           >
             {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
+              <div key={stat.label}>
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 <p className="text-primary-foreground/50 font-body text-[9px] sm:text-xs mt-1 uppercase tracking-wider">
                   {stat.label}
