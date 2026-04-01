@@ -22,6 +22,10 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const RegistrarMarca = () => {
+  useEffect(() => {
+    document.title = 'Registrar Marca — Permarke | Proteja sua Marca no INPI';
+  }, []);
+
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     email: '',
