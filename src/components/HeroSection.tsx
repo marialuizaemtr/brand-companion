@@ -148,7 +148,7 @@ export function HeroSection() {
           <img
             src={heroCollage}
             alt="Collage Permarke — moda, marca e atitude"
-            className="w-full h-auto object-contain drop-shadow-2xl translate-x-[10%]"
+            className="w-full h-full object-contain object-right-bottom drop-shadow-2xl translate-x-[8%]"
           />
         </motion.div>
       </div>
