@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { Shield, FileText, Scale } from 'lucide-react';
+
 
 const stats = [
   { value: 500, suffix: '+', label: 'marcas protegidas' },
