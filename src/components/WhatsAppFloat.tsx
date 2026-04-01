@@ -24,8 +24,8 @@ export function WhatsAppFloat() {
           Chama a Permarke!
         </span>
       )}
-      <div className="w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
-        <MessageCircle className="w-6 h-6 text-white" />
+      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
+        <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
       </div>
     </a>
   );
