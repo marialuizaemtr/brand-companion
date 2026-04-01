@@ -143,7 +143,7 @@ export function ViabilitySection() {
           </motion.div>
 
           {/* Right: funnel */}
-          <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-xl p-8">
+          <div className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-xl p-5 sm:p-8">
             <AnimatePresence mode="wait">
               {step === 1 && (
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
