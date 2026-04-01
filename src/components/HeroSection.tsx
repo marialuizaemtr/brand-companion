@@ -138,24 +138,6 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right — mini service cards */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="hidden lg:flex flex-col gap-4 flex-shrink-0 w-80"
-        >
-          {miniServices.map((s, i) => (
-            <div
-              key={s.title}
-              className="bg-primary-foreground/5 backdrop-blur-sm border border-primary-foreground/10 rounded-lg p-6 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
-            >
-              <s.icon className="w-6 h-6 text-primary mb-3" />
-              <h3 className="text-primary-foreground font-heading text-lg mb-1">{s.title}</h3>
-              <p className="text-primary-foreground/50 font-body text-sm">{s.desc}</p>
-            </div>
-          ))}
-        </motion.div>
       </div>
 
       {/* Marquee */}
