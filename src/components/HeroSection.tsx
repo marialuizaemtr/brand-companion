@@ -8,11 +8,6 @@ const stats = [
   { value: 5, suffix: '★', label: 'avaliação' },
 ];
 
-const miniServices = [
-  { icon: Shield, title: 'Registro de Marca', desc: 'Proteção completa no INPI' },
-  { icon: FileText, title: 'Contratos Sob Medida', desc: 'Segurança jurídica real' },
-  { icon: Scale, title: 'Consultoria Estratégica', desc: 'Visão para crescer' },
-];
 
 const marqueeTexts = [
   'O jurídico é branding.',
