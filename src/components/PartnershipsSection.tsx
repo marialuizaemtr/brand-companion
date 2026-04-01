@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { submitToNotion } from '@/lib/api/notion';
 
 const perfis = [
   { emoji: '⚖️', nome: 'Consultores', desc: 'Profissionais jurídicos e financeiros' },
