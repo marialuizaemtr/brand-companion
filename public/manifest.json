@@ -1,0 +1,16 @@
+{
+  "name": "Permarke — Registro de Marca e Proteção de PI",
+  "short_name": "Permarke",
+  "description": "Assessoria jurídica especializada em registro de marca, propriedade intelectual e proteção de ativos intangíveis.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#d4838a",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
