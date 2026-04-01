@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import mariaLuizaImg from '@/assets/maria-luiza.jpeg';
 
 export function AboutSection() {
   return (
