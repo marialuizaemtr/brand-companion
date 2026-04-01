@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { submitToNotion } from '@/lib/api/notion';
 
 const formSchema = z.object({
   nome: z.string().trim().min(1, 'Nome é obrigatório').max(100),
