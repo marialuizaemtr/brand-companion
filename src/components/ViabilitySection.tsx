@@ -108,7 +108,7 @@ export function ViabilitySection() {
   return (
     <section id="viabilidade" className="section-padding bg-foreground">
       <div className="container-narrow">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
