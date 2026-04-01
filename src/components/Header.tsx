@@ -5,12 +5,13 @@ import { Button } from '@/components/ui/button';
 import logoBranca from '@/assets/logo-branca.png';
 
 const navLinks = [
-  { name: 'HOME', href: '#hero' },
-  { name: 'SERVIÇOS', href: '#servicos' },
-  { name: 'PARCERIAS', href: '#parcerias' },
-  { name: 'DEPOIMENTOS', href: '#depoimentos' },
-  { name: 'FAQ', href: '#faq' },
-  { name: 'CONTATO', href: '#contato' },
+  { name: 'HOME', href: '#hero', isAnchor: true },
+  { name: 'SERVIÇOS', href: '#servicos', isAnchor: true },
+  { name: 'PARCERIAS', href: '#parcerias', isAnchor: true },
+  { name: 'DEPOIMENTOS', href: '#depoimentos', isAnchor: true },
+  { name: 'BLOG', href: '/blog', isAnchor: false },
+  { name: 'FAQ', href: '#faq', isAnchor: true },
+  { name: 'CONTATO', href: '#contato', isAnchor: true },
 ];
 
 export function Header() {
