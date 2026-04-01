@@ -30,6 +30,10 @@ const benefits = [
 ];
 
 const Parcerias = () => {
+  useEffect(() => {
+    document.title = 'Parcerias — Permarke | Programa de Parceiros';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
