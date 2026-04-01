@@ -7,10 +7,10 @@ export function CTASection() {
   };
 
   return (
-    <section className="relative section-padding bg-primary overflow-hidden">
+    <section className="relative py-12 md:py-24 lg:py-32 bg-primary overflow-hidden">
       {/* Big background text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <span className="text-primary-foreground/5 font-heading text-[8rem] md:text-[16rem] lg:text-[20rem] font-bold tracking-tight whitespace-nowrap">
+        <span className="text-primary-foreground/5 font-heading text-[5rem] sm:text-[8rem] md:text-[16rem] lg:text-[20rem] font-bold tracking-tight whitespace-nowrap">
           PERMARKE
         </span>
       </div>
@@ -22,15 +22,15 @@ export function CTASection() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-primary-foreground mb-6 text-4xl md:text-5xl">
+          <h2 className="text-primary-foreground mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl">
             Dona da marca é
             <br />
             <span className="italic">quem registra.</span>
           </h2>
-          <p className="text-primary-foreground/80 font-body text-lg max-w-xl mx-auto mb-4">
+          <p className="text-primary-foreground/80 font-body text-base sm:text-lg max-w-xl mx-auto mb-3 sm:mb-4">
             Sem registro você não tem uma marca. Comece agora.
           </p>
-          <p className="text-primary-foreground/60 font-body text-sm mb-10 italic">
+          <p className="text-primary-foreground/60 font-body text-sm mb-8 sm:mb-10 italic">
             De empresária para empresárias.
           </p>
           <button

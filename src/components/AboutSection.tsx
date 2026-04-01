@@ -3,9 +3,9 @@ import mariaLuizaImg from '@/assets/maria-luiza.jpeg';
 
 export function AboutSection() {
   return (
-    <section id="sobre" className="section-padding bg-background">
+    <section id="sobre" className="py-12 md:py-24 lg:py-32 bg-background">
       <div className="container-narrow">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
           {/* Photo placeholder */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -14,7 +14,7 @@ export function AboutSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="aspect-[4/5] bg-creme rounded-lg overflow-hidden relative">
+            <div className="aspect-[4/5] max-h-[60vh] lg:max-h-none bg-creme rounded-lg overflow-hidden relative">
               <img 
                 src={mariaLuizaImg} 
                 alt="Maria Luiza Monteiro, fundadora da Permarke" 

@@ -60,20 +60,20 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen bg-foreground overflow-hidden pt-20">
+    <section id="hero" className="relative min-h-[100svh] bg-foreground overflow-hidden pt-20">
       {/* Animated orbs */}
-      <div className="absolute top-20 left-10 w-40 md:w-72 h-40 md:h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
-      <div className="absolute bottom-20 right-10 md:right-20 w-60 md:w-96 h-60 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
-      <div className="absolute top-1/2 left-1/2 w-32 md:w-48 h-32 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
+      <div className="absolute top-20 left-10 w-32 md:w-72 h-32 md:h-72 rounded-full bg-primary/20 blur-3xl animate-orb" />
+      <div className="absolute bottom-20 right-10 md:right-20 w-48 md:w-96 h-48 md:h-96 rounded-full bg-primary/10 blur-3xl animate-orb-delay" />
+      <div className="absolute top-1/2 left-1/2 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary/15 blur-2xl animate-orb-delay-2" />
 
-      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-10 md:py-16 lg:py-24">
+      <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-6 md:py-16 lg:py-24">
         {/* Left content */}
         <div className="flex-1 max-w-2xl w-full">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-primary font-body text-sm font-semibold tracking-widest uppercase mb-6"
+            className="text-primary font-body text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 sm:mb-6"
           >
             De empresária para empresárias.
           </motion.p>
@@ -82,7 +82,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-primary-foreground text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6 md:mb-8"
+            className="text-primary-foreground text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-4 md:mb-8"
           >
             O jurídico é
             <br />
@@ -93,7 +93,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-primary-foreground/70 text-base md:text-lg lg:text-xl mb-8 md:mb-10 font-body max-w-lg leading-relaxed"
+            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed"
           >
             Um pontinho rosa num oceano jurídico e burocrático.
             <br />
@@ -104,7 +104,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 md:mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 md:mb-12"
           >
             <button
               onClick={() => scrollTo('#viabilidade')}
@@ -125,12 +125,12 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="flex gap-6 sm:gap-10 justify-center sm:justify-start"
+            className="flex gap-4 sm:gap-10 justify-between sm:justify-start"
           >
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                <p className="text-primary-foreground/50 font-body text-[10px] sm:text-xs mt-1 uppercase tracking-wider">
+                <p className="text-primary-foreground/50 font-body text-[9px] sm:text-xs mt-1 uppercase tracking-wider">
                   {stat.label}
                 </p>
               </div>
@@ -138,7 +138,21 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Hero collage */}
+        {/* Hero collage — mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="lg:hidden w-full max-w-sm mx-auto mt-2 pointer-events-none"
+        >
+          <img
+            src={heroCollage}
+            alt="Collage Permarke — moda, marca e atitude"
+            className="w-full h-auto object-contain"
+          />
+        </motion.div>
+
+        {/* Hero collage — desktop */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}

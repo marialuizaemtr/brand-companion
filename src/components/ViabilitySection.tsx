@@ -105,9 +105,9 @@ export function ViabilitySection() {
   const classes = classesNCL[form.segmento] || classesNCL['Outro'];
 
   return (
-    <section id="viabilidade" className="section-padding bg-foreground">
+    <section id="viabilidade" className="py-12 md:py-24 lg:py-32 bg-foreground">
       <div className="container-narrow">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left: info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
