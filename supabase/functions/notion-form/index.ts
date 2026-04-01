@@ -34,7 +34,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       props['Name'] = title(data.nomeMarca || data.nome || '')
       if (data.nome) props['Nome'] = text(data.nome)
       if (data.email) props['Email'] = email(data.email)
-      if (data.telefone) props['Telefone'] = text(data.telefone)
+      if (data.telefone) props['Telefone'] = phone(data.telefone)
       if (data.nomeMarca) props['Marca'] = text(data.nomeMarca)
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.descricao) props['Descrição'] = text(data.descricao)
