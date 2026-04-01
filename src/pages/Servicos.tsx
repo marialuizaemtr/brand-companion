@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -38,6 +39,10 @@ const services = [
 ];
 
 const Servicos = () => {
+  useEffect(() => {
+    document.title = 'Serviços — Permarke | Registro de Marca, Contratos e PI';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />

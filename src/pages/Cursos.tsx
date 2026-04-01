@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -27,6 +28,10 @@ const courses = [
 ];
 
 const Cursos = () => {
+  useEffect(() => {
+    document.title = 'Cursos — Permarke | Aprenda sobre Registro de Marca';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />

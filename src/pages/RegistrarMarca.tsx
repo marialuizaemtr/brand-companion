@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -22,6 +22,10 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const RegistrarMarca = () => {
+  useEffect(() => {
+    document.title = 'Registrar Marca — Permarke | Proteja sua Marca no INPI';
+  }, []);
+
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     email: '',

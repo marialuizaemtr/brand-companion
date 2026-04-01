@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -29,6 +30,10 @@ const benefits = [
 ];
 
 const Parcerias = () => {
+  useEffect(() => {
+    document.title = 'Parcerias — Permarke | Programa de Parceiros';
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />
