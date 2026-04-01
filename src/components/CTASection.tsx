@@ -10,7 +10,7 @@ export function CTASection() {
     <section className="relative section-padding bg-primary overflow-hidden">
       {/* Big background text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <span className="text-primary-foreground/5 font-heading text-[8rem] md:text-[16rem] lg:text-[20rem] font-bold tracking-tight whitespace-nowrap">
+        <span className="text-primary-foreground/5 font-heading text-[5rem] sm:text-[8rem] md:text-[16rem] lg:text-[20rem] font-bold tracking-tight whitespace-nowrap">
           PERMARKE
         </span>
       </div>
