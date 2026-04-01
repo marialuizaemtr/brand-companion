@@ -58,18 +58,28 @@ export function Header() {
           </a>
 
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
-                className={`text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-100 ${
-                  activeSection === link.href.slice(1) ? 'opacity-100' : 'opacity-70'
-                }`}
-              >
-                {link.name}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isAnchor ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                  className={`text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-100 ${
+                    activeSection === link.href.slice(1) ? 'opacity-100' : 'opacity-70'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-100 opacity-70"
+                >
+                  {link.name}
+                </Link>
+              )
+            )}
           </div>
 
           <div className="hidden lg:block">
