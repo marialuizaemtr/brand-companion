@@ -3,9 +3,9 @@ import mariaLuizaImg from '@/assets/maria-luiza.jpeg';
 
 export function AboutSection() {
   return (
-    <section id="sobre" className="section-padding bg-background">
+    <section id="sobre" className="py-12 md:py-24 lg:py-32 bg-background">
       <div className="container-narrow">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
           {/* Photo placeholder */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
