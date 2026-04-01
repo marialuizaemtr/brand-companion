@@ -125,12 +125,12 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
-            className="flex gap-6 sm:gap-10 justify-center sm:justify-start"
+            className="flex gap-4 sm:gap-10 justify-between sm:justify-start"
           >
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                <p className="text-primary-foreground/50 font-body text-[10px] sm:text-xs mt-1 uppercase tracking-wider">
+                <p className="text-primary-foreground/50 font-body text-[9px] sm:text-xs mt-1 uppercase tracking-wider">
                   {stat.label}
                 </p>
               </div>
