@@ -68,7 +68,7 @@ export function HeroSection() {
 
       <div className="container-narrow relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-12 py-6 md:py-16 lg:py-24">
         {/* Left content */}
-        <div className="flex-1 max-w-2xl w-full flex flex-col items-center lg:items-start">
+        <div className="flex-1 max-w-2xl w-full items-center flex-col flex lg:items-end justify-end text-xs font-sans text-justify">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-primary-foreground sm:text-5xl lg:text-7xl leading-[1.05] mb-4 md:mb-8 text-6xl text-center md:text-7xl"
+            className="text-primary-foreground sm:text-5xl lg:text-7xl leading-[1.05] mb-4 md:mb-8 text-6xl md:text-7xl text-left"
           >
             O jurídico é
             <br />
@@ -93,7 +93,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed text-left"
+            className="text-primary-foreground/70 text-sm sm:text-base md:text-lg lg:text-xl mb-6 md:mb-10 font-body max-w-lg leading-relaxed"
           >
             Um pontinho rosa num oceano jurídico e burocrático.
             <br />
