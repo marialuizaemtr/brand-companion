@@ -22,7 +22,7 @@ export function CTASection() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-primary-foreground mb-6 text-4xl md:text-5xl">
+          <h2 className="text-primary-foreground mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl">
             Dona da marca é
             <br />
             <span className="italic">quem registra.</span>
