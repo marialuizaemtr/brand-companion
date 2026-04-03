@@ -23,7 +23,7 @@ export function AboutSection() {
               {/* Badge */}
               <div className="absolute bottom-4 left-4 right-4 bg-foreground/90 backdrop-blur-sm text-primary-foreground rounded-lg px-4 py-3">
                 <p className="font-body text-xs font-semibold tracking-wider uppercase text-primary">Fundadora</p>
-                <p className="font-body text-sm text-primary-foreground/80">Mestranda em PI — INPI</p>
+                <p className="font-body text-sm text-primary-foreground/80">Maria Luiza Monteiro | @marialuizaemtr</p>
               </div>
             </div>
           </motion.div>
@@ -63,7 +63,7 @@ export function AboutSection() {
                 "O jurídico é branding."
               </p>
               <p className="text-primary-foreground/60 font-body text-sm">
-                — Maria Luiza Monteiro, fundadora
+                parte indispensável da estratégia e do posicionamento da marca.
               </p>
             </div>
           </motion.div>
