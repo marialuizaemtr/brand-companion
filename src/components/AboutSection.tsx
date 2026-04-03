@@ -42,8 +42,8 @@ export function AboutSection() {
             <div className="space-y-5 text-muted-foreground font-body leading-relaxed">
               <p>
                 A Permarke nasceu de uma convicção simples: o jurídico deveria trabalhar a favor da 
-                sua marca — não contra o seu tempo. Maria Luiza Monteiro, advogada e mestranda em PI 
-                pelo INPI, criou a Permarke para ser diferente de tudo que existe no mercado.
+                sua marca e do seu posicionamento. Maria Luiza Monteiro, advogada e mestranda em 
+                Propriedade Intelectual e Inovação pelo INPI, criou a Permarke para ser diferente de tudo que existe no mercado.
               </p>
               <p>
                 Sem distância. Sem juridiquês. Com estratégia de verdade.
