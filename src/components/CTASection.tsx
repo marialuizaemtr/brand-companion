@@ -30,7 +30,7 @@ export function CTASection() {
           <p className="text-primary-foreground/80 font-body text-base sm:text-lg max-w-xl mx-auto mb-3 sm:mb-4">
             Sem registro você não tem uma marca. Comece agora.
           </p>
-          <p className="text-primary-foreground/60 text-sm mb-8 sm:mb-10" style={{ fontFamily: "'Bois de Jasmin Script', cursive" }}>
+          <p className="text-primary-foreground/60 mb-8 sm:mb-10 text-lg" style={{ fontFamily: "'Bois de Jasmin Script', cursive" }}>
             De empresária para empresárias.
           </p>
           <button
