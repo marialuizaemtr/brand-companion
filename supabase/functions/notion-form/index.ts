@@ -65,6 +65,8 @@ function buildProperties(form: string, data: Record<string, string>) {
       break
   }
 
+  props['Responsável'] = { people: RESPONSAVEIS }
+
   return props
 }
 
