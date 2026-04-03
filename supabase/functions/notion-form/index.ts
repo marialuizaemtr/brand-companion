@@ -10,6 +10,11 @@ const DATABASE_IDS: Record<string, string> = {
   parceiros: '3350152a574e81c1859befdfbc3c9bbc',
 }
 
+const RESPONSAVEIS = [
+  { object: 'user', id: '36a0152a-574e-8234-9bec-81c2ff237303' }, // Rita
+  { object: 'user', id: '55a0152a-574e-8200-9e3f-812604e23364' }, // Maria Luiza
+]
+
 function buildProperties(form: string, data: Record<string, string>) {
   const props: Record<string, any> = {}
 
