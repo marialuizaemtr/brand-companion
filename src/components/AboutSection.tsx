@@ -52,7 +52,7 @@ export function AboutSection() {
 
             {/* Quote highlight */}
             <div className="my-8 pl-6 border-l-4 border-primary">
-              <p className="text-primary font-heading text-2xl italic">
+              <p className="text-primary text-2xl italic" style={{ fontFamily: "'Bois de Jasmin Script', cursive" }}>
                 De empresária para empresárias.
               </p>
             </div>
