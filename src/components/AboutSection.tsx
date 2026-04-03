@@ -35,7 +35,7 @@ export function AboutSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <span className="text-primary font-body text-sm font-semibold tracking-widest uppercase block mb-4">
+            <span className="text-primary font-heading text-lg font-bold tracking-widest uppercase block mb-4">
               Sobre a Permarke
             </span>
 
