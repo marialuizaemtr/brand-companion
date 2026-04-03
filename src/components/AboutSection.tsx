@@ -63,7 +63,7 @@ export function AboutSection() {
                 "O jurídico é branding."
               </p>
               <p className="text-primary-foreground/60 font-body text-sm">
-                — Maria Luiza Monteiro, fundadora
+                parte indispensável da estratégia e do posicionamento da marca.
               </p>
             </div>
           </motion.div>
