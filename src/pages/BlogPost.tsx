@@ -38,7 +38,7 @@ export default function BlogPost() {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="pt-28 container-narrow">
-          <Skeleton className="w-full aspect-[4/5] md:aspect-[21/9] rounded-2xl mb-8" />
+          <Skeleton className="w-full aspect-[4/5] rounded-2xl mb-8" />
           <Skeleton className="h-10 w-3/4 mb-4" />
           <Skeleton className="h-4 w-1/3 mb-8" />
           <div className="space-y-3">
