@@ -104,6 +104,21 @@ export default function Guia() {
         interesse_registro: data.interesse_registro,
       });
       if (error) throw error;
+
+      // Send to Notion (non-blocking — don't fail the form if Notion errors)
+      const temMarcaBool = data.tem_marca === 'Sim';
+      submitToNotion('guia', {
+        nome: data.nome.trim(),
+        email: data.email.trim(),
+        whatsapp: data.whatsapp,
+        profissao: data.profissao.trim(),
+        tem_marca: String(temMarcaBool),
+        ...(temMarcaBool && data.nome_marca ? { nome_marca: data.nome_marca.trim() } : {}),
+        ...(temMarcaBool && data.segmento ? { segmento: data.segmento.trim() } : {}),
+        ...(temMarcaBool && data.marca_registrada ? { marca_registrada: data.marca_registrada } : {}),
+        interesse_registro: data.interesse_registro,
+      }).catch((err) => console.error('Notion submit error:', err));
+
       setSubmitted(true);
     } catch {
       setSubmitError('Algo deu errado. Tenta de novo ou me chama no Instagram @permarke.');
