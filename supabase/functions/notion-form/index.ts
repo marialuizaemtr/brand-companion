@@ -11,8 +11,8 @@ const DATABASE_IDS: Record<string, string> = {
 }
 
 const RESPONSAVEIS = [
-  { object: 'user', id: '36a0152a-574e-8234-9bec-81c2ff237303' }, // Rita
-  { object: 'user', id: '55a0152a-574e-8200-9e3f-812604e23364' }, // Maria Luiza
+  { object: 'user', id: '1bdd872b-594c-8125-a494-000237b7ebeb' }, // Rita
+  { object: 'user', id: '1e0d872b-594c-811b-b449-0002d9ac7833' }, // Maria Luiza
 ]
 
 function buildProperties(form: string, data: Record<string, string>) {
