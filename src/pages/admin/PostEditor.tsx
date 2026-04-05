@@ -6,20 +6,45 @@ import { getPost, getPostsIndex, saveFile, slugify } from '@/services/githubCMS'
 import { BLOG_CATEGORIES } from '@/types/blog';
 import type { Post, PostMeta } from '@/types/blog';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ImageUploadButton } from '@/components/admin/ImageUploadButton';
+import { uploadBlogImage } from '@/services/imageUpload';
 
 // Dynamic import for react-quill (client-only)
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const quillModules = {
-  toolbar: [
-    ['bold', 'italic', 'underline'],
-    [{ header: [2, 3, false] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'blockquote'],
-    [{ align: [] }],
-    ['clean'],
-  ],
+  toolbar: {
+    container: [
+      ['bold', 'italic', 'underline'],
+      [{ header: [2, 3, false] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'blockquote', 'image'],
+      [{ align: [] }],
+      ['clean'],
+    ],
+    handlers: {
+      image: function () {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/jpeg,image/png,image/webp');
+        input.click();
+        input.onchange = async () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          try {
+            const url = await uploadBlogImage(file, 'content');
+            const quill = (this as any).quill;
+            const range = quill.getSelection(true);
+            quill.insertEmbed(range.index, 'image', url);
+            quill.setSelection(range.index + 1);
+          } catch (err: any) {
+            alert(err.message || 'Erro no upload');
+          }
+        };
+      },
+    },
+  },
 };
 
 export default function PostEditor() {
@@ -292,15 +317,22 @@ export default function PostEditor() {
 
         {/* Cover image */}
         <div>
-          <label className={labelClass}>URL da imagem de capa</label>
-          <div className="flex gap-4">
-            <input
-              type="url"
-              value={coverUrl}
-              onChange={(e) => setCoverUrl(e.target.value)}
-              placeholder="https://..."
-              className={inputClass + ' flex-1'}
-            />
+          <label className={labelClass}>Imagem de capa</label>
+          <div className="flex gap-4 items-start">
+            <div className="flex-1 space-y-2">
+              <input
+                type="url"
+                value={coverUrl}
+                onChange={(e) => setCoverUrl(e.target.value)}
+                placeholder="Cole uma URL ou faça upload"
+                className={inputClass}
+              />
+              <ImageUploadButton
+                onUploaded={(url) => setCoverUrl(url)}
+                folder="covers"
+                label="Upload de capa"
+              />
+            </div>
             {coverUrl && (
               <img
                 src={coverUrl}
