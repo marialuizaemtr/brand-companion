@@ -199,6 +199,11 @@ const RegistrarMarca = () => {
                     />
                   </div>
 
+                  <div>
+                    <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} />
+                    {lgpdError && <p className="text-xs font-body mt-1 text-destructive">Esse campo é obrigatório</p>}
+                  </div>
+
                   <Button 
                     type="submit" 
                     variant="pinkCta" 
@@ -208,6 +213,7 @@ const RegistrarMarca = () => {
                   >
                     {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ANÁLISE GRATUITA'}
                   </Button>
+                  <LGPDDisclaimer />
                 </form>
               </div>
             </motion.div>
