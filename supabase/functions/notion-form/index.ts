@@ -21,6 +21,7 @@ const FORM_LABELS: Record<string, string> = {
   registrar_marca: 'Registrar Marca',
   contato: 'Contato',
   parceiros: 'Parceiros',
+  guia: 'Guia',
 }
 
 function buildProperties(form: string, data: Record<string, string>) {
