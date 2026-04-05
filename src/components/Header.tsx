@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoBranca from '@/assets/logo-branca.png';
@@ -9,7 +9,6 @@ const navLinks = [
   { name: 'SERVIÇOS', href: '#servicos', isAnchor: true },
   { name: 'PARCERIAS', href: '#parcerias', isAnchor: true },
   { name: 'DEPOIMENTOS', href: '#depoimentos', isAnchor: true },
-  
   { name: 'FAQ', href: '#faq', isAnchor: true },
   { name: 'CONTATO', href: '#contato', isAnchor: true },
 ];
@@ -18,6 +17,9 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
@@ -43,33 +45,59 @@ export function Header() {
     };
   }, []);
 
+  // Handle anchor scroll after navigation to home
+  useEffect(() => {
+    if (isHome && location.state?.scrollTo) {
+      const target = location.state.scrollTo;
+      // Small delay to let the page render
+      setTimeout(() => {
+        const el = document.querySelector(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      // Clear state
+      window.history.replaceState({}, '');
+    }
+  }, [isHome, location.state]);
+
   const scrollTo = (href: string) => {
     setIsMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (isHome) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/', { state: { scrollTo: href } });
+    }
+  };
+
+  const goHome = () => {
+    setIsMenuOpen(false);
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
   };
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-primary shadow-lg' : 'bg-primary'}`}>
       <div className="container-narrow">
         <nav className="flex items-center justify-between h-20">
-          <a href="#hero" onClick={(e) => { e.preventDefault(); scrollTo('#hero'); }} className="flex-shrink-0">
+          <button onClick={goHome} className="flex-shrink-0">
             <img src={logoBranca} alt="Permarke" className="h-8 md:h-10 w-auto" />
-          </a>
+          </button>
 
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) =>
               link.isAnchor ? (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+                  onClick={() => scrollTo(link.href)}
                   className={`text-primary-foreground font-body text-sm font-medium tracking-wide transition-opacity duration-200 hover:opacity-100 ${
-                    activeSection === link.href.slice(1) ? 'opacity-100' : 'opacity-70'
+                    isHome && activeSection === link.href.slice(1) ? 'opacity-100' : 'opacity-70'
                   }`}
                 >
                   {link.name}
-                </a>
+                </button>
               ) : (
                 <Link
                   key={link.href}
@@ -83,11 +111,9 @@ export function Header() {
           </div>
 
           <div className="hidden lg:block">
-            <a href="#viabilidade" onClick={(e) => { e.preventDefault(); scrollTo('#viabilidade'); }}>
-              <Button variant="nav" size="lg">
-                REGISTRAR MINHA MARCA
-              </Button>
-            </a>
+            <Button variant="nav" size="lg" onClick={() => scrollTo('#viabilidade')}>
+              REGISTRAR MINHA MARCA
+            </Button>
           </div>
 
           <button
@@ -104,14 +130,13 @@ export function Header() {
             <div className="flex flex-col gap-4">
               {navLinks.map((link) =>
                 link.isAnchor ? (
-                  <a
+                  <button
                     key={link.href}
-                    href={link.href}
-                    onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
-                    className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2"
+                    onClick={() => scrollTo(link.href)}
+                    className="text-primary-foreground font-body text-sm font-medium tracking-wide py-2 text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 ) : (
                   <Link
                     key={link.href}
@@ -123,11 +148,9 @@ export function Header() {
                   </Link>
                 )
               )}
-              <a href="#viabilidade" onClick={(e) => { e.preventDefault(); scrollTo('#viabilidade'); }}>
-                <Button variant="nav" size="lg" className="w-full mt-4">
-                  REGISTRAR MINHA MARCA
-                </Button>
-              </a>
+              <Button variant="nav" size="lg" className="w-full mt-4" onClick={() => scrollTo('#viabilidade')}>
+                REGISTRAR MINHA MARCA
+              </Button>
             </div>
           </div>
         )}
