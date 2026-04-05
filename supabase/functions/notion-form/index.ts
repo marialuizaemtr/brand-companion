@@ -127,6 +127,7 @@ Deno.serve(async (req) => {
     const fallbackProps = ['Responsável', 'NCL']
     for (const propName of fallbackProps) {
       if (!response.ok && result.message?.includes(propName)) {
+        console.error(`Notion rejected ${propName}:`, result.message)
         console.log(`Retrying ${form} without ${propName} property`)
         delete properties[propName]
         response = await fetch('https://api.notion.com/v1/pages', {
