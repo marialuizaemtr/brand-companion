@@ -19,7 +19,10 @@ export function ContactSection() {
 
   const handleSubmit = () => {
     if (!form.nome.trim() || !form.whatsapp.trim() || !form.email.trim()) return;
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
+    logConsent('contato', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     setEnviado(true);
   };
 
