@@ -47,6 +47,8 @@ const RegistrarMarca = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     setIsSubmitting(true);
 
     try {
