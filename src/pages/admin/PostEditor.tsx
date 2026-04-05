@@ -6,6 +6,8 @@ import { getPost, getPostsIndex, saveFile, slugify } from '@/services/githubCMS'
 import { BLOG_CATEGORIES } from '@/types/blog';
 import type { Post, PostMeta } from '@/types/blog';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ImageUploadButton } from '@/components/admin/ImageUploadButton';
+import { uploadBlogImage } from '@/services/imageUpload';
 
 // Dynamic import for react-quill (client-only)
 import ReactQuill from 'react-quill';
