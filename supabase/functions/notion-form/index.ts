@@ -8,6 +8,7 @@ const DATABASE_IDS: Record<string, string> = {
   registrar_marca: '3350152a574e81c9b49bf4c06e440ba4',
   contato: '3350152a574e81d98754c662cc8842fe',
   parceiros: '3350152a574e81c1859befdfbc3c9bbc',
+  guia: '3390152a574e800e8290e65d299ab4a0',
 }
 
 const RESPONSAVEIS = [
