@@ -184,7 +184,6 @@ export function PartnershipsSection() {
                     Cadastrar
                   </button>
                   <LGPDDisclaimer theme="dark" />
-                  </button>
                 </div>
               )}
 
