@@ -18,13 +18,13 @@ export function BlogCard({ post }: BlogCardProps) {
       className="group block bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
     >
       {post.cover_image_url && (
-        <div className="aspect-video overflow-hidden">
+        <div className="aspect-[4/5] md:aspect-video overflow-hidden">
           <img
             src={post.cover_image_url}
             alt={post.title}
             loading="lazy"
             width={600}
-            height={338}
+            height={750}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
