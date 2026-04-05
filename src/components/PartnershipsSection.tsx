@@ -33,8 +33,11 @@ export function PartnershipsSection() {
 
   const handleCadastro = () => {
     if (!cadastroForm.nome.trim() || !cadastroForm.whatsapp.trim() || !cadastroForm.email.trim()) return;
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify({ ...cadastroForm, codigo: cod }));
     setCodigoGerado(cod);
   };
