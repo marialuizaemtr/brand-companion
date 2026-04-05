@@ -30,7 +30,7 @@ export default function PostEditor() {
 
   const [title, setTitle] = useState('');
   const [postSlug, setPostSlug] = useState('');
-  const [category, setCategory] = useState(BLOG_CATEGORIES[0]);
+  const [category, setCategory] = useState<string>(BLOG_CATEGORIES[0]);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [excerpt, setExcerpt] = useState('');
