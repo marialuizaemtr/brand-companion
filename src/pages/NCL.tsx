@@ -88,7 +88,7 @@ export default function NCL() {
         {/* Hero */}
         <section className="bg-foreground py-10 md:py-20">
           <div className="container-narrow px-4 sm:px-6">
-            <h1 className="text-primary-foreground mb-3 text-2xl sm:text-3xl md:text-4xl">
+            <h1 className="text-primary-foreground mb-3 text-xl sm:text-3xl md:text-4xl leading-tight">
               Classificação de Nice
               <br />
               <span className="italic text-primary">NCL 13ª Edição (2026)</span>
