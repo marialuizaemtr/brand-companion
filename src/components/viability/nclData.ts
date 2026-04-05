@@ -49,8 +49,8 @@ export const allNCLClasses: NCLClass[] = [
   { num: 40, nome: 'Tratamento de Materiais', descricao: 'Tratamento de materiais, impressão, processamento', keywords: ['impressão 3d', 'tratamento', 'processamento', 'alfaiataria', 'gráfica'] },
   { num: 41, nome: 'Educação e Entretenimento', descricao: 'Educação, treinamento, cultura, esporte, entretenimento', keywords: ['educação', 'curso', 'treinamento', 'escola', 'entretenimento', 'evento', 'academia', 'conteúdo', 'infoproduto', 'mentoria'] },
   { num: 42, nome: 'Tecnologia e Ciência', descricao: 'Software, SaaS, desenvolvimento, pesquisa, design', keywords: ['software', 'saas', 'desenvolvimento', 'pesquisa', 'design', 'TI', 'startup', 'inteligência artificial', 'programação'] },
-  { num: 43, nome: 'Alimentação e Hospedagem', descricao: 'Restaurantes, bares, hotéis, catering', keywords: ['restaurante', 'bar', 'hotel', 'buffet', 'catering', 'hospedagem', 'pousada', 'delivery'] },
-  { num: 44, nome: 'Serviços Médicos e Estéticos', descricao: 'Serviços médicos, veterinários, estética, saúde', keywords: ['clínica', 'consultório', 'estética', 'terapia', 'psicologia', 'nutrição', 'veterinário', 'salão', 'spa'] },
+  { num: 43, nome: 'Alimentação e Hospedagem', descricao: 'Restaurantes, bares, hotéis, catering', keywords: ['restaurante', 'bar', 'hotel', 'buffet', 'catering', 'hospedagem', 'pousada', 'delivery', 'cafeteria', 'lanchonete', 'pizzaria', 'hamburgueria', 'sorveteria', 'padaria', 'confeitaria', 'food'] },
+  { num: 44, nome: 'Serviços Médicos e Estéticos', descricao: 'Serviços médicos, veterinários, estética, saúde', keywords: ['clínica', 'consultório', 'estética', 'terapia', 'psicologia', 'nutrição', 'veterinário', 'salão', 'spa', 'dentista', 'fisioterapia'] },
   { num: 45, nome: 'Serviços Jurídicos e Pessoais', descricao: 'Serviços jurídicos, segurança, serviços pessoais', keywords: ['advocacia', 'jurídico', 'segurança', 'detetive', 'funeral', 'serviço pessoal', 'consultoria'] },
 ];
 
