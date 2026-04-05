@@ -70,12 +70,14 @@ export const segmentToNCLs: Record<string, number[]> = {
 export const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 'Criativos', 'Educação', 'E-commerce', 'Outro'];
 
 export function findNCLsByKeywords(text: string): number[] {
-  const lower = text.toLowerCase();
+  const lower = text.toLowerCase().trim();
   const matches: number[] = [];
   allNCLClasses.forEach((ncl) => {
-    if (ncl.keywords.some((kw) => lower.includes(kw))) {
+    if (ncl.keywords.some((kw) => lower.includes(kw) || kw.includes(lower))) {
       matches.push(ncl.num);
     }
   });
-  return matches.length > 0 ? matches : [35]; // fallback to class 35
+  // Always include 35 (business/commerce) as it's relevant for most businesses
+  if (matches.length > 0 && !matches.includes(35)) matches.push(35);
+  return matches.length > 0 ? matches : [35];
 }
