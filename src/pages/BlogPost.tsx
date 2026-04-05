@@ -82,7 +82,7 @@ export default function BlogPost() {
       {/* Hero cover */}
       {post.cover_image_url && (
         <section className="relative pt-20">
-          <div className="aspect-[21/9] md:aspect-[3/1] w-full overflow-hidden">
+          <div className="aspect-[4/5] md:aspect-[3/1] w-full overflow-hidden">
             <img
               src={post.cover_image_url}
               alt={post.title}
