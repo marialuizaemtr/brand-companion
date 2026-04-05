@@ -14,6 +14,8 @@ const canais = [
 export function ContactSection() {
   const [form, setForm] = useState({ nome: '', whatsapp: '', email: '', interesse: '', mensagem: '' });
   const [enviado, setEnviado] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const handleSubmit = () => {
     if (!form.nome.trim() || !form.whatsapp.trim() || !form.email.trim()) return;
