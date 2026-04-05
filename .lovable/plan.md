@@ -1,42 +1,35 @@
 
 
-## Ajustes no Funil de Viabilidade
+## Plano: Página /guia — Lead Capture Standalone
 
-### O que muda
+### Resumo
+Criar uma página standalone em `/guia` com formulário de captura de leads, armazenamento no banco de dados, e estado de agradecimento pós-envio com embed de vídeo do YouTube.
 
-**1. Ícone de loading**: Trocar o "™" pelo Mzinho da Permarke (imagem enviada) durante a tela de carregamento.
+### Etapas
 
-**2. Seleção de segmento com todas as 45 NCLs**: Substituir o dropdown de segmentos por uma lista completa de todas as 45 classes NCL com toggles (checkboxes estilizados). O usuário poderá selecionar múltiplas classes. A opção "Outro" terá um campo de texto livre; com base no que for digitado, o sistema sugere a NCL correspondente (mapeamento por palavras-chave).
+**1. Criar tabela `guia_leads` no banco de dados**
+- Colunas: `id` (uuid PK), `created_at`, `nome`, `email`, `whatsapp`, `profissao`, `tem_marca` (boolean), `nome_marca` (nullable), `segmento` (nullable), `marca_registrada` (nullable), `interesse_registro`
+- RLS: permitir INSERT anônimo (página pública, sem autenticação)
+- SELECT restrito (apenas service_role)
 
-**3. Notion -- incluir NCLs recomendadas**: Na submissão ao Notion, enviar o segmento e as NCLs selecionadas/recomendadas como propriedades separadas.
+**2. Criar componente `src/pages/Guia.tsx`**
+- Página completa com: header (logo only), hero com badge/H1/subtítulo/bullets, formulário em card branco, social proof, footer minimalista
+- Toda a copy exatamente como especificada
+- Máscara de telefone brasileiro no campo WhatsApp
+- Campos condicionais (nome_marca, segmento, marca_registrada) visíveis apenas quando `tem_marca = "Sim"`
+- Validação client-side com mensagens de erro inline
+- Submit → insert no banco → transição fade para estado de agradecimento
+- Estado de agradecimento: badge, H2, texto, embed YouTube (16:9), botão WhatsApp outlined
+- Tipografia: Awesome Serif (headings), Red Hat Display (body) — já disponíveis no projeto
+- Cores: #E73B97 (primary pink), #C42880 (hover), off-white (#F9F6F1) background
 
----
+**3. Adicionar rota em `src/App.tsx`**
+- Adicionar `<Route path="/guia" element={<Guia />} />` — sem alterar nav ou footer
 
 ### Detalhes técnicos
-
-**Arquivo: `src/assets/`**
-- Copiar `Icone_Site_4.png` para `src/assets/permarke-icon.png`
-
-**Arquivo: `src/components/ViabilitySection.tsx`**
-
-1. **Loading (step 2)**: Substituir `<div className="text-primary font-heading text-8xl animate-pulse-tm mb-8">™</div>` por `<img src={permarkeIcon} className="w-20 h-20 animate-pulse-tm mb-8" />` importando a imagem.
-
-2. **Dados NCL completos**: Criar constante com todas as 45 classes NCL (1-45) com nome e descrição curta, usando a classificação de Nice atualizada (incluindo NCL 13 atualizada -- "Armas de fogo" foi reclassificada).
-
-3. **Seleção de segmento**: Manter o dropdown de segmentos como está (para pré-selecionar NCLs recomendadas), mas adicionar abaixo uma seção de toggles com todas as 45 classes. As classes recomendadas para o segmento ficam pré-selecionadas. O usuário pode ativar/desativar qualquer classe.
-
-4. **Campo "Outro"**: Quando "Outro" é selecionado no segmento, exibir campo de texto. Com base em palavras-chave digitadas, sugerir NCLs correspondentes (mapeamento interno por keywords).
-
-5. **Resultado (step 3)**: Exibir as classes selecionadas pelo usuário (não apenas as pré-definidas do segmento).
-
-**Arquivo: `supabase/functions/notion-form/index.ts`**
-
-- Adicionar propriedade `'NCLs Recomendadas'` como rich_text contendo as classes selecionadas (ex: "25, 35, 42")
-- A propriedade `'Segmento'` já existe na integração
-
-**Arquivo: `src/lib/api/notion.ts`**
-- Passar as NCLs selecionadas junto com os dados do formulário
-
-### Pré-requisito no Notion
-- Criar propriedade **"NCLs Recomendadas"** (tipo Text) na base de Viabilidade
+- Usar `react-hook-form` + `zod` para validação
+- Máscara de telefone via handler manual (sem lib extra)
+- Transição CSS `opacity` 300ms para thank-you state
+- Logo importada de `@/assets/logo-branca.png` (versão branca sobre fundo escuro) — será necessário verificar se há logo escura; caso contrário, usar a branca sobre fundo colorido ou ajustar
+- Placeholders VIDEO_ID_AQUI e NUMERO_AQUI mantidos no código para preenchimento posterior
 
