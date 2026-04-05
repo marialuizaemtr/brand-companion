@@ -37,6 +37,8 @@ const RegistrarMarca = () => {
     descricao: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
