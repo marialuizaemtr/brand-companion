@@ -86,7 +86,7 @@ export default function NCL() {
       <Header />
       <main className="flex-1 bg-background">
         {/* Hero */}
-        <section className="bg-foreground py-10 md:py-20">
+        <section className="bg-foreground pt-24 sm:pt-28 md:pt-32 pb-10 md:pb-20">
           <div className="container-narrow px-4 sm:px-6">
             <h1 className="text-primary-foreground mb-3 text-xl sm:text-3xl md:text-4xl leading-tight">
               Classificação de Nice
