@@ -6,17 +6,28 @@ const REPO = import.meta.env.VITE_GITHUB_REPO || 'permarke-site';
 const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/src/data`;
 const API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}/contents/src/data`;
 
+// Local fallback imports
+import localIndex from '@/data/posts-index.json';
+
 // ── Public reads (no token) ──
 
 export async function getPostsIndex(): Promise<PostMeta[]> {
   const res = await fetch(`${RAW_BASE}/posts-index.json?t=${Date.now()}`);
-  if (!res.ok) return [];
-  return res.json();
+  if (!res.ok) return localIndex as PostMeta[];
+  const data = await res.json();
+  return Array.isArray(data) && data.length > 0 ? data : (localIndex as PostMeta[]);
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
   const res = await fetch(`${RAW_BASE}/posts/${slug}.json?t=${Date.now()}`);
-  if (!res.ok) return null;
+  if (!res.ok) {
+    try {
+      const mod = await import(`@/data/posts/${slug}.json`);
+      return mod.default as Post;
+    } catch {
+      return null;
+    }
+  }
   return res.json();
 }
 
