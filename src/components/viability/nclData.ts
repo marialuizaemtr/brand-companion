@@ -1097,10 +1097,17 @@ export const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 
  * Evita falsos positivos como "automoveis" matchando "moveis".
  */
 function matchWholeWord(text: string, keyword: string): boolean {
-  // Escapa chars especiais de regex na keyword
   const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(^|\\s)${escaped}($|\\s)`, 'i');
-  return regex.test(text);
+  // Permite plural simples (s) no final da palavra
+  const regex = new RegExp(`(^|\\s)${escaped}s?($|\\s)`, 'i');
+  if (regex.test(text)) return true;
+  // Também testa removendo 's' final da keyword contra o texto
+  if (keyword.endsWith('s') && keyword.length > 3) {
+    const singular = keyword.slice(0, -1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regexSingular = new RegExp(`(^|\\s)${singular}s?($|\\s)`, 'i');
+    return regexSingular.test(text);
+  }
+  return false;
 }
 
 /**
