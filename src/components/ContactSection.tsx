@@ -115,12 +115,17 @@ export function ContactSection() {
                     className="w-full bg-primary-foreground/5 border border-primary-foreground/10 text-primary-foreground font-body text-sm rounded-sm px-4 py-3 focus:outline-none focus:border-primary transition-colors placeholder:text-primary-foreground/30 resize-none"
                   />
                 </div>
+                <div>
+                  <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} theme="dark" />
+                  {lgpdError && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                </div>
                 <button
                   onClick={handleSubmit}
                   className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark"
                 >
                   Quero registrar a minha marca.
                 </button>
+                <LGPDDisclaimer theme="dark" />
               </div>
             ) : (
               <div className="bg-foreground rounded-xl p-8 text-center">

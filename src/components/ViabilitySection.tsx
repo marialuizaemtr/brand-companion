@@ -231,12 +231,18 @@ export function ViabilitySection() {
                       </select>
                     </div>
 
+                    <div>
+                      <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setErrors(prev => { const e = {...prev}; delete e.lgpd; return e; }); }} error={!!errors.lgpd} theme="dark" />
+                      {errors.lgpd && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                    </div>
+
                     <button
                       onClick={handleSubmit}
                       className="w-full bg-primary text-primary-foreground font-body font-semibold py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-[1.02] active:scale-100 mt-2"
                     >
                       Quero registrar a minha marca.
                     </button>
+                    <LGPDDisclaimer theme="dark" />
                   </div>
                 </motion.div>
               )}
