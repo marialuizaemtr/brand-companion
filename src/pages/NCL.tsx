@@ -170,7 +170,7 @@ export default function NCL() {
             </div>
           ) : (
             // Browse mode
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {filteredClasses.map((cl) => (
                 <ClassCard key={cl.classe} classe={cl} />
               ))}
