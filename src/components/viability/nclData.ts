@@ -49,8 +49,8 @@ export const allNCLClasses: NCLClass[] = [
   { num: 40, nome: 'Tratamento de Materiais', descricao: 'Tratamento de materiais, impressão, processamento', keywords: ['impressão 3d', 'tratamento', 'processamento', 'alfaiataria', 'gráfica'] },
   { num: 41, nome: 'Educação e Entretenimento', descricao: 'Educação, treinamento, cultura, esporte, entretenimento', keywords: ['educação', 'curso', 'treinamento', 'escola', 'entretenimento', 'evento', 'academia', 'conteúdo', 'infoproduto', 'mentoria'] },
   { num: 42, nome: 'Tecnologia e Ciência', descricao: 'Software, SaaS, desenvolvimento, pesquisa, design', keywords: ['software', 'saas', 'desenvolvimento', 'pesquisa', 'design', 'TI', 'startup', 'inteligência artificial', 'programação'] },
-  { num: 43, nome: 'Alimentação e Hospedagem', descricao: 'Restaurantes, bares, hotéis, catering', keywords: ['restaurante', 'bar', 'hotel', 'buffet', 'catering', 'hospedagem', 'pousada', 'delivery'] },
-  { num: 44, nome: 'Serviços Médicos e Estéticos', descricao: 'Serviços médicos, veterinários, estética, saúde', keywords: ['clínica', 'consultório', 'estética', 'terapia', 'psicologia', 'nutrição', 'veterinário', 'salão', 'spa'] },
+  { num: 43, nome: 'Alimentação e Hospedagem', descricao: 'Restaurantes, bares, hotéis, catering', keywords: ['restaurante', 'bar', 'hotel', 'buffet', 'catering', 'hospedagem', 'pousada', 'delivery', 'cafeteria', 'lanchonete', 'pizzaria', 'hamburgueria', 'sorveteria', 'padaria', 'confeitaria', 'food'] },
+  { num: 44, nome: 'Serviços Médicos e Estéticos', descricao: 'Serviços médicos, veterinários, estética, saúde', keywords: ['clínica', 'consultório', 'estética', 'terapia', 'psicologia', 'nutrição', 'veterinário', 'salão', 'spa', 'dentista', 'fisioterapia'] },
   { num: 45, nome: 'Serviços Jurídicos e Pessoais', descricao: 'Serviços jurídicos, segurança, serviços pessoais', keywords: ['advocacia', 'jurídico', 'segurança', 'detetive', 'funeral', 'serviço pessoal', 'consultoria'] },
 ];
 
@@ -70,12 +70,14 @@ export const segmentToNCLs: Record<string, number[]> = {
 export const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 'Criativos', 'Educação', 'E-commerce', 'Outro'];
 
 export function findNCLsByKeywords(text: string): number[] {
-  const lower = text.toLowerCase();
+  const lower = text.toLowerCase().trim();
   const matches: number[] = [];
   allNCLClasses.forEach((ncl) => {
-    if (ncl.keywords.some((kw) => lower.includes(kw))) {
+    if (ncl.keywords.some((kw) => lower.includes(kw) || kw.includes(lower))) {
       matches.push(ncl.num);
     }
   });
-  return matches.length > 0 ? matches : [35]; // fallback to class 35
+  // Always include 35 (business/commerce) as it's relevant for most businesses
+  if (matches.length > 0 && !matches.includes(35)) matches.push(35);
+  return matches.length > 0 ? matches : [35];
 }
