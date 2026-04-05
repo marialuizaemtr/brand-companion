@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { submitToNotion } from '@/lib/api/notion';
 import logoBranca from '@/assets/logo-branca.png';
 import { Check } from 'lucide-react';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 /* ── Phone mask helper ── */
 function applyPhoneMask(value: string): string {
@@ -79,6 +81,8 @@ export default function Guia() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const {
     register, handleSubmit, watch, setValue, formState: { errors }, trigger,
@@ -89,6 +93,11 @@ export default function Guia() {
   const interesseRegistro = watch('interesse_registro');
 
   const onSubmit = async (data: GuiaForm) => {
+    if (!lgpdConsent) {
+      setLgpdError(true);
+      return;
+    }
+    setLgpdError(false);
     setSubmitError('');
     setIsSubmitting(true);
     try {
@@ -118,6 +127,9 @@ export default function Guia() {
         ...(temMarcaBool && data.marca_registrada ? { marca_registrada: data.marca_registrada } : {}),
         interesse_registro: data.interesse_registro,
       }).catch((err) => console.error('Notion submit error:', err));
+
+      // Log consent (non-blocking)
+      logConsent('guia', { nome: data.nome.trim(), email: data.email.trim(), telefone: data.whatsapp });
 
       setSubmitted(true);
     } catch {
@@ -436,6 +448,12 @@ export default function Guia() {
                 <FieldError message={errors.interesse_registro?.message} />
               </div>
 
+              {/* LGPD Consent */}
+              <div>
+                <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} />
+                {lgpdError && <p className="text-xs font-body mt-1" style={{ color: '#D32F2F' }}>Esse campo é obrigatório</p>}
+              </div>
+
               {/* Submit */}
               <button
                 type="submit"
@@ -452,10 +470,7 @@ export default function Guia() {
                 </p>
               )}
 
-              <p className="text-center font-body" style={{ color: '#999', fontSize: '11px' }}>
-                Ao preencher, você concorda em receber conteúdos da Permarke.
-                Você pode cancelar quando quiser.
-              </p>
+              <LGPDDisclaimer />
             </div>
           </form>
 

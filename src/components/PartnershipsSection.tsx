@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const perfis = [
   { emoji: '⚖️', nome: 'Consultores', desc: 'Profissionais jurídicos e financeiros' },
@@ -24,11 +26,18 @@ export function PartnershipsSection() {
   const [indicacoes, setIndicacoes] = useState<any[]>([]);
   const [indicacaoConfirmada, setIndicacaoConfirmada] = useState('');
   const [codigoValido, setCodigoValido] = useState<boolean | null>(null);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
+  const [lgpdConsentInd, setLgpdConsentInd] = useState(false);
+  const [lgpdErrorInd, setLgpdErrorInd] = useState(false);
 
   const handleCadastro = () => {
     if (!cadastroForm.nome.trim() || !cadastroForm.whatsapp.trim() || !cadastroForm.email.trim()) return;
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify({ ...cadastroForm, codigo: cod }));
     setCodigoGerado(cod);
   };
@@ -41,11 +50,14 @@ export function PartnershipsSection() {
 
   const handleIndicacao = () => {
     if (!indicacaoForm.codigo || !codigoValido || !indicacaoForm.nome_indicado.trim() || !indicacaoForm.whatsapp.trim()) return;
+    if (!lgpdConsentInd) { setLgpdErrorInd(true); return; }
+    setLgpdErrorInd(false);
     const id = `IND${Date.now()}`;
     const nova = { ...indicacaoForm, id, data: new Date().toISOString(), status: 'Em análise' };
     const updated = [...indicacoes, nova];
     setIndicacoes(updated);
     submitToNotion('parceiros', { ...indicacaoForm, nome: indicacaoForm.nome_indicado, tipo: 'indicacao' }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('parceiros_indicacao', { nome: indicacaoForm.nome_indicado, email: indicacaoForm.email, telefone: indicacaoForm.whatsapp });
     localStorage.setItem(`permarke_indicacoes_${indicacaoForm.codigo}`, JSON.stringify(updated));
     setIndicacaoConfirmada(id);
     setIndicacaoForm({ codigo: indicacaoForm.codigo, nome_indicado: '', whatsapp: '', email: '', servico: '', contexto: '' });
@@ -161,12 +173,17 @@ export function PartnershipsSection() {
                       {perfis.map((p) => <option key={p.nome} value={p.nome} className="bg-foreground">{p.nome}</option>)}
                     </select>
                   </div>
+                  <div>
+                    <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} theme="dark" />
+                    {lgpdError && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                  </div>
                   <button
                     onClick={handleCadastro}
                     className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark mt-2"
                   >
                     Cadastrar
                   </button>
+                  <LGPDDisclaimer theme="dark" />
                 </div>
               )}
 
@@ -226,12 +243,17 @@ export function PartnershipsSection() {
                       />
                     </div>
                   ))}
+                  <div>
+                    <LGPDConsent checked={lgpdConsentInd} onChange={(v) => { setLgpdConsentInd(v); if (v) setLgpdErrorInd(false); }} error={lgpdErrorInd} theme="dark" />
+                    {lgpdErrorInd && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                  </div>
                   <button
                     onClick={handleIndicacao}
                     className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark mt-2"
                   >
                     Registrar indicação
                   </button>
+                  <LGPDDisclaimer theme="dark" />
 
                   {indicacaoConfirmada && (
                     <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 mt-4">

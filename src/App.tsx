@@ -10,6 +10,7 @@ import Cursos from "./pages/Cursos";
 
 import RegistrarMarca from "./pages/RegistrarMarca";
 import Guia from "./pages/Guia";
+import Privacidade from "./pages/Privacidade";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           
           <Route path="/registrar-marca" element={<RegistrarMarca />} />
           <Route path="/guia" element={<Guia />} />
+          <Route path="/privacidade" element={<Privacidade />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

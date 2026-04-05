@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const formSchema = z.object({
   nome: z.string().trim().min(1, 'Nome é obrigatório').max(100),
@@ -35,6 +37,8 @@ const RegistrarMarca = () => {
     descricao: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,11 +47,14 @@ const RegistrarMarca = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     setIsSubmitting(true);
 
     try {
       const validatedData = formSchema.parse(formData);
       await submitToNotion('registrar_marca', validatedData as Record<string, string>);
+      logConsent('registrar_marca', { nome: validatedData.nome, email: validatedData.email, telefone: validatedData.telefone });
       
       toast.success('Formulário enviado com sucesso! Entraremos em contato em breve.');
       setFormData({
@@ -192,6 +199,11 @@ const RegistrarMarca = () => {
                     />
                   </div>
 
+                  <div>
+                    <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} />
+                    {lgpdError && <p className="text-xs font-body mt-1 text-destructive">Esse campo é obrigatório</p>}
+                  </div>
+
                   <Button 
                     type="submit" 
                     variant="pinkCta" 
@@ -201,6 +213,7 @@ const RegistrarMarca = () => {
                   >
                     {isSubmitting ? 'ENVIANDO...' : 'SOLICITAR ANÁLISE GRATUITA'}
                   </Button>
+                  <LGPDDisclaimer />
                 </form>
               </div>
             </motion.div>

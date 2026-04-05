@@ -4,6 +4,8 @@ import { submitToNotion } from '@/lib/api/notion';
 import { allNCLClasses, segmentos, segmentToNCLs, findNCLsByKeywords } from './viability/nclData';
 import { NCLToggleList } from './viability/NCLToggleList';
 import permarkeIcon from '@/assets/permarke-icon.png';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const genericTerms = ['marca', 'brasil', 'shop', 'store', 'plus', 'top', 'max', 'pro', 'gold', 'prime', 'premium'];
 const loadingTexts = [
@@ -33,6 +35,7 @@ export function ViabilitySection() {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [loadingTextIdx, setLoadingTextIdx] = useState(0);
   const [showNCLs, setShowNCLs] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
 
   // Update selected NCLs when segment changes
   useEffect(() => {
@@ -63,6 +66,7 @@ export function ViabilitySection() {
     if (!form.whatsapp.trim()) errs.whatsapp = true;
     if (!form.email.trim()) errs.email = true;
     if (form.segmento === 'Outro' && !form.outroSegmento.trim()) errs.outroSegmento = true;
+    if (!lgpdConsent) errs.lgpd = true;
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -77,6 +81,7 @@ export function ViabilitySection() {
       segmento: segmentoFinal,
       ncls_recomendadas: nclsString,
     }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     setTimeout(() => setStep(3), 3500);
   };
 
@@ -226,12 +231,18 @@ export function ViabilitySection() {
                       </select>
                     </div>
 
+                    <div>
+                      <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setErrors(prev => { const e = {...prev}; delete e.lgpd; return e; }); }} error={!!errors.lgpd} theme="dark" />
+                      {errors.lgpd && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                    </div>
+
                     <button
                       onClick={handleSubmit}
                       className="w-full bg-primary text-primary-foreground font-body font-semibold py-4 rounded-sm transition-all duration-300 hover:bg-rosa-dark hover:scale-[1.02] active:scale-100 mt-2"
                     >
                       Quero registrar a minha marca.
                     </button>
+                    <LGPDDisclaimer theme="dark" />
                   </div>
                 </motion.div>
               )}

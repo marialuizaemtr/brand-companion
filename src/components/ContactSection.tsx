@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail } from 'lucide-react';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const canais = [
   { icon: MessageCircle, label: 'WhatsApp', value: '(12) 99720-6639', href: 'https://wa.me/5512997206639' },
@@ -12,10 +14,15 @@ const canais = [
 export function ContactSection() {
   const [form, setForm] = useState({ nome: '', whatsapp: '', email: '', interesse: '', mensagem: '' });
   const [enviado, setEnviado] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const handleSubmit = () => {
     if (!form.nome.trim() || !form.whatsapp.trim() || !form.email.trim()) return;
+    if (!lgpdConsent) { setLgpdError(true); return; }
+    setLgpdError(false);
     submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
+    logConsent('contato', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     setEnviado(true);
   };
 
@@ -108,12 +115,17 @@ export function ContactSection() {
                     className="w-full bg-primary-foreground/5 border border-primary-foreground/10 text-primary-foreground font-body text-sm rounded-sm px-4 py-3 focus:outline-none focus:border-primary transition-colors placeholder:text-primary-foreground/30 resize-none"
                   />
                 </div>
+                <div>
+                  <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} theme="dark" />
+                  {lgpdError && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                </div>
                 <button
                   onClick={handleSubmit}
                   className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark"
                 >
                   Quero registrar a minha marca.
                 </button>
+                <LGPDDisclaimer theme="dark" />
               </div>
             ) : (
               <div className="bg-foreground rounded-xl p-8 text-center">
