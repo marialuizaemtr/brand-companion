@@ -157,7 +157,7 @@ export default function NCL() {
           {/* Results */}
           {searchResults ? (
             // Search mode
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {searchResults.length === 0 ? (
                 <p className="text-center text-muted-foreground font-body py-12">
                   Nenhum resultado encontrado para "{search}".
