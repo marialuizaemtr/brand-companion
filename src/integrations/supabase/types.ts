@@ -14,7 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      guia_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          interesse_registro: string
+          marca_registrada: string | null
+          nome: string
+          nome_marca: string | null
+          profissao: string
+          segmento: string | null
+          tem_marca: boolean
+          whatsapp: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          interesse_registro: string
+          marca_registrada?: string | null
+          nome: string
+          nome_marca?: string | null
+          profissao: string
+          segmento?: string | null
+          tem_marca: boolean
+          whatsapp: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          interesse_registro?: string
+          marca_registrada?: string | null
+          nome?: string
+          nome_marca?: string | null
+          profissao?: string
+          segmento?: string | null
+          tem_marca?: boolean
+          whatsapp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
