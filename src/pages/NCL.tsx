@@ -236,16 +236,16 @@ function ClassCard({ classe, filteredItems }: { classe: NCLClass; filteredItems?
             <table className="w-full">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="text-left px-5 py-2 text-xs font-body font-semibold text-muted-foreground uppercase tracking-wider w-20">Código</th>
-                  <th className="text-left px-5 py-2 text-xs font-body font-semibold text-muted-foreground uppercase tracking-wider">Descrição (PT)</th>
+                  <th className="text-left px-3 sm:px-5 py-2 text-[10px] sm:text-xs font-body font-semibold text-muted-foreground uppercase tracking-wider w-16 sm:w-20">Código</th>
+                  <th className="text-left px-3 sm:px-5 py-2 text-[10px] sm:text-xs font-body font-semibold text-muted-foreground uppercase tracking-wider">Descrição (PT)</th>
                   <th className="text-left px-5 py-2 text-xs font-body font-semibold text-muted-foreground uppercase tracking-wider hidden md:table-cell">Description (EN)</th>
                 </tr>
               </thead>
               <tbody>
                 {displayItems.map((item, i) => (
                   <tr key={`${item.id}-${i}`} className="border-b border-border/50 last:border-0 hover:bg-accent/20 transition-colors">
-                    <td className="px-5 py-2.5 font-mono text-xs text-muted-foreground">{item.id}</td>
-                    <td className="px-5 py-2.5 font-body text-sm text-foreground">{item.pt}</td>
+                    <td className="px-3 sm:px-5 py-2 sm:py-2.5 font-mono text-[10px] sm:text-xs text-muted-foreground">{item.id}</td>
+                    <td className="px-3 sm:px-5 py-2 sm:py-2.5 font-body text-xs sm:text-sm text-foreground">{item.pt}</td>
                     <td className="px-5 py-2.5 font-body text-sm text-muted-foreground hidden md:table-cell">{item.en}</td>
                   </tr>
                 ))}
