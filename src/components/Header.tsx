@@ -11,6 +11,7 @@ const navLinks = [
   { name: 'DEPOIMENTOS', href: '#depoimentos', isAnchor: true },
   { name: 'FAQ', href: '#faq', isAnchor: true },
   { name: 'CONTATO', href: '#contato', isAnchor: true },
+  { name: 'BLOG', href: '/blog', isAnchor: false },
 ];
 
 export function Header() {
