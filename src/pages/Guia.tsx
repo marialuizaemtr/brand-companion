@@ -145,7 +145,7 @@ export default function Guia() {
       <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#F9F6F1' }}>
         {/* Header */}
         <header className="w-full py-5" style={{ backgroundColor: '#E73B97' }}>
-          <div className="max-w-[640px] mx-auto px-6">
+          <div className="max-w-[640px] mx-auto px-6 flex justify-center">
             <a href="https://permarke.com.br"><img src={logoBranca} alt="Permarke" className="h-8" /></a>
           </div>
         </header>
