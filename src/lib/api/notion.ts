@@ -1,6 +1,6 @@
 import { supabase } from '@/integrations/supabase/client'
 
-type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros'
+type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros' | 'guia'
 
 export async function submitToNotion(form: FormType, data: Record<string, string>) {
   const { data: result, error } = await supabase.functions.invoke('notion-form', {

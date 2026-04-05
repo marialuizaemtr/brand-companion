@@ -8,6 +8,7 @@ const DATABASE_IDS: Record<string, string> = {
   registrar_marca: '3350152a574e81c9b49bf4c06e440ba4',
   contato: '3350152a574e81d98754c662cc8842fe',
   parceiros: '3350152a574e81c1859befdfbc3c9bbc',
+  guia: '3390152a574e800e8290e65d299ab4a0',
 }
 
 const RESPONSAVEIS = [
@@ -20,6 +21,7 @@ const FORM_LABELS: Record<string, string> = {
   registrar_marca: 'Registrar Marca',
   contato: 'Contato',
   parceiros: 'Parceiros',
+  guia: 'Guia',
 }
 
 function buildProperties(form: string, data: Record<string, string>) {
@@ -71,6 +73,19 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.codigo) props['Código'] = text(data.codigo)
       if (data.nome_indicado) props['Nome Indicado'] = text(data.nome_indicado)
       if (data.servico) props['Serviço'] = text(data.servico)
+      break
+
+    case 'guia':
+      props['Name'] = title(`[Guia] ${data.nome || ''}`)
+      if (data.nome) props['Nome'] = text(data.nome)
+      if (data.email) props['Email'] = email(data.email)
+      if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
+      if (data.profissao) props['Profissão'] = text(data.profissao)
+      props['Tem Marca'] = { checkbox: data.tem_marca === 'true' || data.tem_marca === true }
+      if (data.nome_marca) props['Nome da Marca'] = text(data.nome_marca)
+      if (data.segmento) props['Segmento'] = text(data.segmento)
+      if (data.marca_registrada) props['Marca Registrada'] = sel(data.marca_registrada)
+      if (data.interesse_registro) props['Interesse Registro'] = sel(data.interesse_registro)
       break
   }
 
