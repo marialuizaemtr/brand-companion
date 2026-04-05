@@ -10,6 +10,7 @@ import Cursos from "./pages/Cursos";
 
 import RegistrarMarca from "./pages/RegistrarMarca";
 import Guia from "./pages/Guia";
+import Privacidade from "./pages/Privacidade";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
