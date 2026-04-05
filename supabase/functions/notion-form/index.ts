@@ -124,7 +124,7 @@ Deno.serve(async (req) => {
     let result = await response.json()
 
     // Fallback: retry removing properties that don't exist in this database
-    const fallbackProps = ['Responsável', 'NCLs Recomendadas']
+    const fallbackProps = ['Responsável', 'NCL']
     for (const propName of fallbackProps) {
       if (!response.ok && result.message?.includes(propName)) {
         console.log(`Retrying ${form} without ${propName} property`)
