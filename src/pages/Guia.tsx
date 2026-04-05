@@ -224,7 +224,7 @@ export default function Guia() {
       {/* Header */}
       <header className="w-full py-5" style={{ backgroundColor: '#E73B97' }}>
         <div className="max-w-[640px] mx-auto px-6">
-          <img src={logoBranca} alt="Permarke" className="h-8" />
+          <a href="https://permarke.com.br"><img src={logoBranca} alt="Permarke" className="h-8" /></a>
         </div>
       </header>
 
