@@ -81,6 +81,8 @@ export default function Guia() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
 
   const {
     register, handleSubmit, watch, setValue, formState: { errors }, trigger,
