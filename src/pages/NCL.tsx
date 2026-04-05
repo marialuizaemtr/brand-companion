@@ -86,14 +86,14 @@ export default function NCL() {
       <Header />
       <main className="flex-1 bg-background">
         {/* Hero */}
-        <section className="bg-foreground py-12 md:py-20">
-          <div className="container-narrow">
-            <h1 className="text-primary-foreground mb-4">
+        <section className="bg-foreground py-10 md:py-20">
+          <div className="container-narrow px-4 sm:px-6">
+            <h1 className="text-primary-foreground mb-3 text-2xl sm:text-3xl md:text-4xl">
               Classificação de Nice
               <br />
               <span className="italic text-primary">NCL 13ª Edição (2026)</span>
             </h1>
-            <p className="text-primary-foreground/70 font-body text-lg max-w-2xl leading-relaxed">
+            <p className="text-primary-foreground/70 font-body text-sm sm:text-lg max-w-2xl leading-relaxed">
               Consulte todas as 45 classes da Classificação Internacional de Nice para produtos e serviços.
               Base oficial utilizada pelo INPI no registro de marcas.
             </p>
