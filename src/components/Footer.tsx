@@ -1,4 +1,5 @@
 import { Instagram, MessageCircle, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoBranca from '@/assets/logo-branca.png';
 
 const footerLinks = {
