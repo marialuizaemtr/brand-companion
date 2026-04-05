@@ -1,6 +1,6 @@
 import type { Post, PostMeta } from '@/types/blog';
 
-const OWNER = import.meta.env.VITE_GITHUB_OWNER || 'permarke';
+const OWNER = import.meta.env.VITE_GITHUB_OWNER || 'marialuizaemtr';
 const REPO = import.meta.env.VITE_GITHUB_REPO || 'brand-companion';
 
 const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/src/data`;
