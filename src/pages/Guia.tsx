@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { submitToNotion } from '@/lib/api/notion';
 import logoBranca from '@/assets/logo-branca.png';
 import { Check } from 'lucide-react';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 /* ── Phone mask helper ── */
 function applyPhoneMask(value: string): string {

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const perfis = [
   { emoji: '⚖️', nome: 'Consultores', desc: 'Profissionais jurídicos e financeiros' },

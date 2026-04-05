@@ -4,6 +4,8 @@ import { submitToNotion } from '@/lib/api/notion';
 import { allNCLClasses, segmentos, segmentToNCLs, findNCLsByKeywords } from './viability/nclData';
 import { NCLToggleList } from './viability/NCLToggleList';
 import permarkeIcon from '@/assets/permarke-icon.png';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const genericTerms = ['marca', 'brasil', 'shop', 'store', 'plus', 'top', 'max', 'pro', 'gold', 'prime', 'premium'];
 const loadingTexts = [

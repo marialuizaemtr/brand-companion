@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const formSchema = z.object({
   nome: z.string().trim().min(1, 'Nome é obrigatório').max(100),

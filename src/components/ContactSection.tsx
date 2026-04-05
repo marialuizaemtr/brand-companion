@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail } from 'lucide-react';
 import { submitToNotion } from '@/lib/api/notion';
+import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
+import { logConsent } from '@/lib/api/consent';
 
 const canais = [
   { icon: MessageCircle, label: 'WhatsApp', value: '(12) 99720-6639', href: 'https://wa.me/5512997206639' },
