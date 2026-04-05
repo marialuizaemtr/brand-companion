@@ -26,6 +26,10 @@ export function PartnershipsSection() {
   const [indicacoes, setIndicacoes] = useState<any[]>([]);
   const [indicacaoConfirmada, setIndicacaoConfirmada] = useState('');
   const [codigoValido, setCodigoValido] = useState<boolean | null>(null);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
+  const [lgpdError, setLgpdError] = useState(false);
+  const [lgpdConsentInd, setLgpdConsentInd] = useState(false);
+  const [lgpdErrorInd, setLgpdErrorInd] = useState(false);
 
   const handleCadastro = () => {
     if (!cadastroForm.nome.trim() || !cadastroForm.whatsapp.trim() || !cadastroForm.email.trim()) return;
