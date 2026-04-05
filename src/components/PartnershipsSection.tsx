@@ -244,12 +244,17 @@ export function PartnershipsSection() {
                       />
                     </div>
                   ))}
+                  <div>
+                    <LGPDConsent checked={lgpdConsentInd} onChange={(v) => { setLgpdConsentInd(v); if (v) setLgpdErrorInd(false); }} error={lgpdErrorInd} theme="dark" />
+                    {lgpdErrorInd && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                  </div>
                   <button
                     onClick={handleIndicacao}
                     className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark mt-2"
                   >
                     Registrar indicação
                   </button>
+                  <LGPDDisclaimer theme="dark" />
 
                   {indicacaoConfirmada && (
                     <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 mt-4">
