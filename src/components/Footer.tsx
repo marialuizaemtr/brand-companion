@@ -1,4 +1,5 @@
 import { Instagram, MessageCircle, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoBranca from '@/assets/logo-branca.png';
 
 const footerLinks = {
@@ -83,6 +84,9 @@ export function Footer() {
           <p className="text-sm text-primary-foreground/40 font-body">
             © 2025 Permarke · Proteção de Marcas e Ativos Intangíveis
           </p>
+          <Link to="/privacidade" className="text-sm text-primary-foreground/40 hover:text-primary-foreground font-body transition-colors">
+            Política de Privacidade
+          </Link>
         </div>
       </div>
     </footer>
