@@ -54,6 +54,7 @@ const RegistrarMarca = () => {
     try {
       const validatedData = formSchema.parse(formData);
       await submitToNotion('registrar_marca', validatedData as Record<string, string>);
+      logConsent('registrar_marca', { nome: validatedData.nome, email: validatedData.email, telefone: validatedData.telefone });
       
       toast.success('Formulário enviado com sucesso! Entraremos em contato em breve.');
       setFormData({
