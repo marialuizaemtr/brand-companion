@@ -179,17 +179,17 @@ export default function NCL() {
         </section>
 
         {/* CTA */}
-        <section className="bg-foreground py-12">
-          <div className="container-narrow text-center">
-            <h2 className="text-primary-foreground mb-4">
+        <section className="bg-foreground py-10 sm:py-12">
+          <div className="container-narrow px-4 sm:px-6 text-center">
+            <h2 className="text-primary-foreground mb-3 sm:mb-4 text-xl sm:text-2xl md:text-3xl">
               Precisa registrar sua marca?
             </h2>
-            <p className="text-primary-foreground/60 font-body mb-6 max-w-xl mx-auto">
+            <p className="text-primary-foreground/60 font-body text-sm sm:text-base mb-5 sm:mb-6 max-w-xl mx-auto">
               Identificar a classe correta é o primeiro passo. Solicite uma análise de viabilidade gratuita.
             </p>
             <a
               href="/#viabilidade"
-              className="inline-block bg-primary text-primary-foreground font-body font-semibold py-3 px-8 rounded-sm hover:bg-rosa-dark transition-colors"
+              className="inline-block bg-primary text-primary-foreground font-body font-semibold py-3 px-6 sm:px-8 rounded-sm hover:bg-rosa-dark transition-colors text-sm sm:text-base"
             >
               Solicitar análise gratuita →
             </a>
