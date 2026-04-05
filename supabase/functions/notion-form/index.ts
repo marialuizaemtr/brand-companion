@@ -30,6 +30,7 @@ function buildProperties(form: string, data: Record<string, string>) {
   const email = (value: string) => ({ email: value || null })
   const phone = (value: string) => ({ phone_number: value || null })
   const sel = (value: string) => ({ select: { name: value } })
+  const multiSel = (values: string[]) => ({ multi_select: values.map(v => ({ name: v.trim() })) })
 
   switch (form) {
     case 'viabilidade':
@@ -40,7 +41,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.email) props['Email'] = email(data.email)
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.como_encontrou) props['Como encontrou'] = text(data.como_encontrou)
-      if (data.ncls_recomendadas) props['NCLs Recomendadas'] = text(data.ncls_recomendadas)
+      if (data.ncls_recomendadas) props['NCLs Recomendadas'] = multiSel(data.ncls_recomendadas.split(','))
       break
 
     case 'registrar_marca':
