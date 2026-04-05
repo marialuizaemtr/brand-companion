@@ -15,6 +15,13 @@ const RESPONSAVEIS = [
   { object: 'user', id: '1e0d872b-594c-811b-b449-0002d9ac7833' }, // Maria Luiza
 ]
 
+const FORM_LABELS: Record<string, string> = {
+  viabilidade: 'Viabilidade',
+  registrar_marca: 'Registrar Marca',
+  contato: 'Contato',
+  parceiros: 'Parceiros',
+}
+
 function buildProperties(form: string, data: Record<string, string>) {
   const props: Record<string, any> = {}
 
@@ -26,7 +33,7 @@ function buildProperties(form: string, data: Record<string, string>) {
 
   switch (form) {
     case 'viabilidade':
-      props['Name'] = title(data.marca || data.nome || '')
+      props['Name'] = title(`[Viabilidade] ${data.marca || data.nome || ''}`)
       if (data.nome) props['Nome'] = text(data.nome)
       if (data.marca) props['Marca'] = text(data.marca)
       if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
@@ -36,7 +43,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       break
 
     case 'registrar_marca':
-      props['Name'] = title(data.nomeMarca || data.nome || '')
+      props['Name'] = title(`[Registrar Marca] ${data.nomeMarca || data.nome || ''}`)
       if (data.nome) props['Nome'] = text(data.nome)
       if (data.email) props['Email'] = email(data.email)
       if (data.telefone) props['Telefone'] = phone(data.telefone)
@@ -46,7 +53,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       break
 
     case 'contato':
-      props['Name'] = title(data.nome || '')
+      props['Name'] = title(`[Contato] ${data.nome || ''}`)
       if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
       if (data.email) props['Email'] = email(data.email)
       if (data.interesse) props['Interesse'] = text(data.interesse)
@@ -54,7 +61,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       break
 
     case 'parceiros':
-      props['Name'] = title(data.nome || '')
+      props['Name'] = title(`[Parceiros] ${data.nome || ''}`)
       if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
       if (data.email) props['Email'] = email(data.email)
       if (data.perfil) props['Perfil'] = text(data.perfil)
