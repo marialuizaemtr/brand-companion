@@ -81,6 +81,7 @@ export function ViabilitySection() {
       segmento: segmentoFinal,
       ncls_recomendadas: nclsString,
     }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     setTimeout(() => setStep(3), 3500);
   };
 
