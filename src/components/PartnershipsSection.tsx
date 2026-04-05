@@ -50,11 +50,14 @@ export function PartnershipsSection() {
 
   const handleIndicacao = () => {
     if (!indicacaoForm.codigo || !codigoValido || !indicacaoForm.nome_indicado.trim() || !indicacaoForm.whatsapp.trim()) return;
+    if (!lgpdConsentInd) { setLgpdErrorInd(true); return; }
+    setLgpdErrorInd(false);
     const id = `IND${Date.now()}`;
     const nova = { ...indicacaoForm, id, data: new Date().toISOString(), status: 'Em análise' };
     const updated = [...indicacoes, nova];
     setIndicacoes(updated);
     submitToNotion('parceiros', { ...indicacaoForm, nome: indicacaoForm.nome_indicado, tipo: 'indicacao' }).catch((err) => console.error('Notion submit error:', err));
+    logConsent('parceiros_indicacao', { nome: indicacaoForm.nome_indicado, email: indicacaoForm.email, telefone: indicacaoForm.whatsapp });
     localStorage.setItem(`permarke_indicacoes_${indicacaoForm.codigo}`, JSON.stringify(updated));
     setIndicacaoConfirmada(id);
     setIndicacaoForm({ codigo: indicacaoForm.codigo, nome_indicado: '', whatsapp: '', email: '', servico: '', contexto: '' });
