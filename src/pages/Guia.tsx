@@ -93,6 +93,11 @@ export default function Guia() {
   const interesseRegistro = watch('interesse_registro');
 
   const onSubmit = async (data: GuiaForm) => {
+    if (!lgpdConsent) {
+      setLgpdError(true);
+      return;
+    }
+    setLgpdError(false);
     setSubmitError('');
     setIsSubmitting(true);
     try {
