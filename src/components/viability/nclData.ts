@@ -820,7 +820,7 @@ export const allNCLClasses: NCLClass[] = [
     nome: "Construção e Reparos",
     descricao: "Construção civil, reparos, instalação, manutenção",
     keywords: [
-      "construcao civil","reforma","reparo","instalacao","manutencao","pintura",
+      "construcao civil","reforma","reparo","reparos","instalacao","manutencao","pintura",
       "empreiteira","construtora","engenharia civil","pedreiro","mestre de obras",
       "eletricista","encanador","bombeiro hidraulico","serralheiro","vidraceiro",
       "gesseiro","azulejista","piso instalacao","revestimento instalacao",
@@ -833,7 +833,10 @@ export const allNCLClasses: NCLClass[] = [
       "dedetizacao","desinsetizacao","desratizacao","controle de pragas",
       "limpeza de fachada","limpeza pos obra","limpeza industrial",
       "jardinagem servico","paisagismo servico","poda de arvore",
-      "mecanica automotiva","funilaria","pintura automotiva","polimento",
+      "oficina","oficina mecanica","oficina automotiva","reparacao automotiva",
+      "recuperacao automotiva","recuperacao de automoveis","automoveis sinistrados",
+      "veiculo sinistrado","reparo automotivo","reparo de automoveis","mecanica automotiva",
+      "funilaria","lanternagem","pintura automotiva","polimento",
       "martelinho de ouro","borracharia","troca de oleo","revisao automotiva",
       "assistencia tecnica","conserto de eletrodomestico","conserto de celular",
       "conserto de computador","reparos domesticos","handyman","faz tudo",
@@ -1116,34 +1119,47 @@ export function findNCLsByKeywords(text: string): number[] {
   const inputWords = lower.split(/\s+/).filter(w => w.length > 2);
   const scored: { num: number; score: number }[] = [];
 
+  const hasWorkshopRepairIntent = [
+    'oficina',
+    'mecanica',
+    'funilaria',
+    'lanternagem',
+    'reparo',
+    'reparos',
+    'reparacao',
+    'recuperacao',
+    'sinistrado',
+    'sinistrados',
+    'manutencao',
+  ].some(term => matchWholeWord(lower, term));
+
   allNCLClasses.forEach((ncl) => {
     let score = 0;
     ncl.keywords.forEach((kw) => {
       const kwNorm = normalizar(kw);
-      // Match 1: keyword composta aparece inteira no texto do usuário
       if (matchCompoundKeyword(lower, kwNorm)) {
-        score += kwNorm.split(/\s+/).length; // mais palavras = mais relevante
-      }
-      // Match 2: palavra do usuário é exatamente uma keyword
-      else if (inputWords.some(w => w === kwNorm)) {
+        score += kwNorm.split(/\s+/).length;
+      } else if (inputWords.some(w => w === kwNorm)) {
         score += 1;
-      }
-      // Match 3: keyword de 5+ chars aparece como palavra inteira no input
-      else if (kwNorm.length >= 5 && matchWholeWord(lower, kwNorm)) {
+      } else if (kwNorm.length >= 5 && matchWholeWord(lower, kwNorm)) {
         score += 1;
       }
     });
+
+    if (hasWorkshopRepairIntent) {
+      if (ncl.num === 37) score += 8;
+      if (ncl.num === 12) score += 2;
+      if (ncl.num === 36) score -= 5;
+    }
 
     if (score > 0) {
       scored.push({ num: ncl.num, score });
     }
   });
 
-  // Ordena por score decrescente e pega os com score relevante
   scored.sort((a, b) => b.score - a.score);
-  const matches = scored.filter(s => s.score >= 1).map(s => s.num);
+  const matches = scored.filter(s => s.score >= 2).map(s => s.num);
 
-  // Always include 35 (business/commerce) as it's relevant for most businesses
   if (matches.length > 0 && !matches.includes(35)) matches.push(35);
   return matches.length > 0 ? matches : [35];
 }
