@@ -11,6 +11,7 @@ import Cursos from "./pages/Cursos";
 import RegistrarMarca from "./pages/RegistrarMarca";
 import Guia from "./pages/Guia";
 import Privacidade from "./pages/Privacidade";
+import NCLPage from "./pages/NCL";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
