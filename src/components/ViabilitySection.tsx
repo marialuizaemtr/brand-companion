@@ -66,6 +66,7 @@ export function ViabilitySection() {
     if (!form.whatsapp.trim()) errs.whatsapp = true;
     if (!form.email.trim()) errs.email = true;
     if (form.segmento === 'Outro' && !form.outroSegmento.trim()) errs.outroSegmento = true;
+    if (!lgpdConsent) errs.lgpd = true;
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
