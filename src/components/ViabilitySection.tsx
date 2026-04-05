@@ -35,6 +35,7 @@ export function ViabilitySection() {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [loadingTextIdx, setLoadingTextIdx] = useState(0);
   const [showNCLs, setShowNCLs] = useState(false);
+  const [lgpdConsent, setLgpdConsent] = useState(false);
 
   // Update selected NCLs when segment changes
   useEffect(() => {
