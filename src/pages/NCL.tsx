@@ -208,16 +208,16 @@ function ClassCard({ classe, filteredItems }: { classe: NCLClass; filteredItems?
   const hasMore = items.length > 10;
 
   return (
-    <div className="bg-card border border-border rounded-xl overflow-hidden">
+    <div className="bg-card border border-border rounded-lg sm:rounded-xl overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-4 p-5 text-left hover:bg-accent/30 transition-colors"
+        className="w-full flex items-center gap-3 sm:gap-4 p-3 sm:p-5 text-left hover:bg-accent/30 transition-colors"
       >
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <span className="text-primary font-heading text-3xl font-bold shrink-0">{classe.classe}</span>
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+          <span className="text-primary font-heading text-2xl sm:text-3xl font-bold shrink-0">{classe.classe}</span>
           <div className="min-w-0">
-            <span className="text-foreground font-heading text-lg block">{classe.nome}</span>
-            <span className={`text-xs font-body px-2 py-0.5 rounded-full ${
+            <span className="text-foreground font-heading text-sm sm:text-lg block truncate">{classe.nome}</span>
+            <span className={`text-[10px] sm:text-xs font-body px-1.5 sm:px-2 py-0.5 rounded-full ${
               classe.tipo === 'Serviço' ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
             }`}>
               {classe.tipo} · {items.length} ite{items.length !== 1 ? 'ns' : 'm'}
@@ -225,7 +225,7 @@ function ClassCard({ classe, filteredItems }: { classe: NCLClass; filteredItems?
             </span>
           </div>
         </div>
-        <svg className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground shrink-0 transition-transform ${expanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
