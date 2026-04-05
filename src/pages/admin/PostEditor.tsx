@@ -317,15 +317,22 @@ export default function PostEditor() {
 
         {/* Cover image */}
         <div>
-          <label className={labelClass}>URL da imagem de capa</label>
-          <div className="flex gap-4">
-            <input
-              type="url"
-              value={coverUrl}
-              onChange={(e) => setCoverUrl(e.target.value)}
-              placeholder="https://..."
-              className={inputClass + ' flex-1'}
-            />
+          <label className={labelClass}>Imagem de capa</label>
+          <div className="flex gap-4 items-start">
+            <div className="flex-1 space-y-2">
+              <input
+                type="url"
+                value={coverUrl}
+                onChange={(e) => setCoverUrl(e.target.value)}
+                placeholder="Cole uma URL ou faça upload"
+                className={inputClass}
+              />
+              <ImageUploadButton
+                onUploaded={(url) => setCoverUrl(url)}
+                folder="covers"
+                label="Upload de capa"
+              />
+            </div>
             {coverUrl && (
               <img
                 src={coverUrl}
