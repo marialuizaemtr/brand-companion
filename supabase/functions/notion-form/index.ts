@@ -122,19 +122,22 @@ Deno.serve(async (req) => {
 
     let result = await response.json()
 
-    // Fallback: if "Responsável" property doesn't exist in this database, retry without it
-    if (!response.ok && result.message?.includes('Responsável')) {
-      console.log(`Retrying ${form} without Responsável property`)
-      const { 'Responsável': _, ...propertiesWithoutResp } = properties
-      response = await fetch('https://api.notion.com/v1/pages', {
-        method: 'POST',
-        headers: notionHeaders,
-        body: JSON.stringify({
-          parent: { database_id: DATABASE_IDS[form] },
-          properties: propertiesWithoutResp,
-        }),
-      })
-      result = await response.json()
+    // Fallback: retry removing properties that don't exist in this database
+    const fallbackProps = ['Responsável', 'NCLs Recomendadas']
+    for (const propName of fallbackProps) {
+      if (!response.ok && result.message?.includes(propName)) {
+        console.log(`Retrying ${form} without ${propName} property`)
+        delete properties[propName]
+        response = await fetch('https://api.notion.com/v1/pages', {
+          method: 'POST',
+          headers: notionHeaders,
+          body: JSON.stringify({
+            parent: { database_id: DATABASE_IDS[form] },
+            properties,
+          }),
+        })
+        result = await response.json()
+      }
     }
 
     if (!response.ok) {
