@@ -29,6 +29,7 @@ const App = () => (
           
           <Route path="/registrar-marca" element={<RegistrarMarca />} />
           <Route path="/guia" element={<Guia />} />
+          <Route path="/privacidade" element={<Privacidade />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
