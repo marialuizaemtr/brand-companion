@@ -1158,7 +1158,7 @@ export function findNCLsByKeywords(text: string): number[] {
   });
 
   scored.sort((a, b) => b.score - a.score);
-  const matches = scored.filter(s => s.score >= 2).map(s => s.num);
+  const matches = scored.filter(s => s.score >= 1).map(s => s.num);
 
   if (matches.length > 0 && !matches.includes(35)) matches.push(35);
   return matches.length > 0 ? matches : [35];
