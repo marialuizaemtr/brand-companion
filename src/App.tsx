@@ -9,6 +9,7 @@ import Parcerias from "./pages/Parcerias";
 import Cursos from "./pages/Cursos";
 
 import RegistrarMarca from "./pages/RegistrarMarca";
+import Guia from "./pages/Guia";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
