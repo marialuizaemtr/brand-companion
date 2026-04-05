@@ -14,14 +14,37 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const quillModules = {
-  toolbar: [
-    ['bold', 'italic', 'underline'],
-    [{ header: [2, 3, false] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'blockquote'],
-    [{ align: [] }],
-    ['clean'],
-  ],
+  toolbar: {
+    container: [
+      ['bold', 'italic', 'underline'],
+      [{ header: [2, 3, false] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link', 'blockquote', 'image'],
+      [{ align: [] }],
+      ['clean'],
+    ],
+    handlers: {
+      image: function () {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/jpeg,image/png,image/webp');
+        input.click();
+        input.onchange = async () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          try {
+            const url = await uploadBlogImage(file, 'content');
+            const quill = (this as any).quill;
+            const range = quill.getSelection(true);
+            quill.insertEmbed(range.index, 'image', url);
+            quill.setSelection(range.index + 1);
+          } catch (err: any) {
+            alert(err.message || 'Erro no upload');
+          }
+        };
+      },
+    },
+  },
 };
 
 export default function PostEditor() {
