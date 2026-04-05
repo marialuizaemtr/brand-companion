@@ -97,20 +97,37 @@ Deno.serve(async (req) => {
 
     console.log(`Creating page in ${form} database`)
 
-    const response = await fetch('https://api.notion.com/v1/pages', {
+    const notionHeaders = {
+      'Authorization': `Bearer ${notionKey}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json',
+    }
+
+    let response = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${notionKey}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json',
-      },
+      headers: notionHeaders,
       body: JSON.stringify({
         parent: { database_id: DATABASE_IDS[form] },
         properties,
       }),
     })
 
-    const result = await response.json()
+    let result = await response.json()
+
+    // Fallback: if "Responsável" property doesn't exist in this database, retry without it
+    if (!response.ok && result.message?.includes('Responsável')) {
+      console.log(`Retrying ${form} without Responsável property`)
+      const { 'Responsável': _, ...propertiesWithoutResp } = properties
+      response = await fetch('https://api.notion.com/v1/pages', {
+        method: 'POST',
+        headers: notionHeaders,
+        body: JSON.stringify({
+          parent: { database_id: DATABASE_IDS[form] },
+          properties: propertiesWithoutResp,
+        }),
+      })
+      result = await response.json()
+    }
 
     if (!response.ok) {
       console.error('Notion API error:', JSON.stringify(result))
