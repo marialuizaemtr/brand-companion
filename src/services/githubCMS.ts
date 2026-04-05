@@ -1,7 +1,7 @@
 import type { Post, PostMeta } from '@/types/blog';
 
-const OWNER = import.meta.env.VITE_GITHUB_OWNER || '';
-const REPO = import.meta.env.VITE_GITHUB_REPO || '';
+const OWNER = import.meta.env.VITE_GITHUB_OWNER || 'permarke';
+const REPO = import.meta.env.VITE_GITHUB_REPO || 'permarke-site';
 
 const RAW_BASE = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/src/data`;
 const API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}/contents/src/data`;
