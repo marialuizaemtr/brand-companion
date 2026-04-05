@@ -1,49 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
-
-const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 'Criativos', 'Educação', 'E-commerce', 'Outro'];
-
-const classesNCL: Record<string, { num: number; nome: string; protege: string; porque: string }[]> = {
-  Moda: [
-    { num: 25, nome: 'Vestuário', protege: 'Roupas, calçados, chapelaria', porque: 'Classe essencial para marcas de moda e vestuário' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, franquias, marketing', porque: 'Protege a operação comercial e venda dos produtos' },
-  ],
-  Cosméticos: [
-    { num: 3, nome: 'Cosméticos', protege: 'Perfumaria, cuidados pessoais, maquiagem', porque: 'Classe principal para produtos de beleza' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, franquias, marketing', porque: 'Protege a operação comercial e venda' },
-    { num: 44, nome: 'Serviços Médicos', protege: 'Serviços de beleza, estética, salões', porque: 'Protege serviços de estética e aplicação' },
-  ],
-  Alimentos: [
-    { num: 29, nome: 'Alimentos Processados', protege: 'Carnes, laticínios, conservas', porque: 'Para alimentos de origem animal e processados' },
-    { num: 30, nome: 'Alimentos Base', protege: 'Café, farinhas, doces, condimentos', porque: 'Para alimentos de origem vegetal e confeitaria' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, franquias, marketing', porque: 'Protege a operação comercial' },
-  ],
-  Tech: [
-    { num: 42, nome: 'Tecnologia', protege: 'Software, SaaS, desenvolvimento, TI', porque: 'Classe essencial para empresas de tecnologia' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, plataformas, marketplace', porque: 'Protege a operação digital e comercial' },
-  ],
-  Saúde: [
-    { num: 44, nome: 'Serviços Médicos', protege: 'Clínicas, consultórios, terapias', porque: 'Classe principal para profissionais de saúde' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, marketing de saúde', porque: 'Protege a operação comercial' },
-  ],
-  Criativos: [
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Agências, estúdios, consultorias', porque: 'Protege serviços criativos e comerciais' },
-    { num: 41, nome: 'Educação e Entretenimento', protege: 'Cursos, conteúdo, produção cultural', porque: 'Para criadores de conteúdo e educadores' },
-  ],
-  Educação: [
-    { num: 41, nome: 'Educação e Entretenimento', protege: 'Cursos, treinamentos, publicações', porque: 'Classe essencial para educadores' },
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, plataformas educacionais', porque: 'Protege a operação comercial' },
-  ],
-  'E-commerce': [
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio eletrônico, marketplace', porque: 'Classe essencial para e-commerce' },
-    { num: 42, nome: 'Tecnologia', protege: 'Plataformas digitais, software', porque: 'Para a infraestrutura tecnológica' },
-  ],
-  Outro: [
-    { num: 35, nome: 'Publicidade e Negócios', protege: 'Comércio, franquias, marketing', porque: 'Classe mais abrangente para negócios' },
-    { num: 45, nome: 'Serviços Jurídicos e Pessoais', protege: 'Consultorias, serviços especializados', porque: 'Classe complementar para serviços' },
-  ],
-};
+import { allNCLClasses, segmentos, segmentToNCLs, findNCLsByKeywords } from './viability/nclData';
+import { NCLToggleList } from './viability/NCLToggleList';
+import permarkeIcon from '@/assets/permarke-icon.png';
 
 const genericTerms = ['marca', 'brasil', 'shop', 'store', 'plus', 'top', 'max', 'pro', 'gold', 'prime', 'premium'];
 const loadingTexts = [
@@ -57,22 +17,43 @@ const loadingTexts = [
 function checkAlerts(marca: string) {
   const lower = marca.toLowerCase().trim();
   const alerts: { type: 'red' | 'yellow'; msg: string }[] = [];
-
   if (/^[\d\s]+$/.test(lower)) alerts.push({ type: 'red', msg: 'Marcas compostas apenas por números não são registráveis.' });
   if (/[\u{1F300}-\u{1FAFF}]/u.test(lower)) alerts.push({ type: 'red', msg: 'Emojis não podem ser registrados como marca.' });
   if (lower.length <= 3 && lower.length > 0) alerts.push({ type: 'yellow', msg: 'Marcas com 1-3 letras têm menor distintividade e podem enfrentar dificuldades.' });
   genericTerms.forEach((term) => {
     if (lower.includes(term)) alerts.push({ type: 'yellow', msg: `O termo "${term}" é genérico e pode dificultar o registro.` });
   });
-
   return alerts;
 }
 
 export function ViabilitySection() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [form, setForm] = useState({ marca: '', segmento: '', nome: '', whatsapp: '', email: '', como_encontrou: '' });
+  const [form, setForm] = useState({ marca: '', segmento: '', nome: '', whatsapp: '', email: '', como_encontrou: '', outroSegmento: '' });
+  const [selectedNCLs, setSelectedNCLs] = useState<number[]>([]);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [loadingTextIdx, setLoadingTextIdx] = useState(0);
+  const [showNCLs, setShowNCLs] = useState(false);
+
+  // Update selected NCLs when segment changes
+  useEffect(() => {
+    if (form.segmento && form.segmento !== 'Outro') {
+      setSelectedNCLs(segmentToNCLs[form.segmento] || []);
+    } else if (form.segmento === 'Outro') {
+      setSelectedNCLs([]);
+    }
+  }, [form.segmento]);
+
+  // Auto-suggest NCLs when "Outro" text changes
+  useEffect(() => {
+    if (form.segmento === 'Outro' && form.outroSegmento.trim().length >= 3) {
+      const suggested = findNCLsByKeywords(form.outroSegmento);
+      setSelectedNCLs(suggested);
+    }
+  }, [form.outroSegmento, form.segmento]);
+
+  const toggleNCL = (num: number) => {
+    setSelectedNCLs((prev) => prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num]);
+  };
 
   const validate = () => {
     const errs: Record<string, boolean> = {};
@@ -81,6 +62,7 @@ export function ViabilitySection() {
     if (!form.nome.trim()) errs.nome = true;
     if (!form.whatsapp.trim()) errs.whatsapp = true;
     if (!form.email.trim()) errs.email = true;
+    if (form.segmento === 'Outro' && !form.outroSegmento.trim()) errs.outroSegmento = true;
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -88,7 +70,13 @@ export function ViabilitySection() {
   const handleSubmit = () => {
     if (!validate()) return;
     setStep(2);
-    submitToNotion('viabilidade', form).catch((err) => console.error('Notion submit error:', err));
+    const nclsString = selectedNCLs.sort((a, b) => a - b).join(', ');
+    const segmentoFinal = form.segmento === 'Outro' ? form.outroSegmento : form.segmento;
+    submitToNotion('viabilidade', {
+      ...form,
+      segmento: segmentoFinal,
+      ncls_recomendadas: nclsString,
+    }).catch((err) => console.error('Notion submit error:', err));
     setTimeout(() => setStep(3), 3500);
   };
 
@@ -102,7 +90,7 @@ export function ViabilitySection() {
   }, [step]);
 
   const alerts = step === 3 ? checkAlerts(form.marca) : [];
-  const classes = classesNCL[form.segmento] || classesNCL['Outro'];
+  const resultClasses = allNCLClasses.filter((c) => selectedNCLs.includes(c.num));
 
   return (
     <section id="viabilidade" className="py-12 md:py-24 lg:py-32 bg-foreground">
@@ -170,6 +158,7 @@ export function ViabilitySection() {
                       </div>
                     ))}
 
+                    {/* Segmento dropdown */}
                     <div>
                       <label className="text-primary-foreground/60 font-body text-xs uppercase tracking-wider block mb-1">
                         Segmento *
@@ -185,6 +174,41 @@ export function ViabilitySection() {
                         ))}
                       </select>
                     </div>
+
+                    {/* Campo "Outro" */}
+                    {form.segmento === 'Outro' && (
+                      <div>
+                        <label className="text-primary-foreground/60 font-body text-xs uppercase tracking-wider block mb-1">
+                          Descreva seu segmento *
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ex: clínica veterinária, restaurante japonês..."
+                          value={form.outroSegmento}
+                          onChange={(e) => setForm({ ...form, outroSegmento: e.target.value })}
+                          className={`w-full bg-primary-foreground/5 border ${errors.outroSegmento ? 'border-red-500' : 'border-primary-foreground/10'} text-primary-foreground font-body text-sm rounded-sm px-4 py-3 focus:outline-none focus:border-primary transition-colors placeholder:text-primary-foreground/30`}
+                        />
+                      </div>
+                    )}
+
+                    {/* NCL Toggle List */}
+                    {form.segmento && (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => setShowNCLs(!showNCLs)}
+                          className="flex items-center gap-2 text-primary font-body text-xs uppercase tracking-wider mb-2 hover:text-primary/80 transition-colors"
+                        >
+                          <svg className={`w-3 h-3 transition-transform ${showNCLs ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                          Classes NCL ({selectedNCLs.length} selecionada{selectedNCLs.length !== 1 ? 's' : ''})
+                        </button>
+                        {showNCLs && (
+                          <NCLToggleList selectedNCLs={selectedNCLs} onToggle={toggleNCL} />
+                        )}
+                      </div>
+                    )}
 
                     <div>
                       <label className="text-primary-foreground/60 font-body text-xs uppercase tracking-wider block mb-1">
@@ -216,7 +240,7 @@ export function ViabilitySection() {
                 <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                   className="flex flex-col items-center justify-center py-16"
                 >
-                  <div className="text-primary font-heading text-8xl animate-pulse-tm mb-8">™</div>
+                  <img src={permarkeIcon} alt="Permarke" className="w-20 h-20 animate-pulse-tm mb-8" />
                   <div className="w-full max-w-xs bg-primary-foreground/10 rounded-full h-2 mb-6 overflow-hidden">
                     <div className="h-full bg-primary rounded-full animate-progress" />
                   </div>
@@ -233,7 +257,7 @@ export function ViabilitySection() {
                       Análise para: <span className="text-primary">{form.marca}</span>
                     </h3>
                     <span className="bg-primary/20 text-primary font-body text-xs px-3 py-1 rounded-full">
-                      {form.segmento}
+                      {form.segmento === 'Outro' ? form.outroSegmento : form.segmento}
                     </span>
                   </div>
 
@@ -249,17 +273,16 @@ export function ViabilitySection() {
 
                   {/* Classes */}
                   <p className="text-primary-foreground/50 font-body text-xs uppercase tracking-wider mb-4 mt-6">
-                    Classes NCL recomendadas
+                    Classes NCL recomendadas ({resultClasses.length})
                   </p>
                   <div className="space-y-4 mb-8">
-                    {classes.map((cl) => (
+                    {resultClasses.map((cl) => (
                       <div key={cl.num} className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-lg p-5">
                         <div className="flex items-center gap-3 mb-2">
                           <span className="text-primary font-heading text-3xl font-bold">{cl.num}</span>
                           <span className="text-primary-foreground font-heading text-lg">{cl.nome}</span>
                         </div>
-                        <p className="text-primary-foreground/60 font-body text-sm mb-1">Protege: {cl.protege}</p>
-                        <p className="text-primary-foreground/40 font-body text-xs">{cl.porque}</p>
+                        <p className="text-primary-foreground/60 font-body text-sm">{cl.descricao}</p>
                       </div>
                     ))}
                   </div>
