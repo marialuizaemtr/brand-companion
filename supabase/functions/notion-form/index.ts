@@ -41,7 +41,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.email) props['Email'] = email(data.email)
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.como_encontrou) props['Como encontrou'] = text(data.como_encontrou)
-      if (data.ncls_recomendadas) props['NCL'] = sel(data.ncls_recomendadas)
+      if (data.ncls_recomendadas) props['NCL'] = multiSel(data.ncls_recomendadas.split(','))
       break
 
     case 'registrar_marca':
