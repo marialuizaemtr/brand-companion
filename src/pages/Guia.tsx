@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { supabase } from '@/integrations/supabase/client';
+import { submitToNotion } from '@/lib/api/notion';
 import logoBranca from '@/assets/logo-branca.png';
 import { Check } from 'lucide-react';
 
