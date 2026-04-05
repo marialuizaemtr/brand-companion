@@ -74,6 +74,19 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.nome_indicado) props['Nome Indicado'] = text(data.nome_indicado)
       if (data.servico) props['Serviço'] = text(data.servico)
       break
+
+    case 'guia':
+      props['Name'] = title(`[Guia] ${data.nome || ''}`)
+      if (data.nome) props['Nome'] = text(data.nome)
+      if (data.email) props['Email'] = email(data.email)
+      if (data.whatsapp) props['WhatsApp'] = phone(data.whatsapp)
+      if (data.profissao) props['Profissão'] = text(data.profissao)
+      props['Tem Marca'] = { checkbox: data.tem_marca === 'true' || data.tem_marca === true }
+      if (data.nome_marca) props['Nome da Marca'] = text(data.nome_marca)
+      if (data.segmento) props['Segmento'] = text(data.segmento)
+      if (data.marca_registrada) props['Marca Registrada'] = sel(data.marca_registrada)
+      if (data.interesse_registro) props['Interesse Registro'] = sel(data.interesse_registro)
+      break
   }
 
   props['Responsável'] = { people: RESPONSAVEIS }
