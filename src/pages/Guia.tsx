@@ -448,6 +448,12 @@ export default function Guia() {
                 <FieldError message={errors.interesse_registro?.message} />
               </div>
 
+              {/* LGPD Consent */}
+              <div>
+                <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} />
+                {lgpdError && <p className="text-xs font-body mt-1" style={{ color: '#D32F2F' }}>Esse campo é obrigatório</p>}
+              </div>
+
               {/* Submit */}
               <button
                 type="submit"
@@ -464,10 +470,7 @@ export default function Guia() {
                 </p>
               )}
 
-              <p className="text-center font-body" style={{ color: '#999', fontSize: '11px' }}>
-                Ao preencher, você concorda em receber conteúdos da Permarke.
-                Você pode cancelar quando quiser.
-              </p>
+              <LGPDDisclaimer />
             </div>
           </form>
 
