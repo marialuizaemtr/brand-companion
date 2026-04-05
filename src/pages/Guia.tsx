@@ -128,6 +128,9 @@ export default function Guia() {
         interesse_registro: data.interesse_registro,
       }).catch((err) => console.error('Notion submit error:', err));
 
+      // Log consent (non-blocking)
+      logConsent('guia', { nome: data.nome.trim(), email: data.email.trim(), telefone: data.whatsapp });
+
       setSubmitted(true);
     } catch {
       setSubmitError('Algo deu errado. Tenta de novo ou me chama no Instagram @permarke.');
