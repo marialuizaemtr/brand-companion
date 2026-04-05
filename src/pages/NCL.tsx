@@ -138,17 +138,17 @@ export default function NCL() {
                 <button
                   key={cl.classe}
                   onClick={() => setSelectedClass(selectedClass === cl.classe ? null : cl.classe)}
-                  className={`flex flex-col items-center justify-center p-2 rounded-lg border text-center transition-all duration-200 ${
+                  className={`flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-md sm:rounded-lg border text-center transition-all duration-200 ${
                     selectedClass === cl.classe
                       ? 'bg-primary/10 border-primary/40 ring-1 ring-primary/30'
                       : 'bg-card border-border hover:border-primary/30 hover:bg-primary/5'
                   }`}
                 >
-                  <span className={`font-heading text-lg font-bold ${selectedClass === cl.classe ? 'text-primary' : 'text-foreground'}`}>
+                  <span className={`font-heading text-sm sm:text-lg font-bold ${selectedClass === cl.classe ? 'text-primary' : 'text-foreground'}`}>
                     {cl.classe}
                   </span>
-                  <span className={`text-[10px] font-body leading-tight ${cl.tipo === 'Serviço' ? 'text-primary/70' : 'text-muted-foreground'}`}>
-                    {cl.tipo === 'Serviço' ? 'Serviço' : 'Produto'}
+                  <span className={`text-[8px] sm:text-[10px] font-body leading-tight ${cl.tipo === 'Serviço' ? 'text-primary/70' : 'text-muted-foreground'}`}>
+                    {cl.tipo === 'Serviço' ? 'Srv' : 'Prd'}
                   </span>
                 </button>
               ))}
