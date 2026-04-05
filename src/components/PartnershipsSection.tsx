@@ -173,11 +173,17 @@ export function PartnershipsSection() {
                       {perfis.map((p) => <option key={p.nome} value={p.nome} className="bg-foreground">{p.nome}</option>)}
                     </select>
                   </div>
+                  <div>
+                    <LGPDConsent checked={lgpdConsent} onChange={(v) => { setLgpdConsent(v); if (v) setLgpdError(false); }} error={lgpdError} theme="dark" />
+                    {lgpdError && <p className="text-red-400 font-body text-xs mt-1">Esse campo é obrigatório</p>}
+                  </div>
                   <button
                     onClick={handleCadastro}
                     className="w-full bg-primary text-primary-foreground font-body font-semibold py-3 rounded-sm transition-all duration-300 hover:bg-rosa-dark mt-2"
                   >
                     Cadastrar
+                  </button>
+                  <LGPDDisclaimer theme="dark" />
                   </button>
                 </div>
               )}
