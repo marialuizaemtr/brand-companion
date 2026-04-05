@@ -30,6 +30,7 @@ function buildProperties(form: string, data: Record<string, string>) {
   const email = (value: string) => ({ email: value || null })
   const phone = (value: string) => ({ phone_number: value || null })
   const sel = (value: string) => ({ select: { name: value } })
+  const multiSel = (values: string[]) => ({ multi_select: values.map(v => ({ name: v.trim() })) })
 
   switch (form) {
     case 'viabilidade':
