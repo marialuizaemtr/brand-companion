@@ -1089,18 +1089,59 @@ export const segmentToNCLs: Record<string, number[]> = {
 
 export const segmentos = ['Moda', 'Cosméticos', 'Alimentos', 'Tech', 'Saúde', 'Criativos', 'Educação', 'E-commerce', 'Outro'];
 
+/**
+ * Verifica se uma keyword aparece como palavra inteira no texto.
+ * Evita falsos positivos como "automoveis" matchando "moveis".
+ */
+function matchWholeWord(text: string, keyword: string): boolean {
+  // Escapa chars especiais de regex na keyword
+  const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(^|\\s)${escaped}($|\\s)`, 'i');
+  return regex.test(text);
+}
+
+/**
+ * Para keywords compostas (ex: "oficina mecanica"), verifica se
+ * TODAS as palavras individuais aparecem como palavras inteiras no texto.
+ */
+function matchCompoundKeyword(text: string, keyword: string): boolean {
+  const kwWords = keyword.split(/\s+/).filter(w => w.length > 2);
+  if (kwWords.length === 0) return false;
+  // Todas as palavras significativas da keyword devem estar presentes
+  return kwWords.every(word => matchWholeWord(text, word));
+}
+
 export function findNCLsByKeywords(text: string): number[] {
   const lower = normalizar(text);
-  const matches: number[] = [];
+  const inputWords = lower.split(/\s+/).filter(w => w.length > 2);
+  const scored: { num: number; score: number }[] = [];
 
   allNCLClasses.forEach((ncl) => {
-    if (ncl.keywords.some((kw) => {
+    let score = 0;
+    ncl.keywords.forEach((kw) => {
       const kwNorm = normalizar(kw);
-      return lower.includes(kwNorm) || kwNorm.includes(lower);
-    })) {
-      matches.push(ncl.num);
+      // Match 1: keyword composta aparece inteira no texto do usuário
+      if (matchCompoundKeyword(lower, kwNorm)) {
+        score += kwNorm.split(/\s+/).length; // mais palavras = mais relevante
+      }
+      // Match 2: palavra do usuário é exatamente uma keyword
+      else if (inputWords.some(w => w === kwNorm)) {
+        score += 1;
+      }
+      // Match 3: keyword de 5+ chars aparece como palavra inteira no input
+      else if (kwNorm.length >= 5 && matchWholeWord(lower, kwNorm)) {
+        score += 1;
+      }
+    });
+
+    if (score > 0) {
+      scored.push({ num: ncl.num, score });
     }
   });
+
+  // Ordena por score decrescente e pega os com score relevante
+  scored.sort((a, b) => b.score - a.score);
+  const matches = scored.filter(s => s.score >= 1).map(s => s.num);
 
   // Always include 35 (business/commerce) as it's relevant for most businesses
   if (matches.length > 0 && !matches.includes(35)) matches.push(35);
