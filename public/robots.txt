@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
 Sitemap: https://permarke.com.br/sitemap.xml
-Allow: /
-
-Sitemap: https://brand-companion.lovable.app/sitemap.xml
