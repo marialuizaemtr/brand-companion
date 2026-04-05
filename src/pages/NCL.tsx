@@ -102,19 +102,19 @@ export default function NCL() {
 
         {/* Search & Filters */}
         <section className="sticky top-0 z-30 bg-background border-b border-border shadow-sm">
-          <div className="container-narrow py-4">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <div className="container-narrow px-4 sm:px-6 py-3 sm:py-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <input
                 type="text"
                 placeholder="Buscar por produto, serviço ou código..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="flex-1 bg-background border border-border text-foreground font-body text-sm rounded-sm px-4 py-3 focus:outline-none focus:border-primary transition-colors placeholder:text-muted-foreground"
+                className="flex-1 bg-background border border-border text-foreground font-body text-sm rounded-sm px-3 sm:px-4 py-2.5 sm:py-3 focus:outline-none focus:border-primary transition-colors placeholder:text-muted-foreground"
               />
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
-                className="bg-background border border-border text-foreground font-body text-sm rounded-sm px-4 py-3 focus:outline-none focus:border-primary transition-colors appearance-none"
+                className="bg-background border border-border text-foreground font-body text-sm rounded-sm px-3 sm:px-4 py-2.5 sm:py-3 focus:outline-none focus:border-primary transition-colors appearance-none"
               >
                 <option value="all">Todos</option>
                 <option value="Produto">Produtos (1-34)</option>
