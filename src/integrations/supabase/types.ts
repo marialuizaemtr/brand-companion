@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      consent_logs: {
+        Row: {
+          consent_timestamp: string
+          consent_version: string
+          created_at: string
+          email: string
+          form_source: string
+          id: string
+          ip_address: string | null
+          nome: string
+          telefone: string | null
+        }
+        Insert: {
+          consent_timestamp?: string
+          consent_version?: string
+          created_at?: string
+          email: string
+          form_source: string
+          id?: string
+          ip_address?: string | null
+          nome: string
+          telefone?: string | null
+        }
+        Update: {
+          consent_timestamp?: string
+          consent_version?: string
+          created_at?: string
+          email?: string
+          form_source?: string
+          id?: string
+          ip_address?: string | null
+          nome?: string
+          telefone?: string | null
+        }
+        Relationships: []
+      }
       guia_leads: {
         Row: {
           created_at: string
