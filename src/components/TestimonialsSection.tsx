@@ -1,21 +1,23 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
+import moniqueImg from '@/assets/testimonial-monique.png';
 
 const testimonials = [
   {
-    text: 'Sempre soube que precisava registrar. A Permarke tornou isso simples — e agora a marca é oficialmente minha.',
-    name: 'Ana M.',
-    role: 'moda',
+    text: 'Procurei a Permarke por meio de uma indicação e o atendimento desde o primeiro contato foi impecável! Explicou tudo de forma muito simples e me encantou todo o cuidado. Indico demais!',
+    name: 'Monique Fernandes',
+    role: 'Arquitetura',
+    avatar: moniqueImg,
   },
   {
     text: 'Recebi uma notificação de uma marca usando meu nome. A Permarke resolveu. Não precisei entender nada do processo.',
     name: 'Camila S.',
-    role: 'cosméticos',
+    role: 'Cosméticos',
   },
   {
     text: 'Indico a Permarke para todos os meus clientes. Eles ficam protegidos e eu ainda ganho por isso.',
     name: 'Lucas P.',
-    role: 'criativo',
+    role: 'Criativo',
   },
 ];
 
@@ -59,10 +61,14 @@ export function TestimonialsSection() {
                 "{t.text}"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-rosa-light flex items-center justify-center">
-                  <span className="text-primary font-heading text-sm font-bold">
-                    {t.name.charAt(0)}
-                  </span>
+                <div className="w-10 h-10 rounded-full bg-rosa-light flex items-center justify-center overflow-hidden">
+                  {'avatar' in t && t.avatar ? (
+                    <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-primary font-heading text-sm font-bold">
+                      {t.name.charAt(0)}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <p className="text-foreground font-body text-sm font-medium">{t.name}</p>
