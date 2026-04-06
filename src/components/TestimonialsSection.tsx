@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import moniqueImg from '@/assets/testimonial-monique.png';
 import pauloImg from '@/assets/testimonial-paulo.jpeg';
+import alineImg from '@/assets/testimonial-aline.jpeg';
 
 const testimonials = [
   {
@@ -17,9 +18,10 @@ const testimonials = [
     avatar: pauloImg,
   },
   {
-    text: 'Indico a Permarke para todos os meus clientes. Eles ficam protegidos e eu ainda ganho por isso.',
-    name: 'Lucas P.',
-    role: 'Criativo',
+    text: 'Como social media e designer, trabalhar com a Permarke é segurança e qualidade garantidas. Ver uma estratégia jurídica é um diferencial absurdo que só a Permarke tem. Indico muito!',
+    name: 'Aline Martins',
+    role: 'Social Media e Design',
+    avatar: alineImg,
   },
 ];
 
