@@ -79,6 +79,9 @@ export default function PostEditor() {
   const [authorName, setAuthorName] = useState('');
   const [authorAvatar, setAuthorAvatar] = useState('');
   const [authorBio, setAuthorBio] = useState('');
+  const [authorLinkedin, setAuthorLinkedin] = useState('');
+  const [authorInstagram, setAuthorInstagram] = useState('');
+  const [authorEmail, setAuthorEmail] = useState('');
 
   useEffect(() => {
     if (!token) {
@@ -108,6 +111,9 @@ export default function PostEditor() {
           setAuthorName(p.author.name);
           setAuthorAvatar(p.author.avatar_url);
           setAuthorBio(p.author.bio);
+          setAuthorLinkedin(p.author.linkedin_url || '');
+          setAuthorInstagram(p.author.instagram_url || '');
+          setAuthorEmail(p.author.email || '');
         }
         if (p.cta_block) {
           setCtaOpen(true);
@@ -159,7 +165,7 @@ export default function PostEditor() {
         content,
         video_url: videoUrl.trim() || undefined,
         author: authorName.trim()
-          ? { name: authorName.trim(), avatar_url: authorAvatar.trim(), bio: authorBio.trim() }
+          ? { name: authorName.trim(), avatar_url: authorAvatar.trim(), bio: authorBio.trim(), linkedin_url: authorLinkedin.trim() || undefined, instagram_url: authorInstagram.trim() || undefined, email: authorEmail.trim() || undefined }
           : undefined,
         cta_block:
           ctaHeadline.trim()
@@ -464,10 +470,16 @@ export default function PostEditor() {
           authorName={authorName}
           authorAvatar={authorAvatar}
           authorBio={authorBio}
-          onAuthorChange={(name, avatar, bio) => {
+          authorLinkedin={authorLinkedin}
+          authorInstagram={authorInstagram}
+          authorEmail={authorEmail}
+          onAuthorChange={(name, avatar, bio, linkedin, instagram, email) => {
             setAuthorName(name);
             setAuthorAvatar(avatar);
             setAuthorBio(bio);
+            setAuthorLinkedin(linkedin);
+            setAuthorInstagram(instagram);
+            setAuthorEmail(email);
           }}
           inputClass={inputClass}
           labelClass={labelClass}

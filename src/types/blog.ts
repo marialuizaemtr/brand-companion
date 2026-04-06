@@ -2,6 +2,9 @@ export interface PostAuthor {
   name: string;
   avatar_url: string;
   bio: string;
+  linkedin_url?: string;
+  instagram_url?: string;
+  email?: string;
 }
 
 export interface PostMeta {
