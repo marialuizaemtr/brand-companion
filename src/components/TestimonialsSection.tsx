@@ -11,9 +11,10 @@ const testimonials = [
     avatar: moniqueImg,
   },
   {
-    text: 'Recebi uma notificação de uma marca usando meu nome. A Permarke resolveu. Não precisei entender nada do processo.',
-    name: 'Camila S.',
-    role: 'Cosméticos',
+    text: 'A segurança, praticidade e conforto que a Permarke nos trouxe não tem preço que pague. Recomendo sem dúvidas!',
+    name: 'Paulo Pires',
+    role: 'Contabilidade',
+    avatar: pauloImg,
   },
   {
     text: 'Indico a Permarke para todos os meus clientes. Eles ficam protegidos e eu ainda ganho por isso.',
