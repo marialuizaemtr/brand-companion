@@ -111,6 +111,9 @@ export default function PostEditor() {
           setAuthorName(p.author.name);
           setAuthorAvatar(p.author.avatar_url);
           setAuthorBio(p.author.bio);
+          setAuthorLinkedin(p.author.linkedin_url || '');
+          setAuthorInstagram(p.author.instagram_url || '');
+          setAuthorEmail(p.author.email || '');
         }
         if (p.cta_block) {
           setCtaOpen(true);
