@@ -9,7 +9,6 @@ import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { ImageUploadButton } from '@/components/admin/ImageUploadButton';
 import { uploadBlogImage } from '@/services/imageUpload';
 
-// Dynamic import for react-quill (client-only)
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -47,6 +46,16 @@ const quillModules = {
   },
 };
 
+const POSITION_OPTIONS = [
+  { label: 'Centro', value: 'center center' },
+  { label: 'Topo', value: 'center top' },
+  { label: 'Inferior', value: 'center bottom' },
+  { label: 'Esquerda', value: 'left center' },
+  { label: 'Direita', value: 'right center' },
+  { label: 'Topo esq.', value: 'left top' },
+  { label: 'Topo dir.', value: 'right top' },
+];
+
 export default function PostEditor() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -60,6 +69,7 @@ export default function PostEditor() {
   const [tagInput, setTagInput] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
+  const [coverPosition, setCoverPosition] = useState('center center');
   const [content, setContent] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
   const [ctaOpen, setCtaOpen] = useState(false);
@@ -71,6 +81,11 @@ export default function PostEditor() {
   const [saving, setSaving] = useState(false);
   const [postId, setPostId] = useState('');
   const [createdAt, setCreatedAt] = useState('');
+
+  // Author fields
+  const [authorName, setAuthorName] = useState('');
+  const [authorAvatar, setAuthorAvatar] = useState('');
+  const [authorBio, setAuthorBio] = useState('');
 
   useEffect(() => {
     if (!token) {
@@ -90,11 +105,17 @@ export default function PostEditor() {
         setTags(p.tags);
         setExcerpt(p.excerpt);
         setCoverUrl(p.cover_image_url);
+        setCoverPosition(p.cover_position || 'center center');
         setContent(p.content);
         setVideoUrl(p.video_url || '');
         setPublished(p.published);
         setPostId(p.id);
         setCreatedAt(p.created_at);
+        if (p.author) {
+          setAuthorName(p.author.name);
+          setAuthorAvatar(p.author.avatar_url);
+          setAuthorBio(p.author.bio);
+        }
         if (p.cta_block) {
           setCtaOpen(true);
           setCtaHeadline(p.cta_block.headline);
@@ -109,7 +130,6 @@ export default function PostEditor() {
     }
   }, [token, slug, isEdit, navigate]);
 
-  // Auto-slug from title
   useEffect(() => {
     if (!isEdit) {
       setPostSlug(slugify(title));
@@ -142,8 +162,12 @@ export default function PostEditor() {
         category,
         tags,
         cover_image_url: coverUrl.trim(),
+        cover_position: coverPosition,
         content,
         video_url: videoUrl.trim() || undefined,
+        author: authorName.trim()
+          ? { name: authorName.trim(), avatar_url: authorAvatar.trim(), bio: authorBio.trim() }
+          : undefined,
         cta_block:
           ctaHeadline.trim()
             ? {
@@ -158,10 +182,8 @@ export default function PostEditor() {
         updated_at: now,
       };
 
-      // Save post file
       await saveFile(`posts/${postSlug}.json`, post, token, `${isEdit ? 'Update' : 'Create'}: ${postSlug}`);
 
-      // Update index
       const index = await getPostsIndex();
       const meta: PostMeta = {
         id: post.id,
@@ -171,9 +193,11 @@ export default function PostEditor() {
         category: post.category,
         tags: post.tags,
         cover_image_url: post.cover_image_url,
+        cover_position: post.cover_position,
         published: post.published,
         created_at: post.created_at,
         updated_at: post.updated_at,
+        author: post.author,
       };
 
       const existingIdx = index.findIndex((p) => p.id === post.id);
@@ -341,6 +365,56 @@ export default function PostEditor() {
               />
             )}
           </div>
+
+          {/* Cover position selector */}
+          {coverUrl && (
+            <div className="mt-3">
+              <label className={labelClass}>Ponto focal da imagem</label>
+              <div className="flex flex-wrap gap-2">
+                {POSITION_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setCoverPosition(opt.value)}
+                    className={`font-body text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                      coverPosition === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'border-primary-foreground/20 text-primary-foreground/60 hover:border-primary-foreground/40'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+              {/* Preview with position */}
+              <div className="mt-2 relative w-full max-w-md">
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <p className="text-primary-foreground/30 text-xs font-body mb-1">Mobile (4:5)</p>
+                    <div className="aspect-[4/5] rounded-lg overflow-hidden border border-primary-foreground/10">
+                      <img
+                        src={coverUrl}
+                        alt="Preview mobile"
+                        style={{ objectPosition: coverPosition }}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-primary-foreground/30 text-xs font-body mb-1">Desktop (2:1)</p>
+                    <div className="aspect-[2/1] rounded-lg overflow-hidden border border-primary-foreground/10">
+                      <img
+                        src={coverUrl}
+                        alt="Preview desktop"
+                        style={{ objectPosition: coverPosition }}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Content editor */}
@@ -367,6 +441,53 @@ export default function PostEditor() {
             placeholder="https://www.youtube.com/watch?v=..."
             className={inputClass}
           />
+        </div>
+
+        {/* Author section */}
+        <div className="border border-primary-foreground/10 rounded-xl p-4 space-y-4">
+          <p className="text-primary-foreground/60 font-body text-sm font-medium">Autor(a)</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>Nome</label>
+              <input
+                type="text"
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                placeholder="Maria Luiza"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Foto do autor(a)</label>
+              <div className="flex gap-2 items-center">
+                <input
+                  type="url"
+                  value={authorAvatar}
+                  onChange={(e) => setAuthorAvatar(e.target.value)}
+                  placeholder="URL ou faça upload"
+                  className={inputClass}
+                />
+                <ImageUploadButton
+                  onUploaded={(url) => setAuthorAvatar(url)}
+                  folder="authors"
+                  label="Upload"
+                />
+                {authorAvatar && (
+                  <img src={authorAvatar} alt="Avatar" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                )}
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className={labelClass}>Mini bio</label>
+            <textarea
+              value={authorBio}
+              onChange={(e) => setAuthorBio(e.target.value)}
+              rows={2}
+              placeholder="Especialista em propriedade intelectual..."
+              className={inputClass + ' resize-none'}
+            />
+          </div>
         </div>
 
         {/* CTA block */}
