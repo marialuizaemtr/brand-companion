@@ -79,6 +79,9 @@ export default function PostEditor() {
   const [authorName, setAuthorName] = useState('');
   const [authorAvatar, setAuthorAvatar] = useState('');
   const [authorBio, setAuthorBio] = useState('');
+  const [authorLinkedin, setAuthorLinkedin] = useState('');
+  const [authorInstagram, setAuthorInstagram] = useState('');
+  const [authorEmail, setAuthorEmail] = useState('');
 
   useEffect(() => {
     if (!token) {
