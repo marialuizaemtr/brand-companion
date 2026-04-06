@@ -165,7 +165,7 @@ export default function PostEditor() {
         content,
         video_url: videoUrl.trim() || undefined,
         author: authorName.trim()
-          ? { name: authorName.trim(), avatar_url: authorAvatar.trim(), bio: authorBio.trim() }
+          ? { name: authorName.trim(), avatar_url: authorAvatar.trim(), bio: authorBio.trim(), linkedin_url: authorLinkedin.trim() || undefined, instagram_url: authorInstagram.trim() || undefined, email: authorEmail.trim() || undefined }
           : undefined,
         cta_block:
           ctaHeadline.trim()
