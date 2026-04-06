@@ -74,7 +74,7 @@ export function BlogSidebar({ recentPosts, allPosts }: BlogSidebarProps) {
           Assessoria jurídica especializada para o registro da sua marca.
         </p>
         <Link
-          to="/servicos"
+          to="/"
           className="inline-block bg-foreground text-background font-body font-semibold text-sm px-6 py-3 rounded-full hover:scale-105 transition-transform"
         >
           Ver serviços
