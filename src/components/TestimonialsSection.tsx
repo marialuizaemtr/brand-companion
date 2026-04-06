@@ -12,12 +12,12 @@ const testimonials = [
   {
     text: 'Recebi uma notificação de uma marca usando meu nome. A Permarke resolveu. Não precisei entender nada do processo.',
     name: 'Camila S.',
-    role: 'cosméticos',
+    role: 'Cosméticos',
   },
   {
     text: 'Indico a Permarke para todos os meus clientes. Eles ficam protegidos e eu ainda ganho por isso.',
     name: 'Lucas P.',
-    role: 'criativo',
+    role: 'Criativo',
   },
 ];
 
