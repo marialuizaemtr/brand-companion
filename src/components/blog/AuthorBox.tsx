@@ -1,3 +1,4 @@
+import { Linkedin, Instagram, Mail } from 'lucide-react';
 import type { PostAuthor } from '@/types/blog';
 
 interface AuthorBoxProps {
@@ -17,6 +18,23 @@ export function AuthorBox({ author }: AuthorBoxProps) {
       <div>
         <p className="font-heading font-bold text-foreground text-base">{author.name}</p>
         <p className="font-body text-muted-foreground text-sm mt-1 leading-relaxed">{author.bio}</p>
+        <div className="flex items-center gap-3 mt-2">
+          {author.linkedin_url && (
+            <a href={author.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Linkedin className="w-4 h-4" />
+            </a>
+          )}
+          {author.instagram_url && (
+            <a href={author.instagram_url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Instagram className="w-4 h-4" />
+            </a>
+          )}
+          {author.email && (
+            <a href={`mailto:${author.email}`} className="text-muted-foreground hover:text-primary transition-colors">
+              <Mail className="w-4 h-4" />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

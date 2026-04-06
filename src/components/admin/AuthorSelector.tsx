@@ -8,7 +8,10 @@ interface AuthorSelectorProps {
   authorName: string;
   authorAvatar: string;
   authorBio: string;
-  onAuthorChange: (name: string, avatar: string, bio: string) => void;
+  authorLinkedin: string;
+  authorInstagram: string;
+  authorEmail: string;
+  onAuthorChange: (name: string, avatar: string, bio: string, linkedin: string, instagram: string, email: string) => void;
   inputClass: string;
   labelClass: string;
 }
