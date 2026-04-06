@@ -7,6 +7,7 @@ import { BLOG_CATEGORIES } from '@/types/blog';
 import type { Post, PostMeta } from '@/types/blog';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { ImageUploadButton } from '@/components/admin/ImageUploadButton';
+import { AuthorSelector } from '@/components/admin/AuthorSelector';
 import { uploadBlogImage } from '@/services/imageUpload';
 
 import ReactQuill from 'react-quill';
