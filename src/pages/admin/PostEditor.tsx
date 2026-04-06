@@ -7,6 +7,7 @@ import { BLOG_CATEGORIES } from '@/types/blog';
 import type { Post, PostMeta } from '@/types/blog';
 import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { ImageUploadButton } from '@/components/admin/ImageUploadButton';
+import { AuthorSelector } from '@/components/admin/AuthorSelector';
 import { uploadBlogImage } from '@/services/imageUpload';
 
 import ReactQuill from 'react-quill';
@@ -459,51 +460,18 @@ export default function PostEditor() {
         </div>
 
         {/* Author section */}
-        <div className="border border-primary-foreground/10 rounded-xl p-4 space-y-4">
-          <p className="text-primary-foreground/60 font-body text-sm font-medium">Autor(a)</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className={labelClass}>Nome</label>
-              <input
-                type="text"
-                value={authorName}
-                onChange={(e) => setAuthorName(e.target.value)}
-                placeholder="Maria Luiza"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={labelClass}>Foto do autor(a)</label>
-              <div className="flex gap-2 items-center">
-                <input
-                  type="url"
-                  value={authorAvatar}
-                  onChange={(e) => setAuthorAvatar(e.target.value)}
-                  placeholder="URL ou faça upload"
-                  className={inputClass}
-                />
-                <ImageUploadButton
-                  onUploaded={(url) => setAuthorAvatar(url)}
-                  folder="authors"
-                  label="Upload"
-                />
-                {authorAvatar && (
-                  <img src={authorAvatar} alt="Avatar" className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
-                )}
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className={labelClass}>Mini bio</label>
-            <textarea
-              value={authorBio}
-              onChange={(e) => setAuthorBio(e.target.value)}
-              rows={2}
-              placeholder="Especialista em propriedade intelectual..."
-              className={inputClass + ' resize-none'}
-            />
-          </div>
-        </div>
+        <AuthorSelector
+          authorName={authorName}
+          authorAvatar={authorAvatar}
+          authorBio={authorBio}
+          onAuthorChange={(name, avatar, bio) => {
+            setAuthorName(name);
+            setAuthorAvatar(avatar);
+            setAuthorBio(bio);
+          }}
+          inputClass={inputClass}
+          labelClass={labelClass}
+        />
 
         {/* CTA block */}
         <div className="border border-primary-foreground/10 rounded-xl overflow-hidden">

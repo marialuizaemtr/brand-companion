@@ -8,6 +8,25 @@ const API_BASE = `https://api.github.com/repos/${OWNER}/${REPO}/contents/src/dat
 
 // Local fallback imports
 import localIndex from '@/data/posts-index.json';
+import localAuthors from '@/data/authors.json';
+import type { PostAuthor } from '@/types/blog';
+
+export interface AuthorProfile extends PostAuthor {
+  id: string;
+}
+
+// ── Authors ──
+
+export async function getAuthors(): Promise<AuthorProfile[]> {
+  const res = await fetch(`${RAW_BASE}/authors.json?t=${Date.now()}`);
+  if (!res.ok) return localAuthors as AuthorProfile[];
+  const data = await res.json();
+  return Array.isArray(data) ? data : (localAuthors as AuthorProfile[]);
+}
+
+export async function saveAuthors(authors: AuthorProfile[], token: string): Promise<void> {
+  await saveFile('authors.json', authors, token, 'Update authors');
+}
 
 // ── Public reads (no token) ──
 
