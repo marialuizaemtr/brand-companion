@@ -46,15 +46,7 @@ const quillModules = {
   },
 };
 
-const POSITION_OPTIONS = [
-  { label: 'Centro', value: 'center center' },
-  { label: 'Topo', value: 'center top' },
-  { label: 'Inferior', value: 'center bottom' },
-  { label: 'Esquerda', value: 'left center' },
-  { label: 'Direita', value: 'right center' },
-  { label: 'Topo esq.', value: 'left top' },
-  { label: 'Topo dir.', value: 'right top' },
-];
+// removed POSITION_OPTIONS — now using draggable focal point
 
 export default function PostEditor() {
   const { slug } = useParams<{ slug: string }>();
@@ -366,50 +358,73 @@ export default function PostEditor() {
             )}
           </div>
 
-          {/* Cover position selector */}
+          {/* Draggable focal point selector */}
           {coverUrl && (
             <div className="mt-3">
-              <label className={labelClass}>Ponto focal da imagem</label>
-              <div className="flex flex-wrap gap-2">
-                {POSITION_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setCoverPosition(opt.value)}
-                    className={`font-body text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                      coverPosition === opt.value
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'border-primary-foreground/20 text-primary-foreground/60 hover:border-primary-foreground/40'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+              <label className={labelClass}>Arraste o marcador para definir o ponto focal</label>
+              <div
+                className="relative w-full max-w-md rounded-lg overflow-hidden border border-primary-foreground/10 cursor-crosshair select-none"
+                onMouseDown={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const update = (ev: MouseEvent) => {
+                    const x = Math.min(100, Math.max(0, ((ev.clientX - rect.left) / rect.width) * 100));
+                    const y = Math.min(100, Math.max(0, ((ev.clientY - rect.top) / rect.height) * 100));
+                    setCoverPosition(`${Math.round(x)}% ${Math.round(y)}%`);
+                  };
+                  update(e.nativeEvent);
+                  const onMove = (ev: MouseEvent) => update(ev);
+                  const onUp = () => {
+                    window.removeEventListener('mousemove', onMove);
+                    window.removeEventListener('mouseup', onUp);
+                  };
+                  window.addEventListener('mousemove', onMove);
+                  window.addEventListener('mouseup', onUp);
+                }}
+                onTouchStart={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const update = (touch: { clientX: number; clientY: number }) => {
+                    const x = Math.min(100, Math.max(0, ((touch.clientX - rect.left) / rect.width) * 100));
+                    const y = Math.min(100, Math.max(0, ((touch.clientY - rect.top) / rect.height) * 100));
+                    setCoverPosition(`${Math.round(x)}% ${Math.round(y)}%`);
+                  };
+                  update(e.touches[0]);
+                  const onMove = (ev: TouchEvent) => { ev.preventDefault(); update(ev.touches[0]); };
+                  const onEnd = () => {
+                    window.removeEventListener('touchmove', onMove);
+                    window.removeEventListener('touchend', onEnd);
+                  };
+                  window.addEventListener('touchmove', onMove, { passive: false });
+                  window.addEventListener('touchend', onEnd);
+                }}
+              >
+                <img src={coverUrl} alt="Focal point" className="w-full" />
+                {/* Focal marker */}
+                {(() => {
+                  const parts = coverPosition.split(/\s+/);
+                  const px = parseFloat(parts[0]) || 50;
+                  const py = parseFloat(parts[1]) || 50;
+                  return (
+                    <div
+                      className="absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-primary/30 pointer-events-none ring-2 ring-primary-foreground/50"
+                      style={{ left: `${px}%`, top: `${py}%` }}
+                    />
+                  );
+                })()}
               </div>
-              {/* Preview with position */}
-              <div className="mt-2 relative w-full max-w-md">
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <p className="text-primary-foreground/30 text-xs font-body mb-1">Mobile (4:5)</p>
-                    <div className="aspect-[4/5] rounded-lg overflow-hidden border border-primary-foreground/10">
-                      <img
-                        src={coverUrl}
-                        alt="Preview mobile"
-                        style={{ objectPosition: coverPosition }}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+              <p className="text-primary-foreground/30 text-xs font-body mt-1">Posição: {coverPosition}</p>
+
+              {/* Previews */}
+              <div className="mt-2 grid grid-cols-2 gap-2 max-w-md">
+                <div>
+                  <p className="text-primary-foreground/30 text-xs font-body mb-1">Mobile (4:5)</p>
+                  <div className="aspect-[4/5] rounded-lg overflow-hidden border border-primary-foreground/10">
+                    <img src={coverUrl} alt="Preview mobile" style={{ objectPosition: coverPosition }} className="w-full h-full object-cover" />
                   </div>
-                  <div>
-                    <p className="text-primary-foreground/30 text-xs font-body mb-1">Desktop (2:1)</p>
-                    <div className="aspect-[2/1] rounded-lg overflow-hidden border border-primary-foreground/10">
-                      <img
-                        src={coverUrl}
-                        alt="Preview desktop"
-                        style={{ objectPosition: coverPosition }}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                </div>
+                <div>
+                  <p className="text-primary-foreground/30 text-xs font-body mb-1">Desktop (2:1)</p>
+                  <div className="aspect-[2/1] rounded-lg overflow-hidden border border-primary-foreground/10">
+                    <img src={coverUrl} alt="Preview desktop" style={{ objectPosition: coverPosition }} className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
