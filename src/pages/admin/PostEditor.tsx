@@ -470,10 +470,16 @@ export default function PostEditor() {
           authorName={authorName}
           authorAvatar={authorAvatar}
           authorBio={authorBio}
-          onAuthorChange={(name, avatar, bio) => {
+          authorLinkedin={authorLinkedin}
+          authorInstagram={authorInstagram}
+          authorEmail={authorEmail}
+          onAuthorChange={(name, avatar, bio, linkedin, instagram, email) => {
             setAuthorName(name);
             setAuthorAvatar(avatar);
             setAuthorBio(bio);
+            setAuthorLinkedin(linkedin);
+            setAuthorInstagram(instagram);
+            setAuthorEmail(email);
           }}
           inputClass={inputClass}
           labelClass={labelClass}
