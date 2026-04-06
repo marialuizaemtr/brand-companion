@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import moniqueImg from '@/assets/testimonial-monique.png';
+import pauloImg from '@/assets/testimonial-paulo.jpeg';
 
 const testimonials = [
   {
