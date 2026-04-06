@@ -25,6 +25,7 @@ export function BlogCard({ post }: BlogCardProps) {
             loading="lazy"
             width={600}
             height={750}
+            style={{ objectPosition: post.cover_position || 'center center' }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
@@ -40,7 +41,18 @@ export function BlogCard({ post }: BlogCardProps) {
           {post.excerpt}
         </p>
         <div className="flex items-center justify-between">
-          <time className="text-xs text-muted-foreground font-body">{dateStr}</time>
+          <div className="flex items-center gap-2">
+            {post.author?.avatar_url && (
+              <img
+                src={post.author.avatar_url}
+                alt={post.author.name}
+                className="w-6 h-6 rounded-full object-cover"
+              />
+            )}
+            <span className="text-xs text-muted-foreground font-body">
+              {post.author?.name || ''}{post.author?.name ? ' · ' : ''}{dateStr}
+            </span>
+          </div>
           <span className="text-primary font-body text-sm font-medium group-hover:translate-x-1 transition-transform">
             Ler mais →
           </span>

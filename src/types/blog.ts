@@ -1,3 +1,9 @@
+export interface PostAuthor {
+  name: string;
+  avatar_url: string;
+  bio: string;
+}
+
 export interface PostMeta {
   id: string;
   title: string;
@@ -6,9 +12,11 @@ export interface PostMeta {
   category: string;
   tags: string[];
   cover_image_url: string;
+  cover_position?: string; // CSS object-position e.g. "center top", "50% 30%"
   published: boolean;
   created_at: string;
   updated_at: string;
+  author?: PostAuthor;
 }
 
 export interface CTABlock {
