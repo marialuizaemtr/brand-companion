@@ -46,15 +46,7 @@ const quillModules = {
   },
 };
 
-const POSITION_OPTIONS = [
-  { label: 'Centro', value: 'center center' },
-  { label: 'Topo', value: 'center top' },
-  { label: 'Inferior', value: 'center bottom' },
-  { label: 'Esquerda', value: 'left center' },
-  { label: 'Direita', value: 'right center' },
-  { label: 'Topo esq.', value: 'left top' },
-  { label: 'Topo dir.', value: 'right top' },
-];
+// removed POSITION_OPTIONS — now using draggable focal point
 
 export default function PostEditor() {
   const { slug } = useParams<{ slug: string }>();
