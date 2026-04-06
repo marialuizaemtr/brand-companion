@@ -7,8 +7,14 @@
     "category": "Tendências",
     "tags": [],
     "cover_image_url": "https://cbliqlispouvgfdyceya.supabase.co/storage/v1/object/public/blog-images/covers/1775414198944-rh619v.jpg",
+    "cover_position": "46% 20%",
     "published": true,
     "created_at": "2026-04-05T18:02:13.460Z",
-    "updated_at": "2026-04-06T00:41:25.055Z"
+    "updated_at": "2026-04-06T00:58:51.282Z",
+    "author": {
+      "name": "Maria Luiza Monteiro",
+      "avatar_url": "https://cbliqlispouvgfdyceya.supabase.co/storage/v1/object/public/blog-images/authors/1775437054251-jwrqyu.jpg",
+      "bio": "Advogada empresarial, mestranda em propriedade intelectual e inovação pelo INPI e fundadora da Permarke."
+    }
   }
 ]
