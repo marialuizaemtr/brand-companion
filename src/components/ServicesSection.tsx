@@ -49,6 +49,10 @@ const services = [
 
 export function ServicesSection() {
   const scrollTo = (id: string) => {
+    if (window.location.pathname !== '/') {
+      window.location.href = '/' + id;
+      return;
+    }
     const el = document.querySelector(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
