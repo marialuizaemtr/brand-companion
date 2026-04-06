@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
+import moniqueImg from '@/assets/testimonial-monique.png';
 
 const testimonials = [
   {
-    text: 'Sempre soube que precisava registrar. A Permarke tornou isso simples — e agora a marca é oficialmente minha.',
-    name: 'Ana M.',
-    role: 'moda',
+    text: 'Procurei a Permarke por meio de uma indicação e o atendimento desde o primeiro contato foi impecável! Explicou tudo de forma muito simples e me encantou todo o cuidado. Indico demais!',
+    name: 'Monique Fernandes',
+    role: 'Arquitetura',
+    avatar: moniqueImg,
   },
   {
     text: 'Recebi uma notificação de uma marca usando meu nome. A Permarke resolveu. Não precisei entender nada do processo.',
