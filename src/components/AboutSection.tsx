@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import mariaLuizaImg from '@/assets/maria-luiza-permarke.jpg';
+import mariaLuizaImg from '@/assets/3fcf6db0-a1c0-4d41-9629-cf4cb2871f9b.jpg';
 
 export function AboutSection() {
   return (
