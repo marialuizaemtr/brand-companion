@@ -83,6 +83,17 @@ export function ViabilitySection() {
       ncls_recomendadas: nclsString,
     }).catch((err) => console.error('Notion submit error:', err));
     logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });
+    supabase.functions.invoke('notify-whatsapp', {
+      body: {
+        form_id: 'viabilidade',
+        lead: {
+          nome: form.nome,
+          email: form.email,
+          whatsapp: form.whatsapp,
+          marca: form.nomeMarca,
+        },
+      },
+    }).catch((err) => console.error('WhatsApp notify error:', err));
     setTimeout(() => setStep(3), 3500);
   };
 
