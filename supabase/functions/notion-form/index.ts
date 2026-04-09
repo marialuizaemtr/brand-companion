@@ -44,6 +44,8 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.como_encontrou) props['Como encontrou'] = text(data.como_encontrou)
       if (data.ncls_recomendadas) props['NCL'] = multiSel(data.ncls_recomendadas.split(','))
+      props['Data de Cadastro'] = { date: { start: new Date().toISOString() } }
+      props['Status'] = sel('Análise de viabilidade pendente')
       break
 
     case 'registrar_marca':
@@ -139,7 +141,7 @@ Deno.serve(async (req) => {
     let result = await response.json()
 
     // Fallback: retry removing properties that don't exist in this database
-    const fallbackProps = ['Responsável', 'NCL']
+    const fallbackProps = ['Responsável', 'NCL', 'Data de Cadastro', 'Status']
     for (const propName of fallbackProps) {
       if (!response.ok && result.message?.includes(propName)) {
         console.error(`Notion rejected ${propName}:`, result.message)
