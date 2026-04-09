@@ -45,6 +45,7 @@ const App = () => (
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/posts/new" element={<PostEditor />} />
           <Route path="/admin/posts/:slug/edit" element={<PostEditor />} />
+          <Route path="/admin/whatsapp" element={<WhatsAppDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
