@@ -92,6 +92,36 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_config: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          form_id: string
+          form_label: string
+          id: string
+          message_template: string
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          form_id: string
+          form_label: string
+          id?: string
+          message_template: string
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          form_id?: string
+          form_label?: string
+          id?: string
+          message_template?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
