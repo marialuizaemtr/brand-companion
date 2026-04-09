@@ -24,6 +24,9 @@ export function ContactSection() {
     setLgpdError(false);
     submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
     logConsent('contato', { nome: form.nome, email: form.email, telefone: form.whatsapp });
+    supabase.functions.invoke('notify-whatsapp', {
+      body: { form_id: 'contato', lead: { nome: form.nome, email: form.email, whatsapp: form.whatsapp } },
+    }).catch((err) => console.error('WhatsApp notify error:', err));
     setEnviado(true);
   };
 

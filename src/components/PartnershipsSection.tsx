@@ -39,6 +39,9 @@ export function PartnershipsSection() {
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
     logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
+    supabase.functions.invoke('notify-whatsapp', {
+      body: { form_id: 'parceiros', lead: { nome: cadastroForm.nome, email: cadastroForm.email, whatsapp: cadastroForm.whatsapp } },
+    }).catch((err) => console.error('WhatsApp notify error:', err));
     localStorage.setItem(`permarke_parceiro_${cod}`, JSON.stringify({ ...cadastroForm, codigo: cod }));
     setCodigoGerado(cod);
   };
