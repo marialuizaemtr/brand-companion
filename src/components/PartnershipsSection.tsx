@@ -37,7 +37,7 @@ export function PartnershipsSection() {
     if (!lgpdConsent) { setLgpdError(true); return; }
     setLgpdError(false);
     const cod = `PERM${String(Math.floor(1000 + Math.random() * 9000))}`;
-    submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro', codigo: cod }).catch((err) => console.error('Notion submit error:', err));
     logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
       body: { form_id: 'parceiros', lead: { nome: cadastroForm.nome, email: cadastroForm.email, whatsapp: cadastroForm.whatsapp } },
