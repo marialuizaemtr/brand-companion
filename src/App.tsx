@@ -17,6 +17,7 @@ import BlogCategory from "./pages/BlogCategory";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import PostEditor from "./pages/admin/PostEditor";
+import WhatsAppDashboard from "./pages/admin/WhatsAppDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
