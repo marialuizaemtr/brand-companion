@@ -90,7 +90,7 @@ export function ViabilitySection() {
           nome: form.nome,
           email: form.email,
           whatsapp: form.whatsapp,
-          marca: form.nomeMarca,
+          marca: form.marca,
         },
       },
     }).catch((err) => console.error('WhatsApp notify error:', err));
