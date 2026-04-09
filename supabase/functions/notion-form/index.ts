@@ -56,6 +56,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.nomeMarca) props['Marca'] = text(data.nomeMarca)
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.descricao) props['Descrição'] = text(data.descricao)
+      props['Data de Cadastro'] = { date: { start: new Date().toISOString() } }
       break
 
     case 'contato':
@@ -64,6 +65,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.email) props['Email'] = email(data.email)
       if (data.interesse) props['Interesse'] = text(data.interesse)
       if (data.mensagem) props['Mensagem'] = text(data.mensagem)
+      props['Data de Cadastro'] = { date: { start: new Date().toISOString() } }
       break
 
     case 'parceiros':
@@ -75,6 +77,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.codigo) props['Código'] = text(data.codigo)
       if (data.nome_indicado) props['Nome Indicado'] = text(data.nome_indicado)
       if (data.servico) props['Serviço'] = text(data.servico)
+      props['Data de Cadastro'] = { date: { start: new Date().toISOString() } }
       break
 
     case 'guia':
@@ -88,6 +91,7 @@ function buildProperties(form: string, data: Record<string, string>) {
       if (data.segmento) props['Segmento'] = text(data.segmento)
       if (data.marca_registrada) props['Marca Registrada'] = sel(data.marca_registrada)
       if (data.interesse_registro) props['Interesse Registro'] = sel(data.interesse_registro)
+      props['Data de Cadastro'] = { date: { start: new Date().toISOString() } }
       break
   }
 
