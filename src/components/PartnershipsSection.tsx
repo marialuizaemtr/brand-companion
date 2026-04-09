@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
