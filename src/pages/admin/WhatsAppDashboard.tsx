@@ -176,7 +176,7 @@ export default function WhatsAppDashboard() {
   const preview = () => {
     let msg = template;
     VARIABLES.forEach((v) => {
-      msg = msg.replaceAll(v.tag, v.example);
+      msg = msg.split(v.tag).join(v.example);
     });
     return msg;
   };
