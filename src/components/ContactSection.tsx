@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail } from 'lucide-react';
 import { submitToNotion } from '@/lib/api/notion';
@@ -23,6 +24,9 @@ export function ContactSection() {
     setLgpdError(false);
     submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
     logConsent('contato', { nome: form.nome, email: form.email, telefone: form.whatsapp });
+    supabase.functions.invoke('notify-whatsapp', {
+      body: { form_id: 'contato', lead: { nome: form.nome, email: form.email, whatsapp: form.whatsapp } },
+    }).catch((err) => console.error('WhatsApp notify error:', err));
     setEnviado(true);
   };
 
