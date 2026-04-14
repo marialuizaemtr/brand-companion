@@ -4,6 +4,17 @@
  */
 import { gestao } from '@/lib/gestaoClient'
 
+/** Valida código de parceiro contra o banco real. Retorna nome do parceiro ou null. */
+export async function validarCodigoParceiro(codigo: string): Promise<string | null> {
+  try {
+    const { data } = await gestao.rpc('validar_codigo_parceiro', { codigo: codigo.toUpperCase().trim() })
+    if (data && data.length > 0) return data[0].parceiro_nome as string
+    return null
+  } catch {
+    return null
+  }
+}
+
 type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros' | 'guia'
 
 export async function submitToGestao(form: FormType, data: Record<string, string>) {
@@ -62,14 +73,17 @@ export async function submitToGestao(form: FormType, data: Record<string, string
     }
 
     if (form === 'parceiros') {
-      leadData.origem = data.tipo === 'indicacao' ? 'indicacao-parceiro' : 'parceiro'
-      leadData.observacoes = [
-        data.perfil        && `Perfil: ${data.perfil}`,
-        data.como_indica   && `Como indica: ${data.como_indica}`,
-        data.servico       && `Serviço: ${data.servico}`,
-        data.contexto      && `Contexto: ${data.contexto}`,
-        data.codigo        && `Código parceiro: ${data.codigo}`,
-      ].filter(Boolean).join(' | ') || undefined
+      if (data.tipo === 'indicacao') {
+        // Indicação via site: vincula ao parceiro pelo código real
+        leadData.parceiro_codigo = data.codigo || ''
+        leadData.nome_marca      = data.nome_marca || ''
+        leadData.observacoes     = data.observacoes || undefined
+        // origem é definida automaticamente pelo upsert_lead quando parceiro_codigo é válido
+      } else {
+        // Cadastro de interesse em ser parceiro
+        leadData.origem = 'parceiro'
+        if (data.perfil) leadData.observacoes = `Perfil: ${data.perfil}`
+      }
     }
 
     await gestao.rpc('upsert_lead', { lead_data: leadData })
