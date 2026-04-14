@@ -1,8 +1,13 @@
 import { supabase } from '@/integrations/supabase/client'
+import { submitToGestao } from '@/lib/api/gestao'
 
 type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros' | 'guia'
 
 export async function submitToNotion(form: FormType, data: Record<string, string>) {
+  // Envia para o sistema de gestão em paralelo (não bloqueia se falhar)
+  submitToGestao(form, data).catch((err) => console.error('[gestao] parallel error:', err))
+
+  // Continua com o Notion normalmente
   const { data: result, error } = await supabase.functions.invoke('notion-form', {
     body: { form, data },
   })
