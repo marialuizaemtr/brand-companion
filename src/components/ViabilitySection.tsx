@@ -158,7 +158,7 @@ export function ViabilitySection() {
                     {[
                       { key: 'marca', label: 'Sua marca *', placeholder: 'Nome da marca', type: 'text' },
                       { key: 'nome', label: 'Seu nome *', placeholder: 'Nome completo', type: 'text' },
-                      { key: 'whatsapp', label: 'WhatsApp *', placeholder: '(00) 00000-0000', type: 'tel' },
+                      { key: 'whatsapp', label: 'WhatsApp / Telefone *', placeholder: '+55 11 99999-9999', type: 'tel' },
                       { key: 'email', label: 'E-mail *', placeholder: 'seu@email.com', type: 'email' },
                     ].map((field) => (
                       <div key={field.key}>

@@ -152,7 +152,7 @@ export function PartnershipsSection() {
                   <h3 className="text-primary-foreground font-heading text-xl mb-2">Cadastre-se como parceira</h3>
                   {[
                     { key: 'nome', label: 'Nome *', placeholder: 'Seu nome', type: 'text' },
-                    { key: 'whatsapp', label: 'WhatsApp *', placeholder: '(00) 00000-0000', type: 'tel' },
+                    { key: 'whatsapp', label: 'WhatsApp / Telefone *', placeholder: '+55 11 99999-9999', type: 'tel' },
                     { key: 'email', label: 'E-mail *', placeholder: 'seu@email.com', type: 'email' },
                   ].map((f) => (
                     <div key={f.key}>
@@ -232,7 +232,7 @@ export function PartnershipsSection() {
                   </div>
                   {[
                     { key: 'nome_indicado', label: 'Nome do indicado *', placeholder: 'Nome completo' },
-                    { key: 'whatsapp', label: 'WhatsApp do indicado *', placeholder: '(00) 00000-0000' },
+                    { key: 'whatsapp', label: 'WhatsApp / Telefone do indicado *', placeholder: '+55 11 99999-9999' },
                     { key: 'email', label: 'E-mail (opcional)', placeholder: 'email@exemplo.com' },
                     { key: 'servico', label: 'Serviço de interesse', placeholder: 'Ex: Registro de Marca' },
                   ].map((f) => (
