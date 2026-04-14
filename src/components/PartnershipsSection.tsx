@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
-import { validarCodigoParceiro } from '@/lib/api/gestao';
+import { submitToGestao, validarCodigoParceiro } from '@/lib/api/gestao';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
 import { logConsent } from '@/lib/api/consent';
 
@@ -43,6 +43,7 @@ export function PartnershipsSection() {
     if (!lgpdConsent) { setLgpdError(true); return; }
     setLgpdError(false);
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
+    submitToGestao('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Gestao submit error:', err));
     logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
       body: { form_id: 'parceiros', lead: { nome: cadastroForm.nome, email: cadastroForm.email, whatsapp: cadastroForm.whatsapp } },
@@ -70,6 +71,11 @@ export function PartnershipsSection() {
       nome: indicacaoForm.nome_indicado,
       tipo: 'indicacao',
     }).catch((err) => console.error('Notion submit error:', err));
+    submitToGestao('parceiros', {
+      ...indicacaoForm,
+      nome: indicacaoForm.nome_indicado,
+      tipo: 'indicacao',
+    }).catch((err) => console.error('Gestao submit error:', err));
     logConsent('parceiros_indicacao', { nome: indicacaoForm.nome_indicado, email: indicacaoForm.email, telefone: indicacaoForm.whatsapp });
     setIndicacaoEnviada(true);
     setIndicacaoForm(f => ({ ...f, nome_indicado: '', whatsapp: '', email: '', nome_marca: '', observacoes: '' }));
