@@ -286,9 +286,6 @@ export function PartnershipsSection() {
                   >
                     Registrar outra indicação
                   </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
