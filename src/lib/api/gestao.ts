@@ -84,7 +84,7 @@ export async function submitToGestao(form: FormType, data: Record<string, string
         if (data.perfil) leadData.observacoes = `Perfil: ${data.perfil}`
 
         // Cria parceiro pendente (ativo = false) para aprovação no sistema
-        console.log('[gestao] inserindo parceiro:', data.nome, data.email)
+        console.warn('[gestao] inserindo parceiro:', data.nome, data.email)
         const { error: pErr, data: pData } = await gestao.from('parceiros').insert({
           nome:     data.nome     || '',
           email:    data.email    || '',
@@ -92,7 +92,7 @@ export async function submitToGestao(form: FormType, data: Record<string, string
           perfil:   data.perfil   || null,
           ativo:    false,
         }).select()
-        console.log('[gestao] resultado insert parceiro:', pData, pErr)
+        console.warn('[gestao] resultado insert parceiro:', JSON.stringify(pData), JSON.stringify(pErr))
         if (pErr && pErr.code !== '23505') {
           console.error('[gestao] parceiro pendente insert error:', pErr)
         }
