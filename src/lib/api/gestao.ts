@@ -78,11 +78,24 @@ export async function submitToGestao(form: FormType, data: Record<string, string
         leadData.parceiro_codigo = data.codigo || ''
         leadData.nome_marca      = data.nome_marca || ''
         leadData.observacoes     = data.observacoes || undefined
-        // origem é definida automaticamente pelo upsert_lead quando parceiro_codigo é válido
       } else {
-        // Cadastro de interesse em ser parceiro
+        // Cadastro de interesse em ser parceiro → cria parceiro pendente + lead
         leadData.origem = 'parceiro'
         if (data.perfil) leadData.observacoes = `Perfil: ${data.perfil}`
+
+        // Cria parceiro pendente (ativo = false) para aprovação no sistema
+        console.log('[gestao] inserindo parceiro:', data.nome, data.email)
+        const { error: pErr, data: pData } = await gestao.from('parceiros').insert({
+          nome:     data.nome     || '',
+          email:    data.email    || '',
+          telefone: data.whatsapp || null,
+          perfil:   data.perfil   || null,
+          ativo:    false,
+        }).select()
+        console.log('[gestao] resultado insert parceiro:', pData, pErr)
+        if (pErr && pErr.code !== '23505') {
+          console.error('[gestao] parceiro pendente insert error:', pErr)
+        }
       }
     }
 
