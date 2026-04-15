@@ -20,7 +20,7 @@ jobs:
       - name: Deploy (permarke.com.br)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp.permarke.com.br
+          server: 185.173.111.40
           username: u615659830.marialuizaemtr
           password: "_Permarke2026_"
           port: 21
