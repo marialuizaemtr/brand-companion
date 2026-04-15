@@ -26,4 +26,3 @@ jobs:
           port: 21
           local-dir: ./dist/
           server-dir: /home/u615659830/domains/permarke.com.br/public_html/
-          dangerous-clean-slate: true
