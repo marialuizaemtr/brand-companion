@@ -43,7 +43,6 @@ export function PartnershipsSection() {
     if (!lgpdConsent) { setLgpdError(true); return; }
     setLgpdError(false);
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
-    console.warn('[DEBUG] chamando submitToGestao parceiros')
     submitToGestao('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Gestao submit error:', err));
     logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {

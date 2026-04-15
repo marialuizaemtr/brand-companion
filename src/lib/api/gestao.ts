@@ -18,7 +18,6 @@ export async function validarCodigoParceiro(codigo: string): Promise<string | nu
 type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros' | 'guia'
 
 export async function submitToGestao(form: FormType, data: Record<string, string>) {
-  console.warn('[DEBUG] submitToGestao chamada', form, data)
   try {
     if (form === 'contato') {
       await gestao.from('mensagens_contato').insert({
@@ -84,19 +83,14 @@ export async function submitToGestao(form: FormType, data: Record<string, string
         leadData.origem = 'parceiro'
         if (data.perfil) leadData.observacoes = `Perfil: ${data.perfil}`
 
-        // Cria parceiro pendente (ativo = false) para aprovação no sistema
-        console.warn('[gestao] inserindo parceiro:', data.nome, data.email)
-        const { error: pErr, data: pData } = await gestao.from('parceiros').insert({
-          nome:     data.nome     || '',
-          email:    data.email    || '',
-          telefone: data.whatsapp || null,
-          perfil:   data.perfil   || null,
-          ativo:    false,
-        }).select()
-        console.warn('[gestao] resultado insert parceiro:', JSON.stringify(pData), JSON.stringify(pErr))
-        if (pErr && pErr.code !== '23505') {
-          console.error('[gestao] parceiro pendente insert error:', pErr)
-        }
+        // Cria parceiro pendente via RPC SECURITY DEFINER (bypassa RLS)
+        const { error: pErr } = await gestao.rpc('cadastrar_parceiro', {
+          p_nome:     data.nome     || '',
+          p_email:    data.email    || '',
+          p_telefone: data.whatsapp || null,
+          p_perfil:   data.perfil   || null,
+        })
+        if (pErr) console.error('[gestao] parceiro rpc error:', pErr)
       }
     }
 
