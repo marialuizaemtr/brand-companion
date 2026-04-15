@@ -91,6 +91,8 @@ export async function submitToGestao(form: FormType, data: Record<string, string
           p_perfil:   data.perfil   || null,
         })
         if (pErr) console.error('[gestao] parceiro rpc error:', pErr)
+        // Não cria lead — a notificação já vem pelo trigger do parceiro
+        return
       }
     }
 
