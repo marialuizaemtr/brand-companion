@@ -85,6 +85,7 @@ export function ViabilitySection() {
       ncls_recomendadas: nclsString,
     };
     submitToNotion('viabilidade', viabilidadePayload).catch((err) => console.error('Notion submit error:', err));
+    console.log('[viabilidade] disparando submitToGestao', viabilidadePayload)
     submitToGestao('viabilidade', viabilidadePayload).catch((err) => console.error('Gestao submit error:', err));
     notifyLeadEmail('viabilidade', viabilidadePayload);
     logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });

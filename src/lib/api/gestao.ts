@@ -96,7 +96,10 @@ export async function submitToGestao(form: FormType, data: Record<string, string
       }
     }
 
-    await gestao.rpc('upsert_lead', { lead_data: leadData })
+    console.log('[gestao] chamando upsert_lead', leadData)
+    const { data: rpcData, error: rpcErr } = await gestao.rpc('upsert_lead', { lead_data: leadData })
+    if (rpcErr) console.error('[gestao] upsert_lead error:', rpcErr)
+    else console.log('[gestao] upsert_lead OK:', rpcData)
   } catch (err) {
     // Silently fail — não bloqueia o fluxo principal
     console.error('[gestao] submit error:', err)
