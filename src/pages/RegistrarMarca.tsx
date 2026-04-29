@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { submitToNotion } from '@/lib/api/notion';
+import { notifyLeadEmail } from '@/lib/api/leadEmail';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
 import { logConsent } from '@/lib/api/consent';
 
@@ -54,6 +55,7 @@ const RegistrarMarca = () => {
     try {
       const validatedData = formSchema.parse(formData);
       await submitToNotion('registrar_marca', validatedData as Record<string, string>);
+      notifyLeadEmail('registrar_marca', validatedData as Record<string, string>);
       logConsent('registrar_marca', { nome: validatedData.nome, email: validatedData.email, telefone: validatedData.telefone });
       
       toast.success('Formulário enviado com sucesso! Entraremos em contato em breve.');
