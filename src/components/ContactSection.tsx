@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { MessageCircle, Instagram, Mail } from 'lucide-react';
 import { submitToNotion } from '@/lib/api/notion';
+import { notifyLeadEmail } from '@/lib/api/leadEmail';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
 import { logConsent } from '@/lib/api/consent';
 
@@ -23,6 +24,7 @@ export function ContactSection() {
     if (!lgpdConsent) { setLgpdError(true); return; }
     setLgpdError(false);
     submitToNotion('contato', form).catch((err) => console.error('Notion submit error:', err));
+    notifyLeadEmail('contato', form);
     logConsent('contato', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
       body: { form_id: 'contato', lead: { nome: form.nome, email: form.email, whatsapp: form.whatsapp } },
