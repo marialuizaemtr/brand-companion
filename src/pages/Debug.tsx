@@ -25,9 +25,15 @@ const initialSteps = (): Step[] => [
 
 const ts = () => new Date().toISOString()
 
+const newCorrelationId = () => {
+  const rnd = (globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2) + Date.now().toString(36))
+  return `dbg-${rnd}`
+}
+
 export default function Debug() {
   const [steps, setSteps] = useState<Step[]>(initialSteps())
   const [running, setRunning] = useState(false)
+  const [correlationId, setCorrelationId] = useState<string>('')
   const [form, setForm] = useState({
     nome: 'TESTE Debug',
     email: 'debug@permarke.com.br',
@@ -65,6 +71,10 @@ export default function Debug() {
   const handleRun = async () => {
     setRunning(true)
     setSteps(initialSteps())
+    const cid = newCorrelationId()
+    setCorrelationId(cid)
+    console.log(`[debug] correlationId=${cid}`)
+    const fnHeaders = { 'x-correlation-id': cid }
 
     // 1. Gestão (Supabase outro projeto) — upsert_lead
     const leadData = {
@@ -73,7 +83,8 @@ export default function Debug() {
       telefone: form.whatsapp,
       nome_marca: form.marca,
       origem: 'site-viabilidade',
-      observacoes: `[DEBUG ${ts()}] Segmento: ${form.segmento}`,
+      observacoes: `[DEBUG cid=${cid} ${ts()}] Segmento: ${form.segmento}`,
+      correlation_id: cid,
     }
     await runStep('gestao-rpc', leadData, async () => {
       const { data, error } = await gestao.rpc('upsert_lead', { lead_data: leadData })
@@ -82,26 +93,26 @@ export default function Debug() {
     })
 
     // 2. Notion edge function
-    const notionPayload = { form: 'viabilidade', data: { ...form, ncls_recomendadas: '25, 35' } }
+    const notionPayload = { form: 'viabilidade', correlation_id: cid, data: { ...form, ncls_recomendadas: '25, 35', correlation_id: cid } }
     await runStep('notion', notionPayload, async () => {
-      const { data, error } = await supabase.functions.invoke('notion-form', { body: notionPayload })
+      const { data, error } = await supabase.functions.invoke('notion-form', { body: notionPayload, headers: fnHeaders })
       if (error) throw error
       if (!data?.success) throw new Error(data?.error || 'Notion retornou success=false')
       return data
     })
 
     // 3. Email
-    const emailPayload = { form_id: 'viabilidade', data: form }
+    const emailPayload = { form_id: 'viabilidade', correlation_id: cid, data: { ...form, correlation_id: cid } }
     await runStep('email', emailPayload, async () => {
-      const { data, error } = await supabase.functions.invoke('notify-lead-email', { body: emailPayload })
+      const { data, error } = await supabase.functions.invoke('notify-lead-email', { body: emailPayload, headers: fnHeaders })
       if (error) throw error
       return data
     })
 
     // 4. WhatsApp
-    const waPayload = { form_id: 'viabilidade', lead: { nome: form.nome, email: form.email, whatsapp: form.whatsapp, marca: form.marca } }
+    const waPayload = { form_id: 'viabilidade', correlation_id: cid, lead: { nome: form.nome, email: form.email, whatsapp: form.whatsapp, marca: form.marca, correlation_id: cid } }
     await runStep('whatsapp', waPayload, async () => {
-      const { data, error } = await supabase.functions.invoke('notify-whatsapp', { body: waPayload })
+      const { data, error } = await supabase.functions.invoke('notify-whatsapp', { body: waPayload, headers: fnHeaders })
       if (error) throw error
       return data
     })
