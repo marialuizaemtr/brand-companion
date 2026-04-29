@@ -4,7 +4,8 @@
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-correlation-id',
+  'Access-Control-Expose-Headers': 'x-correlation-id',
 }
 
 const NOTIFY_TO = 'marialuiza@permarke.com.br'
@@ -58,19 +59,28 @@ function buildBody(formId: string, data: Record<string, any>) {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
+  const correlationId = req.headers.get('x-correlation-id') || ''
+  let bodyCid = ''
+
   try {
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
     if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY not configured')
 
-    const { form_id, data } = await req.json()
+    const body = await req.json()
+    const { form_id, data } = body
+    bodyCid = body.correlation_id || data?.correlation_id || ''
+    const cid = correlationId || bodyCid || `email-${crypto.randomUUID()}`
+    console.log(`[notify-lead-email] cid=${cid} form_id=${form_id}`)
+
     if (!form_id || !data) {
-      return new Response(JSON.stringify({ error: 'form_id and data required' }), {
+      return new Response(JSON.stringify({ error: 'form_id and data required', correlation_id: cid }), {
         status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid },
       })
     }
 
-    const { html, text, subject } = buildBody(form_id, data)
+    const dataWithCid = { ...data, correlation_id: cid }
+    const { html, text, subject } = buildBody(form_id, dataWithCid)
 
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -82,30 +92,34 @@ Deno.serve(async (req) => {
         from: FROM,
         to: [NOTIFY_TO],
         reply_to: data.email || undefined,
-        subject,
+        subject: `${subject} [cid:${cid}]`,
         html,
-        text,
+        text: `${text}\n\nCorrelationId: ${cid}`,
+        headers: { 'X-Correlation-Id': cid },
+        tags: [{ name: 'correlation_id', value: cid.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 64) }],
       }),
     })
 
     const result = await r.json()
     if (!r.ok) {
-      console.error('[notify-lead-email] resend error:', result)
-      return new Response(JSON.stringify({ error: result }), {
+      console.error(`[notify-lead-email] cid=${cid} resend error:`, result)
+      return new Response(JSON.stringify({ error: result, correlation_id: cid }), {
         status: r.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid },
       })
     }
 
-    return new Response(JSON.stringify({ success: true, id: result.id }), {
+    console.log(`[notify-lead-email] cid=${cid} sent id=${result.id}`)
+    return new Response(JSON.stringify({ success: true, id: result.id, correlation_id: cid }), {
       status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid },
     })
   } catch (err: any) {
-    console.error('[notify-lead-email] error:', err)
-    return new Response(JSON.stringify({ error: err.message }), {
+    const cid = correlationId || bodyCid || ''
+    console.error(`[notify-lead-email] cid=${cid} error:`, err)
+    return new Response(JSON.stringify({ error: err.message, correlation_id: cid }), {
       status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid },
     })
   }
 })

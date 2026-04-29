@@ -1,6 +1,7 @@
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-correlation-id, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
+  'Access-Control-Expose-Headers': 'x-correlation-id',
 }
 
 const DATABASE_IDS: Record<string, string> = {
@@ -105,27 +106,33 @@ Deno.serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  const headerCid = req.headers.get('x-correlation-id') || ''
+  let cid = headerCid
+
   try {
-    const { form, data } = await req.json()
+    const body = await req.json()
+    const { form, data, correlation_id } = body
+    cid = headerCid || correlation_id || data?.correlation_id || `notion-${crypto.randomUUID()}`
+    console.log(`[notion-form] cid=${cid} form=${form}`)
 
     if (!form || !DATABASE_IDS[form]) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Invalid form type' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ success: false, error: 'Invalid form type', correlation_id: cid }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid } }
       )
     }
 
     const notionKey = Deno.env.get('NOTION_API_KEY')
     if (!notionKey) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Notion API key not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ success: false, error: 'Notion API key not configured', correlation_id: cid }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid } }
       )
     }
 
     const properties = buildProperties(form, data || {})
 
-    console.log(`Creating page in ${form} database`)
+    console.log(`[notion-form] cid=${cid} creating page in ${form} database`)
 
     const notionHeaders = {
       'Authorization': `Bearer ${notionKey}`,
@@ -144,12 +151,11 @@ Deno.serve(async (req) => {
 
     let result = await response.json()
 
-    // Fallback: retry removing properties that don't exist in this database
     const fallbackProps = ['Responsável', 'NCL', 'Data de Cadastro', 'Status']
     for (const propName of fallbackProps) {
       if (!response.ok && result.message?.includes(propName)) {
-        console.error(`Notion rejected ${propName}:`, result.message)
-        console.log(`Retrying ${form} without ${propName} property`)
+        console.error(`[notion-form] cid=${cid} rejected ${propName}:`, result.message)
+        console.log(`[notion-form] cid=${cid} retrying ${form} without ${propName} property`)
         delete properties[propName]
         response = await fetch('https://api.notion.com/v1/pages', {
           method: 'POST',
@@ -164,23 +170,23 @@ Deno.serve(async (req) => {
     }
 
     if (!response.ok) {
-      console.error('Notion API error:', JSON.stringify(result))
+      console.error(`[notion-form] cid=${cid} api error:`, JSON.stringify(result))
       return new Response(
-        JSON.stringify({ success: false, error: result.message || 'Notion API error' }),
-        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ success: false, error: result.message || 'Notion API error', correlation_id: cid }),
+        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid } }
       )
     }
 
-    console.log(`Page created successfully in ${form}`)
+    console.log(`[notion-form] cid=${cid} page created successfully in ${form}`)
     return new Response(
-      JSON.stringify({ success: true, id: result.id }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ success: true, id: result.id, correlation_id: cid }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid } }
     )
   } catch (error) {
-    console.error('Error:', error)
+    console.error(`[notion-form] cid=${cid} error:`, error)
     return new Response(
-      JSON.stringify({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ success: false, error: error instanceof Error ? error.message : 'Unknown error', correlation_id: cid }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json', 'x-correlation-id': cid } }
     )
   }
 })
