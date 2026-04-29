@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
+import { submitToGestao } from '@/lib/api/gestao';
 import { notifyLeadEmail } from '@/lib/api/leadEmail';
 import { allNCLClasses, segmentos, segmentToNCLs, findNCLsByKeywords } from './viability/nclData';
 import { NCLToggleList } from './viability/NCLToggleList';
@@ -84,6 +85,7 @@ export function ViabilitySection() {
       ncls_recomendadas: nclsString,
     };
     submitToNotion('viabilidade', viabilidadePayload).catch((err) => console.error('Notion submit error:', err));
+    submitToGestao('viabilidade', viabilidadePayload).catch((err) => console.error('Gestao submit error:', err));
     notifyLeadEmail('viabilidade', viabilidadePayload);
     logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
