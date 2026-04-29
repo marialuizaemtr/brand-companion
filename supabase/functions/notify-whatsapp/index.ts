@@ -4,7 +4,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-correlation-id",
+  "Access-Control-Expose-Headers": "x-correlation-id",
 };
 
 serve(async (req) => {
@@ -12,13 +13,19 @@ serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
+  const headerCid = req.headers.get("x-correlation-id") || "";
+  let cid = headerCid;
+
   try {
-    const { form_id, lead } = await req.json();
+    const body = await req.json();
+    const { form_id, lead, correlation_id } = body;
+    cid = headerCid || correlation_id || lead?.correlation_id || `wa-${crypto.randomUUID()}`;
+    console.log(`[notify-whatsapp] cid=${cid} form_id=${form_id}`);
 
     if (!form_id || !lead || !lead.whatsapp) {
       return new Response(
-        JSON.stringify({ error: "form_id and lead.whatsapp are required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "form_id and lead.whatsapp are required", correlation_id: cid }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json", "x-correlation-id": cid } }
       );
     }
 
@@ -34,9 +41,10 @@ serve(async (req) => {
       .single();
 
     if (!config?.active) {
+      console.log(`[notify-whatsapp] cid=${cid} inactive for ${form_id}`);
       return new Response(
-        JSON.stringify({ status: "inactive" }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ status: "inactive", correlation_id: cid }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json", "x-correlation-id": cid } }
       );
     }
 
@@ -44,6 +52,7 @@ serve(async (req) => {
     Object.entries(lead).forEach(([key, value]) => {
       message = message.replaceAll(`{{${key}}}`, String(value));
     });
+    message = `${message}\n\n_cid:${cid}_`;
 
     const phone = lead.whatsapp.replace(/\D/g, "");
     const phoneFormatted = phone.startsWith("55") ? phone : `55${phone}`;
@@ -53,8 +62,8 @@ serve(async (req) => {
 
     if (!WHATSAPP_TOKEN || !PHONE_NUMBER_ID) {
       return new Response(
-        JSON.stringify({ error: "WhatsApp credentials not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "WhatsApp credentials not configured", correlation_id: cid }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json", "x-correlation-id": cid } }
       );
     }
 
@@ -76,14 +85,16 @@ serve(async (req) => {
     );
 
     const result = await res.json();
-    return new Response(JSON.stringify(result), {
+    console.log(`[notify-whatsapp] cid=${cid} status=${res.status}`);
+    return new Response(JSON.stringify({ ...result, correlation_id: cid }), {
       status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json", "x-correlation-id": cid },
     });
   } catch (err) {
+    console.error(`[notify-whatsapp] cid=${cid} error:`, err);
     return new Response(
-      JSON.stringify({ error: String(err) }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({ error: String(err), correlation_id: cid }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json", "x-correlation-id": cid } }
     );
   }
 });
