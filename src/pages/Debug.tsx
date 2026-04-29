@@ -159,10 +159,20 @@ export default function Debug() {
     <div className="min-h-screen bg-foreground text-primary-foreground p-6 font-mono text-sm">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-2 text-primary">Permarke — Debug do Formulário</h1>
-        <p className="text-primary-foreground/60 mb-6">
+        <p className="text-primary-foreground/60 mb-3">
           Dispara um envio de teste em sequência para Gestão (Supabase RPC), Notion, Email e WhatsApp,
           mostrando onde a cadeia para.
         </p>
+        {correlationId && (
+          <div className="mb-6 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 text-primary px-3 py-2 rounded">
+            <span className="opacity-70 text-xs uppercase">correlationId</span>
+            <code className="text-xs">{correlationId}</code>
+            <button
+              onClick={() => navigator.clipboard.writeText(correlationId)}
+              className="text-xs underline opacity-80 hover:opacity-100"
+            >copiar</button>
+          </div>
+        )}
 
         <div className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-lg p-4 mb-6 grid sm:grid-cols-2 gap-3">
           {(['nome', 'email', 'whatsapp', 'marca', 'segmento'] as const).map((k) => (
