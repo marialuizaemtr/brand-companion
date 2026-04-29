@@ -8,7 +8,7 @@ const corsHeaders = {
 }
 
 const NOTIFY_TO = 'marialuiza@permarke.com.br'
-const FROM = 'Permarke Site <noreply@permarke.com>'
+const FROM = 'Permarke Site <noreply@permarke.com.br>'
 
 const FORM_LABELS: Record<string, string> = {
   viabilidade: 'Análise de Viabilidade',
