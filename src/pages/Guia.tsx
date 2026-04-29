@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { supabase } from '@/integrations/supabase/client';
 import { submitToNotion } from '@/lib/api/notion';
+import { notifyLeadEmail } from '@/lib/api/leadEmail';
 import logoBranca from '@/assets/logo-branca.png';
 import { Check } from 'lucide-react';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
@@ -116,7 +117,7 @@ export default function Guia() {
 
       // Send to Notion (non-blocking — don't fail the form if Notion errors)
       const temMarcaBool = data.tem_marca === 'Sim';
-      submitToNotion('guia', {
+      const guiaPayload = {
         nome: data.nome.trim(),
         email: data.email.trim(),
         whatsapp: data.whatsapp,
@@ -126,7 +127,9 @@ export default function Guia() {
         ...(temMarcaBool && data.segmento ? { segmento: data.segmento.trim() } : {}),
         ...(temMarcaBool && data.marca_registrada ? { marca_registrada: data.marca_registrada } : {}),
         interesse_registro: data.interesse_registro,
-      }).catch((err) => console.error('Notion submit error:', err));
+      };
+      submitToNotion('guia', guiaPayload).catch((err) => console.error('Notion submit error:', err));
+      notifyLeadEmail('guia', guiaPayload);
 
       // Log consent (non-blocking)
       logConsent('guia', { nome: data.nome.trim(), email: data.email.trim(), telefone: data.whatsapp });

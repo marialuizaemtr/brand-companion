@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { motion } from 'framer-motion';
 import { submitToNotion } from '@/lib/api/notion';
 import { submitToGestao, validarCodigoParceiro } from '@/lib/api/gestao';
+import { notifyLeadEmail } from '@/lib/api/leadEmail';
 import { LGPDConsent, LGPDDisclaimer } from '@/components/LGPDConsent';
 import { logConsent } from '@/lib/api/consent';
 
@@ -44,6 +45,7 @@ export function PartnershipsSection() {
     setLgpdError(false);
     submitToNotion('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Notion submit error:', err));
     submitToGestao('parceiros', { ...cadastroForm, tipo: 'cadastro' }).catch((err) => console.error('Gestao submit error:', err));
+    notifyLeadEmail('parceiros', { ...cadastroForm, tipo: 'cadastro' });
     logConsent('parceiros_cadastro', { nome: cadastroForm.nome, email: cadastroForm.email, telefone: cadastroForm.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
       body: { form_id: 'parceiros', lead: { nome: cadastroForm.nome, email: cadastroForm.email, whatsapp: cadastroForm.whatsapp } },
@@ -66,16 +68,14 @@ export function PartnershipsSection() {
     if (!indicacaoForm.codigo || !codigoValido || !indicacaoForm.nome_indicado.trim() || !indicacaoForm.whatsapp.trim()) return;
     if (!lgpdConsentInd) { setLgpdErrorInd(true); return; }
     setLgpdErrorInd(false);
-    submitToNotion('parceiros', {
+    const indicacaoPayload = {
       ...indicacaoForm,
       nome: indicacaoForm.nome_indicado,
-      tipo: 'indicacao',
-    }).catch((err) => console.error('Notion submit error:', err));
-    submitToGestao('parceiros', {
-      ...indicacaoForm,
-      nome: indicacaoForm.nome_indicado,
-      tipo: 'indicacao',
-    }).catch((err) => console.error('Gestao submit error:', err));
+      tipo: 'indicacao' as const,
+    };
+    submitToNotion('parceiros', indicacaoPayload).catch((err) => console.error('Notion submit error:', err));
+    submitToGestao('parceiros', indicacaoPayload).catch((err) => console.error('Gestao submit error:', err));
+    notifyLeadEmail('parceiros', indicacaoPayload);
     logConsent('parceiros_indicacao', { nome: indicacaoForm.nome_indicado, email: indicacaoForm.email, telefone: indicacaoForm.whatsapp });
     setIndicacaoEnviada(true);
     setIndicacaoForm(f => ({ ...f, nome_indicado: '', whatsapp: '', email: '', nome_marca: '', observacoes: '' }));
