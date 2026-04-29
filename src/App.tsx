@@ -18,6 +18,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import PostEditor from "./pages/admin/PostEditor";
 import WhatsAppDashboard from "./pages/admin/WhatsAppDashboard";
+import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/admin/posts/new" element={<PostEditor />} />
           <Route path="/admin/posts/:slug/edit" element={<PostEditor />} />
           <Route path="/admin/whatsapp" element={<WhatsAppDashboard />} />
+          <Route path="/debug" element={<Debug />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
