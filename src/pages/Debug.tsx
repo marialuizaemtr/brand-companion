@@ -124,6 +124,7 @@ export default function Debug() {
     return [
       `=== Permarke Debug Report ===`,
       `Gerado: ${ts()}`,
+      `CorrelationId: ${correlationId || '(não executado)'}`,
       `Form: ${JSON.stringify(form)}`,
       ``,
       ...steps.map((s) =>
