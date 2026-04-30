@@ -62,6 +62,7 @@ export function ViabilitySection() {
   };
 
   const validate = () => {
+    console.log('[viabilidade] validate() chamado', { form, lgpdConsent })
     const errs: Record<string, boolean> = {};
     if (!form.marca.trim()) errs.marca = true;
     if (!form.segmento) errs.segmento = true;
@@ -71,11 +72,17 @@ export function ViabilitySection() {
     if (form.segmento === 'Outro' && !form.outroSegmento.trim()) errs.outroSegmento = true;
     if (!lgpdConsent) errs.lgpd = true;
     setErrors(errs);
-    return Object.keys(errs).length === 0;
+    const ok = Object.keys(errs).length === 0;
+    console.log('[viabilidade] validate() resultado', { ok, errs })
+    return ok;
   };
 
   const handleSubmit = () => {
-    if (!validate()) return;
+    console.log('[viabilidade] handleSubmit() chamado')
+    if (!validate()) {
+      console.warn('[viabilidade] validate() falhou — submit abortado')
+      return;
+    }
     setStep(2);
     const nclsString = selectedNCLs.sort((a, b) => a - b).join(', ');
     const segmentoFinal = form.segmento === 'Outro' ? form.outroSegmento : form.segmento;
