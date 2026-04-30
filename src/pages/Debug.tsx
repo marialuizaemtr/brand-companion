@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { gestao } from '@/lib/gestaoClient'
+import jsPDF from 'jspdf'
 
 type StepStatus = 'pending' | 'running' | 'ok' | 'fail'
 interface Step {
@@ -120,12 +121,47 @@ export default function Debug() {
     setRunning(false)
   }
 
+  const summary = useMemo(() => {
+    const total = steps.length
+    const ok = steps.filter((s) => s.status === 'ok').length
+    const fail = steps.filter((s) => s.status === 'fail').length
+    const pending = steps.filter((s) => s.status === 'pending' || s.status === 'running').length
+    const failed = steps.filter((s) => s.status === 'fail')
+    const totalMs = steps.reduce((acc, s) => acc + (s.durationMs || 0), 0)
+    return { total, ok, fail, pending, failed, totalMs }
+  }, [steps])
+
+  const buildReportObject = () => ({
+    generatedAt: ts(),
+    correlationId: correlationId || null,
+    form,
+    summary: {
+      total: summary.total,
+      ok: summary.ok,
+      fail: summary.fail,
+      pending: summary.pending,
+      totalDurationMs: summary.totalMs,
+      failedSteps: summary.failed.map((s) => ({
+        id: s.id,
+        label: s.label,
+        detail: s.detail,
+        error: s.error,
+      })),
+    },
+    steps,
+  })
+
   const buildReport = () => {
     return [
       `=== Permarke Debug Report ===`,
       `Gerado: ${ts()}`,
       `CorrelationId: ${correlationId || '(não executado)'}`,
       `Form: ${JSON.stringify(form)}`,
+      ``,
+      `RESUMO: ${summary.ok}/${summary.total} OK · ${summary.fail} falha(s) · ${summary.totalMs}ms total`,
+      summary.failed.length > 0
+        ? `FALHAS:\n${summary.failed.map((s) => `  - ${s.label}: ${s.detail || 'erro'}`).join('\n')}`
+        : `Nenhuma falha.`,
       ``,
       ...steps.map((s) =>
         [
@@ -142,6 +178,91 @@ export default function Debug() {
         ].filter(Boolean).join('\n'),
       ),
     ].join('\n')
+  }
+
+  const downloadFile = (name: string, blob: Blob) => {
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = name
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
+
+  const fileStem = () => {
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+    const cidShort = (correlationId || 'no-cid').slice(-8)
+    return `permarke-debug_${stamp}_${cidShort}`
+  }
+
+  const exportJson = () => {
+    const blob = new Blob([JSON.stringify(buildReportObject(), null, 2)], { type: 'application/json' })
+    downloadFile(`${fileStem()}.json`, blob)
+  }
+
+  const exportPdf = () => {
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' })
+    const margin = 36
+    const pageW = doc.internal.pageSize.getWidth()
+    const pageH = doc.internal.pageSize.getHeight()
+    const maxW = pageW - margin * 2
+    let y = margin
+
+    const writeLine = (text: string, opts: { size?: number; bold?: boolean; color?: [number, number, number] } = {}) => {
+      doc.setFont('courier', opts.bold ? 'bold' : 'normal')
+      doc.setFontSize(opts.size ?? 9)
+      if (opts.color) doc.setTextColor(...opts.color)
+      else doc.setTextColor(20, 20, 20)
+      const lines = doc.splitTextToSize(text, maxW)
+      for (const ln of lines) {
+        if (y > pageH - margin) { doc.addPage(); y = margin }
+        doc.text(ln, margin, y)
+        y += (opts.size ?? 9) + 2
+      }
+    }
+
+    writeLine('Permarke — Debug Report', { size: 14, bold: true })
+    writeLine(`Gerado: ${ts()}`)
+    writeLine(`CorrelationId: ${correlationId || '(não executado)'}`)
+    writeLine(`Form: ${JSON.stringify(form)}`)
+    y += 6
+    writeLine(`RESUMO: ${summary.ok}/${summary.total} OK · ${summary.fail} falha(s) · ${summary.totalMs}ms total`, { bold: true })
+    if (summary.failed.length > 0) {
+      writeLine('Etapas com falha:', { bold: true, color: [180, 30, 30] })
+      summary.failed.forEach((s) => writeLine(`  - ${s.label}: ${s.detail || 'erro'}`, { color: [180, 30, 30] }))
+    } else {
+      writeLine('Nenhuma falha.', { color: [20, 120, 40] })
+    }
+    y += 6
+
+    steps.forEach((s) => {
+      y += 4
+      const color: [number, number, number] =
+        s.status === 'ok' ? [20, 120, 40] :
+        s.status === 'fail' ? [180, 30, 30] :
+        [80, 80, 80]
+      writeLine(`--- ${s.label} ---`, { bold: true, color })
+      writeLine(`Status: ${s.status}${s.durationMs != null ? ` · ${s.durationMs}ms` : ''}`)
+      if (s.startedAt) writeLine(`Início: ${s.startedAt}`)
+      if (s.finishedAt) writeLine(`Fim:    ${s.finishedAt}`)
+      if (s.detail) writeLine(`Detalhe: ${s.detail}`)
+      if (s.payload != null) {
+        writeLine('Payload:', { bold: true })
+        writeLine(JSON.stringify(s.payload, null, 2), { size: 8 })
+      }
+      if (s.response != null) {
+        writeLine('Response:', { bold: true })
+        writeLine(JSON.stringify(s.response, null, 2), { size: 8 })
+      }
+      if (s.error != null) {
+        writeLine('Error:', { bold: true, color: [180, 30, 30] })
+        writeLine(JSON.stringify(s.error, null, 2), { size: 8, color: [180, 30, 30] })
+      }
+    })
+
+    doc.save(`${fileStem()}.pdf`)
   }
 
   const copyReport = async () => {
@@ -187,7 +308,7 @@ export default function Debug() {
           ))}
         </div>
 
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
             onClick={handleRun}
             disabled={running}
@@ -201,7 +322,46 @@ export default function Debug() {
           >
             Copiar relatório
           </button>
+          <button
+            onClick={exportJson}
+            className="border border-primary-foreground/30 px-6 py-3 rounded hover:bg-primary-foreground/5"
+          >
+            Exportar JSON
+          </button>
+          <button
+            onClick={exportPdf}
+            className="border border-primary-foreground/30 px-6 py-3 rounded hover:bg-primary-foreground/5"
+          >
+            Exportar PDF
+          </button>
         </div>
+
+        {/* Resumo automático */}
+        {(summary.ok > 0 || summary.fail > 0) && (
+          <div className={`mb-6 border rounded-lg p-4 ${
+            summary.fail > 0
+              ? 'border-red-500/40 bg-red-500/10'
+              : 'border-green-500/40 bg-green-500/10'
+          }`}>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <strong className={summary.fail > 0 ? 'text-red-400' : 'text-green-400'}>
+                Resumo: {summary.ok}/{summary.total} OK · {summary.fail} falha(s)
+              </strong>
+              <span className="text-xs opacity-70">{summary.totalMs}ms total</span>
+            </div>
+            {summary.failed.length > 0 ? (
+              <ul className="text-xs space-y-1 mt-2">
+                {summary.failed.map((s) => (
+                  <li key={s.id} className="text-red-400">
+                    ✗ <strong>{s.label}</strong> — {s.detail || 'erro'}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs text-green-400">Toda a cadeia executou com sucesso.</p>
+            )}
+          </div>
+        )}
 
         <div className="space-y-4">
           {steps.map((s) => (
