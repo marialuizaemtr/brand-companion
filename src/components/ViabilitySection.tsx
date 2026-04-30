@@ -93,7 +93,14 @@ export function ViabilitySection() {
     };
     submitToNotion('viabilidade', viabilidadePayload).catch((err) => console.error('Notion submit error:', err));
     console.log('[viabilidade] disparando submitToGestao', viabilidadePayload)
-    submitToGestao('viabilidade', viabilidadePayload).catch((err) => console.error('Gestao submit error:', err));
+    try {
+      const p = submitToGestao('viabilidade', viabilidadePayload)
+      Promise.resolve(p)
+        .then((r) => console.log('[viabilidade] submitToGestao OK', r))
+        .catch((err) => console.error('[viabilidade] submitToGestao REJECT:', err))
+    } catch (err) {
+      console.error('[viabilidade] submitToGestao THREW (sync):', err)
+    }
     notifyLeadEmail('viabilidade', viabilidadePayload);
     logConsent('viabilidade', { nome: form.nome, email: form.email, telefone: form.whatsapp });
     supabase.functions.invoke('notify-whatsapp', {
