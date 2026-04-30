@@ -18,6 +18,7 @@ export async function validarCodigoParceiro(codigo: string): Promise<string | nu
 type FormType = 'viabilidade' | 'registrar_marca' | 'contato' | 'parceiros' | 'guia'
 
 export async function submitToGestao(form: FormType, data: Record<string, string>) {
+  console.log('[gestao] submitToGestao INICIOU', { form, data })
   try {
     if (form === 'contato') {
       await gestao.from('mensagens_contato').insert({
