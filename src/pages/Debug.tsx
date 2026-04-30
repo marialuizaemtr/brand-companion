@@ -364,8 +364,6 @@ export default function Debug() {
         )}
 
         <div className="space-y-4">
-
-        <div className="space-y-4">
           {steps.map((s) => (
             <div key={s.id} className={`border rounded-lg p-4 ${statusColor(s.status)}`}>
               <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
