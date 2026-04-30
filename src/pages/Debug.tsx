@@ -308,7 +308,7 @@ export default function Debug() {
           ))}
         </div>
 
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
             onClick={handleRun}
             disabled={running}
@@ -322,7 +322,48 @@ export default function Debug() {
           >
             Copiar relatório
           </button>
+          <button
+            onClick={exportJson}
+            className="border border-primary-foreground/30 px-6 py-3 rounded hover:bg-primary-foreground/5"
+          >
+            Exportar JSON
+          </button>
+          <button
+            onClick={exportPdf}
+            className="border border-primary-foreground/30 px-6 py-3 rounded hover:bg-primary-foreground/5"
+          >
+            Exportar PDF
+          </button>
         </div>
+
+        {/* Resumo automático */}
+        {(summary.ok > 0 || summary.fail > 0) && (
+          <div className={`mb-6 border rounded-lg p-4 ${
+            summary.fail > 0
+              ? 'border-red-500/40 bg-red-500/10'
+              : 'border-green-500/40 bg-green-500/10'
+          }`}>
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <strong className={summary.fail > 0 ? 'text-red-400' : 'text-green-400'}>
+                Resumo: {summary.ok}/{summary.total} OK · {summary.fail} falha(s)
+              </strong>
+              <span className="text-xs opacity-70">{summary.totalMs}ms total</span>
+            </div>
+            {summary.failed.length > 0 ? (
+              <ul className="text-xs space-y-1 mt-2">
+                {summary.failed.map((s) => (
+                  <li key={s.id} className="text-red-400">
+                    ✗ <strong>{s.label}</strong> — {s.detail || 'erro'}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs text-green-400">Toda a cadeia executou com sucesso.</p>
+            )}
+          </div>
+        )}
+
+        <div className="space-y-4">
 
         <div className="space-y-4">
           {steps.map((s) => (
