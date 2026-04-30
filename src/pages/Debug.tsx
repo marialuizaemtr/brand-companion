@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { gestao } from '@/lib/gestaoClient'
+import jsPDF from 'jspdf'
 
 type StepStatus = 'pending' | 'running' | 'ok' | 'fail'
 interface Step {
